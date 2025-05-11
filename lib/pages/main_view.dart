@@ -10,7 +10,7 @@ class MainView extends StatelessWidget {
           // Top bar: structured to align with the three-column layout
           Container(
             height: 80,
-            color: Colors.blueGrey[50],
+            color: Colors.lightBlue[50],
             child: Row(
               children: [
                 // Left column (same width as category panel)
