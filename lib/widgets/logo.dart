@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class Logo extends StatelessWidget {
@@ -5,10 +7,11 @@ class Logo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(
-      'assets/images/logo.png',
-      width: 100,
-      height: 100,
-    );
-  }
+    return Container(
+                  width: 200,
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.all(8),
+                  child: Text('iMat', style: TextStyle(fontSize: 50),),
+                );
+}
 }
