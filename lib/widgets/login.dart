@@ -6,6 +6,7 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.white,
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       child: InkWell(
@@ -21,7 +22,7 @@ class Login extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(Icons.account_circle_rounded),
-                          Text('Konto')
+                          Text('Konto', style: TextStyle(fontWeight: FontWeight.bold),)
                         ],
                       ),
                     ),
