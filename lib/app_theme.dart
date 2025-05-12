@@ -21,8 +21,13 @@ class AppTheme {
     letterSpacing: 0.15,
   );
   static const TextStyle mediumHeading = TextStyle(
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: FontWeight.w700,
+  );
+  static const TextStyle mediumText = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w500,
+    letterSpacing: 0.15,
   );
   static const TextStyle largeHeading = TextStyle(
     fontSize: 32,
