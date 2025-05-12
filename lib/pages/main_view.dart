@@ -17,92 +17,81 @@ class MainView extends StatelessWidget {
     // Den kan vara enklare att förstå.
     // Denna version har fördelen att kort skapas on-demand.
     return Scaffold(
-      appBar: AppBar(title: const Text('iMats produkter')),
-      body: Padding(
-        padding: const EdgeInsets.all(AppTheme.paddingSmall),
-        child: GridView.builder(
-          itemCount: products.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 4, // 4 kolumner
-            crossAxisSpacing: AppTheme.paddingSmall,
-            mainAxisSpacing: AppTheme.paddingSmall,
-            childAspectRatio: 4 / 3,
-          ),
-          itemBuilder: (context, index) {
-            final product = products[index];
-
-            return ProductCard(product, iMat);
-          },
-        ),
-      ),
-    );
-
-    /*
-    return Scaffold(
-      appBar: AppBar(title: Text('iMats produkter')),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: GridView.count(
-          crossAxisCount: 4, //  4 kolumner
-          crossAxisSpacing: 8, //  horisontellt mellanrum
-          mainAxisSpacing: 8, //  vertikalt mellanrum
-          childAspectRatio: 4 / 3, //  bredd/höjd-förhållande
-          children:
-              products.map((product) {
-                return Card(
-                  elevation: 4,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(child: iMat.getImage(product)),
-                        Text(
-                          product.name,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          '${product.price.toStringAsFixed(2)}kr',
-                          style: const TextStyle(fontSize: 14),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }).toList(),
-        ),
-      ),
-    );*/
-  }
-
-  Card _productCard(ImatDataHandler iMat, Product product) {
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.all(AppTheme.paddingSmall),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+      appBar: AppBar(
+        backgroundColor: const Color(0xFFFFEECE),
+        title: Row(
           children: [
-            Expanded(child: iMat.getImage(product)),
-            Text(
-              product.name,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            const Text('iMat'), // logo/title
+            const SizedBox(width: 20),
+            Expanded(
+              child: TextField( // search
+                decoration: InputDecoration(
+                  hintText: 'Sök produkter...',
+                  border: OutlineInputBorder(),
+                  isDense: true,
+                  contentPadding: EdgeInsets.all(8),
+                ),
+              ),
             ),
-            const SizedBox(height: AppTheme.paddingSmall),
-            Text(
-              '${product.price.toStringAsFixed(2)}kr',
-              style: const TextStyle(fontSize: 14),
+            IconButton(
+              icon: const Icon(Icons.person), // user/account
+              onPressed: () {},
+            ),
+            IconButton(
+              icon: const Icon(Icons.shopping_cart), // cart
+              onPressed: () {},
             ),
           ],
         ),
+      ),
+      body: Row(
+        children: [
+          // Sidebar with categories
+          Container(
+            width: 200,
+            color: Color(0xFFFFEECE),
+            padding: const EdgeInsets.all(8),
+            child: ListView(
+              children: [
+                ListTile(title: Text('Frukt')),
+                ListTile(title: Text('Grönsaker')),
+                ListTile(title: Text('Mejeri')),
+                // ... etc
+              ],
+            ),
+          ),
+          // Main product area
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(AppTheme.paddingSmall),
+              child: GridView.builder(
+                itemCount: products.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                  crossAxisSpacing: AppTheme.paddingSmall,
+                  mainAxisSpacing: AppTheme.paddingSmall,
+                  childAspectRatio: 4 / 3,
+                ),
+                itemBuilder: (context, index) {
+                  final product = products[index];
+                  return ProductCard(product, iMat);
+                },
+              ),
+            ),
+          ),
+          // Optional right-side cart panel
+          Container(
+            width: 200,
+            color: Color(0xFFFFEECE),
+            padding: const EdgeInsets.all(8),
+            child: Column(
+              children: const [
+                Text('Kundvagn'),
+                // Add your cart items here
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
