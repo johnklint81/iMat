@@ -9,4 +9,30 @@ class AppTheme {
   static const double paddingHuge = 32.0;
 
   static ColorScheme colorScheme = ColorScheme.fromSeed(seedColor: Color(0xFFFFEECE));
+
+  static const TextStyle smallHeading = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+    letterSpacing: 0.15,
+  );
+  static const TextStyle smallText = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    letterSpacing: 0.15,
+  );
+  static const TextStyle mediumHeading = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+  );
+  static const TextStyle largeHeading = TextStyle(
+    fontSize: 32,
+    fontWeight: FontWeight.w400,
+  );
+
+  static const Widget starStyle = Icon(
+    Icons.star_border,
+    color: Colors.black,
+    size: 32,
+  );
+
 }
