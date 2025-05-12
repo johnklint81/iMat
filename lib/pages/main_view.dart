@@ -18,29 +18,42 @@ class MainView extends StatelessWidget {
     // Den kan vara enklare att förstå.
     // Denna version har fördelen att kort skapas on-demand.
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 255, 245, 213),
       appBar: AppBar(
-        title: Text('iMat'),
-        actions: [Login()],
+        title: Text('iMat', style: TextStyle(fontSize: 50),),
+        shape: Border(bottom: BorderSide(color: Colors.black)),
+        actions: [
+          Padding(
+          padding: const EdgeInsets.only(right: 400.0),
+          child: SearchingBar(),
+          ),
+          SizedBox(width: 40, child: Icon(Icons.shopping_cart)), 
+          Login()],
         backgroundColor: Color.fromARGB(255, 255, 234, 164),
         toolbarHeight: 80,
         
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(AppTheme.paddingSmall),
-        child: GridView.builder(
-          itemCount: products.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 4, // 4 kolumner
-            crossAxisSpacing: AppTheme.paddingSmall,
-            mainAxisSpacing: AppTheme.paddingSmall,
-            childAspectRatio: 4 / 3,
+      body: Row(
+        children: [
+          Column(children: [Placeholder(fallbackHeight: 900, fallbackWidth: 200,)],),
+          Padding(
+            padding: const EdgeInsets.all(AppTheme.paddingSmall),
+            child: GridView.builder(
+              itemCount: products.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 4, // 4 kolumner
+                crossAxisSpacing: AppTheme.paddingSmall,
+                mainAxisSpacing: AppTheme.paddingSmall,
+                childAspectRatio: 4 / 3,
+              ),
+              itemBuilder: (context, index) {
+                final product = products[index];
+          
+                return ProductCard(product, iMat);
+              },
+            ),
           ),
-          itemBuilder: (context, index) {
-            final product = products[index];
-      
-            return ProductCard(product, iMat);
-          },
-        ),
+        ],
       ),
     );
 
