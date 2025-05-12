@@ -13,9 +13,6 @@ class MainView extends StatelessWidget {
     var iMat = context.watch<ImatDataHandler>();
     var products = iMat.selectProducts;
 
-    // Det finns en version utan gridDelegate nedan.
-    // Den kan vara enklare att förstå.
-    // Denna version har fördelen att kort skapas on-demand.
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFFFFEECE),
@@ -48,7 +45,7 @@ class MainView extends StatelessWidget {
         children: [
           // Sidebar with categories
           Container(
-            width: 200,
+            width: 250,
             color: Color(0xFFFFEECE),
             padding: const EdgeInsets.all(8),
             child: ListView(
@@ -56,7 +53,6 @@ class MainView extends StatelessWidget {
                 ListTile(title: Text('Frukt')),
                 ListTile(title: Text('Grönsaker')),
                 ListTile(title: Text('Mejeri')),
-                // ... etc
               ],
             ),
           ),
@@ -66,13 +62,17 @@ class MainView extends StatelessWidget {
               padding: const EdgeInsets.all(AppTheme.paddingSmall),
               child: GridView.builder(
                 itemCount: products.length,
+                // This sets max cards to 4, regardless of width of screen.
+                // We could change this to 5 if we wanted, it is also adaptive
+                // for smaller screens
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 4,
                   crossAxisSpacing: AppTheme.paddingSmall,
                   mainAxisSpacing: AppTheme.paddingSmall,
-                  childAspectRatio: 4 / 3,
+                  childAspectRatio: 3 / 4,
                 ),
-                itemBuilder: (context, index) {
+
+                  itemBuilder: (context, index) {
                   final product = products[index];
                   return ProductCard(product, iMat);
                 },
@@ -81,13 +81,12 @@ class MainView extends StatelessWidget {
           ),
           // Optional right-side cart panel
           Container(
-            width: 200,
+            width: 250,
             color: Color(0xFFFFEECE),
             padding: const EdgeInsets.all(8),
             child: Column(
               children: const [
                 Text('Kundvagn'),
-                // Add your cart items here
               ],
             ),
           ),
