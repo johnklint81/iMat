@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
       title: 'iMat',
       theme: ThemeData(colorScheme: AppTheme.colorScheme),
       home: const MainView(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
