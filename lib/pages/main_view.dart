@@ -33,27 +33,22 @@ class MainView extends StatelessWidget {
         toolbarHeight: 80,
         
       ),
-      body: Row(
-        children: [
-          Column(children: [Placeholder(fallbackHeight: 900, fallbackWidth: 200,)],),
-          Padding(
-            padding: const EdgeInsets.all(AppTheme.paddingSmall),
-            child: GridView.builder(
-              itemCount: products.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4, // 4 kolumner
-                crossAxisSpacing: AppTheme.paddingSmall,
-                mainAxisSpacing: AppTheme.paddingSmall,
-                childAspectRatio: 4 / 3,
-              ),
-              itemBuilder: (context, index) {
-                final product = products[index];
-          
-                return ProductCard(product, iMat);
-              },
-            ),
+      body: Padding(
+        padding: const EdgeInsets.all(AppTheme.paddingSmall),
+        child: GridView.builder(
+          itemCount: products.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 4, // 4 kolumner
+            crossAxisSpacing: AppTheme.paddingSmall,
+            mainAxisSpacing: AppTheme.paddingSmall,
+            childAspectRatio: 4 / 3,
           ),
-        ],
+          itemBuilder: (context, index) {
+            final product = products[index];
+      
+            return ProductCard(product, iMat);
+          },
+        ),
       ),
     );
 
