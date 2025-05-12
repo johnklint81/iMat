@@ -4,6 +4,7 @@ import 'package:imat_app/model/imat/product.dart';
 import 'package:imat_app/model/imat_data_handler.dart';
 import 'package:imat_app/widgets/product_card.dart';
 import 'package:provider/provider.dart';
+import 'package:imat_app/widgets/shopping_cart_widget.dart';
 
 class MainView extends StatelessWidget {
   const MainView({super.key});
@@ -80,16 +81,9 @@ class MainView extends StatelessWidget {
             ),
           ),
           // Optional right-side cart panel
-          Container(
-            width: 250,
-            color: Color(0xFFFFEECE),
-            padding: const EdgeInsets.all(8),
-            child: Column(
-              children: const [
-                Text('Kundvagn'),
-              ],
-            ),
-          ),
+          const ShoppingCartWidget(),
+
+
         ],
       ),
     );
