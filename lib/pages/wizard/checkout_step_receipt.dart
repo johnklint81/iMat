@@ -114,7 +114,14 @@ class CheckoutStepReceipt extends StatelessWidget {
                       await context.read<ImatDataHandler>().placeOrder();
                       onDone();
                     },
-                    child: const Text("Till startsidan"),
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: AppTheme.buttonColor2,
+                        foregroundColor: Colors.black    // Text/icon color
+                    ),
+                    child: Text(
+                        "Till startsidan",
+                        style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                    ),
                   ),
                 ),
               ),

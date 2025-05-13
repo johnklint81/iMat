@@ -84,11 +84,25 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
                   children: [
                     ElevatedButton(
                       onPressed: widget.onBack,
-                      child: const Text('Tillbaka'),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: AppTheme.buttonColor2,
+                          foregroundColor: Colors.black
+                      ),
+                      child: Text(
+                          'Tillbaka',
+                        style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                      ),
                     ),
                     ElevatedButton(
                       onPressed: widget.onNext,
-                      child: const Text('Betala'),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: AppTheme.buttonColor2,
+                          foregroundColor: Colors.black
+                      ),
+                      child: Text(
+                          'Betala',
+                          style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                      ),
                     ),
                   ],
                 ),
