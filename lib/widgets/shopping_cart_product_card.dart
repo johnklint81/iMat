@@ -45,7 +45,7 @@ class ShoppingCartProductCard extends StatelessWidget {
               // Right: quantity controls
               _squareButton(
                 icon: Icons.remove,
-                backgroundColor: Colors.orange.shade700,
+                backgroundColor: AppTheme.buttonColor2,
                 onPressed: () => iMat.shoppingCartUpdate(item, delta: -1),
               ),
 
@@ -58,7 +58,7 @@ class ShoppingCartProductCard extends StatelessWidget {
               ),
               _squareButton(
                 icon: Icons.add,
-                backgroundColor: Colors.orange.shade700,
+                backgroundColor: AppTheme.buttonColor2,
                 onPressed: () => iMat.shoppingCartUpdate(item, delta: 1),
               ),
             ],

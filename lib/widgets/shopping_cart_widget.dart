@@ -93,7 +93,7 @@ class ShoppingCartWidget extends StatelessWidget {
               },
 
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green.shade700,
+                  backgroundColor: AppTheme.buttonColor1,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6),

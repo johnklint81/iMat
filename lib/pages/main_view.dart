@@ -15,7 +15,7 @@ class MainView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFFFFEECE),
+        backgroundColor: AppTheme.backgroundColor,
         title: Row(
           children: [
             const Text('iMat'), // logo/title
@@ -46,7 +46,7 @@ class MainView extends StatelessWidget {
           // Sidebar with categories
           Container(
             width: 250,
-            color: Color(0xFFFFEECE),
+            color: AppTheme.backgroundColor,
             padding: const EdgeInsets.all(8),
             child: ListView(
               children: [
