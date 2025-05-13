@@ -41,10 +41,6 @@ class MainView extends StatelessWidget {
               icon: const Icon(Icons.person), // user/account
               onPressed: () {},
             ),
-            IconButton(
-              icon: const Icon(Icons.shopping_cart), // cart
-              onPressed: () {},
-            ),
           ],
         ),
       ),

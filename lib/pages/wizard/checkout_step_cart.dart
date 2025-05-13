@@ -74,12 +74,26 @@ class CheckoutStepCart extends StatelessWidget {
                   children: [
                     ElevatedButton(
                       onPressed: onCancel,
-                      child: const Text("Avbryt"),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppTheme.buttonColor2,
+                        foregroundColor: Colors.black
+                      ),
+                      child: Text(
+                          "Avbryt",
+                          style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                      ),
                     ),
 
                     ElevatedButton(
                       onPressed: onNext,
-                      child: const Text("Nästa"),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: AppTheme.buttonColor2,
+                          foregroundColor: Colors.black
+                      ),
+                      child: Text(
+                          "Nästa",
+                          style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                      ),
                     ),
                   ],
                 ),
