@@ -18,7 +18,14 @@ class MainView extends StatelessWidget {
         backgroundColor: AppTheme.backgroundColor,
         title: Row(
           children: [
-            const Text('iMat'), // logo/title
+            // logo/title
+            const Text(
+                "iMat",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                ),
+            ),
             const SizedBox(width: 20),
             Expanded(
               child: TextField( // search
@@ -81,8 +88,6 @@ class MainView extends StatelessWidget {
           ),
           // Optional right-side cart panel
           const ShoppingCartWidget(),
-
-
         ],
       ),
     );

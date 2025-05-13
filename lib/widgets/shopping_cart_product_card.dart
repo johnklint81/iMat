@@ -71,7 +71,7 @@ class ShoppingCartProductCard extends StatelessWidget {
   Widget _squareButton({
     required IconData icon,
     required VoidCallback onPressed,
-    Color backgroundColor = Colors.white,
+    Color backgroundColor = AppTheme.buttonColor1,
     Color iconColor = Colors.black,
   }) {
     return SizedBox(
