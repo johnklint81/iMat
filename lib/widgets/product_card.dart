@@ -86,7 +86,7 @@ class ProductCard extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          side: const BorderSide(color: Colors.black12, width: 2),
+                          side: const BorderSide(color: AppTheme.borderColor, width: 2),
                           padding:
                           const EdgeInsets.symmetric(vertical: 8),
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,

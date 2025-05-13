@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../app_theme.dart';
 import '../model/imat_data_handler.dart';
-import 'checkout_wizard.dart';
+import '../pages/checkout_wizard.dart';
 
 class ShoppingCartWidget extends StatelessWidget {
   const ShoppingCartWidget({super.key});
@@ -14,8 +14,6 @@ class ShoppingCartWidget extends StatelessWidget {
     final iMat = context.watch<ImatDataHandler>();
     final cart = iMat.getShoppingCart(); // add ()
     final items = cart.items;
-
-
     final total = items.fold<double>(
       0.0,
           (sum, item) => sum + item.total,
@@ -54,10 +52,8 @@ class ShoppingCartWidget extends StatelessWidget {
               itemBuilder: (context, index) {
                 return ShoppingCartProductCard(items[index]);
               },
-
             ),
           ),
-
 
           const Spacer(),
 
@@ -91,13 +87,12 @@ class ShoppingCartWidget extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const CheckoutWizard()),
                 );
               },
-
               style: ElevatedButton.styleFrom(
-                  backgroundColor: AppTheme.buttonColor1,
+                backgroundColor: AppTheme.buttonColor1,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6),
-                  side: const BorderSide(color: Colors.black12, width: 2),
+                  side: const BorderSide(color: AppTheme.borderColor, width: 2),
                 ),
                 padding: const EdgeInsets.symmetric(vertical: 12),
               ),
