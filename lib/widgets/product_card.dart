@@ -81,7 +81,7 @@ class ProductCard extends StatelessWidget {
                           iMat.shoppingCartAdd(item);         // add to cart via backend
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.orange.shade700,
+                          backgroundColor: AppTheme.buttonColor2,
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
