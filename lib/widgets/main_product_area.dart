@@ -6,35 +6,34 @@ import 'package:provider/provider.dart';
 
 class MainProductArea extends StatelessWidget {
   const MainProductArea({super.key});
-  
 
   @override
   Widget build(BuildContext context) {
+    final iMat = context.watch<ImatDataHandler>();
+    final products = iMat.selectProducts;
 
-    var iMat = Provider.of<ImatDataHandler>(context, listen: false);
-    var products = iMat.selectProducts;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        const cardWidth = 200.0;
+        final crossAxisCount = (constraints.maxWidth / cardWidth).floor().clamp(1, 5);
 
-    return Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(AppTheme.paddingSmall),
-              child: GridView.builder(
-                itemCount: products.length,
-                // This sets max cards to 4, regardless of width of screen.
-                // We could change this to 5 if we wanted, it is also adaptive
-                // for smaller screens
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
-                  crossAxisSpacing: AppTheme.paddingSmall,
-                  mainAxisSpacing: AppTheme.paddingSmall,
-                  childAspectRatio: 3 / 4,
-                ),
-
-                  itemBuilder: (context, index) {
-                  final product = products[index];
-                  return ProductCard(product, iMat);
-                },
-              ),
+        return SizedBox( // <-- constrain GridView to available width
+          width: constraints.maxWidth,
+          child: GridView.builder(
+            itemCount: products.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: crossAxisCount,
+              crossAxisSpacing: AppTheme.paddingSmall,
+              mainAxisSpacing: AppTheme.paddingSmall,
+              childAspectRatio: 3 / 4,
             ),
-          );
+            itemBuilder: (context, index) {
+              final product = products[index];
+              return ProductCard(product, iMat);
+            },
+          ),
+        );
+      },
+    );
   }
 }
