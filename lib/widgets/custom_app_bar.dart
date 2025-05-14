@@ -28,6 +28,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       title: Row(
         children: [
+          const SizedBox(width: 66),
           MouseRegion(
             cursor: SystemMouseCursors.click,
             child: InkWell(
@@ -51,6 +52,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           centerWidget ?? const SizedBox(),
           const Spacer(),
           rightWidget ?? const SizedBox(width: 48), // ✅ fixed
+          const SizedBox(width: 54),
         ],
       ),
 
