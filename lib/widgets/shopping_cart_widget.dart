@@ -80,10 +80,12 @@ class ShoppingCartWidget extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
+                if (cart.items.isNotEmpty){
+                  //Går bara till kassan om man har något i varukorgen
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const CheckoutWizard()),
-                );
+                );}
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.buttonColor1,
