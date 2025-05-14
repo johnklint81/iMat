@@ -6,6 +6,7 @@ import 'package:imat_app/pages/wizard/checkout_step_delivery.dart';
 import 'package:imat_app/pages/wizard/checkout_step_payment.dart';
 import 'package:imat_app/pages/wizard/checkout_step_receipt.dart';
 import '../app_theme.dart';
+import '../widgets/custom_app_bar.dart';
 
 class CheckoutWizard extends StatefulWidget {
   const CheckoutWizard({super.key});
@@ -43,36 +44,24 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(kToolbarHeight),
-        child: Container(
-          height: kToolbarHeight,
-          color: const Color(0xFFFFEECE),
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "iMat",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              Text(
-                _getStepTitle(),
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
+      appBar: CustomAppBar(
+        centerWidget: Text(
+          _getStepTitle(),
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
+        rightWidget: IconButton(
+          icon: const Icon(Icons.person, size: AppTheme.paddingHuge),
+          onPressed: () {
+            // Pop all routes until the root (MainView)
+            Navigator.of(context).popUntil((route) => route.isFirst);
+          },
+        ),
+        onTitleTap: () {
+          Navigator.popUntil(context, (route) => route.isFirst);
+        },
       ),
+
+
       body: Container(
         color: AppTheme.backgroundColor,
         child: Column(

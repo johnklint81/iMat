@@ -4,7 +4,11 @@ import 'package:imat_app/widgets/main_product_area.dart';
 import 'package:imat_app/widgets/search.dart';
 import 'package:imat_app/widgets/shopping_cart_widget.dart';
 import 'package:imat_app/widgets/account_view.dart';
+import '../model/imat_data_handler.dart';
 import '../widgets/categories.dart';
+import 'package:provider/provider.dart';
+
+import '../widgets/custom_app_bar.dart';
 
 class MainView extends StatefulWidget {
   const MainView({super.key});
@@ -18,29 +22,29 @@ class _MainViewState extends State<MainView> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppTheme.backgroundColor,
-        title: Row(
-          children: [
-            const Text(
-              "iMat",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-            ),
-            const SizedBox(width: 20),
-            const Expanded(child: Search()), // <-- use working search widget
-            IconButton(
-              icon: const Icon(Icons.person),
-              onPressed: () {
-                setState(() {
-                  showAccount = !showAccount;
-                });
-              },
-            ),
-          ],
+      appBar: CustomAppBar(
+        centerWidget: const SizedBox(
+          width: 600,
+          child: Search(),
         ),
+        rightWidget: IconButton(
+          icon: const Icon(Icons.person, size: AppTheme.paddingHuge),
+          onPressed: () {
+            setState(() {
+              showAccount = !showAccount;
+            });
+          },
+        ),
+        onTitleTap: () {
+          setState(() {
+            showAccount = false;
+          });
+          final iMat = Provider.of<ImatDataHandler>(context, listen: false);
+          iMat.selectAllProducts();
+        },
       ),
+
       body: Row(
         children: [
           // Sidebar
@@ -57,17 +61,17 @@ class _MainViewState extends State<MainView> {
             ),
           ),
 
-
           // Middle area
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(AppTheme.paddingSmall),
               // Switch between AccountView or the product grid
-              child: showAccount
-              // don't use const if AccountView watches Provider
-                  ? AccountView()
-              // same for MainProductArea
-                  : MainProductArea(),
+              child:
+                  showAccount
+                      // don't use const if AccountView watches Provider
+                      ? AccountView()
+                      // same for MainProductArea
+                      : MainProductArea(),
             ),
           ),
 
@@ -75,7 +79,6 @@ class _MainViewState extends State<MainView> {
           const ShoppingCartWidget(),
         ],
       ),
-
     );
   }
 }

@@ -87,7 +87,7 @@ class ProductCard extends StatelessWidget {
                   const SizedBox(height: 12),
                   Center(
                     child: SizedBox(
-                      width: 200,
+                      width: 250,
                       child: ElevatedButton(
                         onPressed: () {
                           final item = ShoppingItem(product); // 1.0 items by default

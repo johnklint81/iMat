@@ -31,28 +31,27 @@ class _CategoryListItemState extends State<CategoryListItem> {
     return MouseRegion(
       onEnter: (_) => setState(() => _hovering = true),
       onExit: (_) => setState(() => _hovering = false),
-      child: InkWell(
-        onTap: widget.onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-          decoration: BoxDecoration(
-            color: _hovering ? AppTheme.buttonColor2 : Colors.transparent,
-            border: Border.all(
-              color: _hovering ? Colors.black12 : Colors.transparent,
-            ),
-            borderRadius: BorderRadius.circular(6),
-          ),
-          child: Row(
-            children: [
-              if (widget.icon != null) ...[
-                Icon(widget.icon, size: 20),
-                const SizedBox(width: 8),
+      child: Material(
+        color: _hovering ? AppTheme.buttonColor2 : Colors.transparent,
+        borderRadius: BorderRadius.circular(6),
+        child: InkWell(
+          onTap: widget.onTap,
+          borderRadius: BorderRadius.circular(6),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            child: Row(
+              children: [
+                if (widget.icon != null) ...[
+                  Icon(widget.icon, size: 20),
+                  const SizedBox(width: 8),
+                ],
+                Text(
+                  widget.label,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 16),
+                ),
               ],
-              Text(
-                widget.label,
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-              ),
-            ],
+            ),
           ),
         ),
       ),
@@ -61,7 +60,7 @@ class _CategoryListItemState extends State<CategoryListItem> {
 }
 
 
-class CategorySelector extends StatelessWidget {
+  class CategorySelector extends StatelessWidget {
   final VoidCallback? onCategorySelected;
 
   const CategorySelector({super.key, this.onCategorySelected});

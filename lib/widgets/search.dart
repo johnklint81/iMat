@@ -9,16 +9,28 @@ class Search extends StatelessWidget {
   Widget build(BuildContext context) {
     var iMat = context.watch<ImatDataHandler>();
 
-    return Expanded(
-              child: TextField( 
-                onSubmitted: (value) {iMat.selectSelection(iMat.findProducts(value));},// search
-                decoration: InputDecoration(
-                  hintText: 'Sök produkter...',
-                  border: OutlineInputBorder(),
-                  isDense: true,
-                  contentPadding: EdgeInsets.all(8),
-                ),
-              ),
-            );
+    return SizedBox(
+      height: 36,
+      child: TextField(
+        style: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+        ),
+        decoration: const InputDecoration(
+          hintText: 'Sök produkter...',
+          isDense: true,
+          contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(width: 1.5, color: Colors.black),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(width: 1.5, color: Colors.black),
+          ),
+        ),
+      )
+
+
+    );
+
   }
 }
