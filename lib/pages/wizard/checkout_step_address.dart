@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:imat_app/model/imat_data_handler.dart';
 import 'package:imat_app/model/imat/customer.dart';
@@ -31,7 +32,7 @@ class _CheckoutStepAddressState extends State<CheckoutStepAddress> {
   void initState() {
     super.initState();
     final customer = context.read<ImatDataHandler>().getCustomer();
-    _nameController = TextEditingController(text: customer.firstName + ' ' + customer.lastName);
+    _nameController = TextEditingController(text: '${customer.firstName} ${customer.lastName}');
     _streetController = TextEditingController(text: customer.address);
     _zipController = TextEditingController(text: customer.postCode);
     _cityController = TextEditingController(text: customer.postAddress);
@@ -71,7 +72,8 @@ class _CheckoutStepAddressState extends State<CheckoutStepAddress> {
     }
   }
 
-  Widget _buildField(String label, TextEditingController controller) {
+  Widget _buildField(String label, TextEditingController controller,
+      {List<TextInputFormatter>? inputFormatters}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Column(
@@ -82,6 +84,8 @@ class _CheckoutStepAddressState extends State<CheckoutStepAddress> {
           TextFormField(
             controller: controller,
             validator: (value) => value == null || value.isEmpty ? 'Fältet krävs' : null,
+            inputFormatters: inputFormatters,
+            textInputAction: TextInputAction.next,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               isDense: true,
@@ -92,6 +96,7 @@ class _CheckoutStepAddressState extends State<CheckoutStepAddress> {
       ),
     );
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -123,16 +128,50 @@ class _CheckoutStepAddressState extends State<CheckoutStepAddress> {
                 ),
                 child: Form(
                   key: _formKey,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _buildField('Namn:', _nameController),
-                      _buildField('Gatuadress:', _streetController),
-                      _buildField('Postnummer:', _zipController),
-                      _buildField('Stad:', _cityController),
-                      _buildField('Telefonnummer:', _phoneController),
-                    ],
-                  ),
+                  child: FocusTraversalGroup(
+                    child: Column(
+                      children: [
+                        _buildField(
+                          'Namn:',
+                          _nameController,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZåäöÅÄÖ ]')),
+                          ],
+                        ),
+                        _buildField(
+                          'Gatuadress:',
+                          _streetController,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZåäöÅÄÖ0-9 ]')),
+                          ],
+                        ),
+                        _buildField(
+                          'Postnummer:',
+                          _zipController,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            LengthLimitingTextInputFormatter(5),
+                          ],
+                        ),
+                        _buildField(
+                          'Ort:',
+                          _cityController,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZåäöÅÄÖ ]')),
+                          ],
+                        ),
+                        _buildField(
+                          'Telefonnummer:',
+                          _phoneController,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            LengthLimitingTextInputFormatter(15),
+                          ],
+                        ),
+                      ],
+                    ),
+                  )
+
                 ),
               ),
               const SizedBox(height: AppTheme.paddingMediumSmall),

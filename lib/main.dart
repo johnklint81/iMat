@@ -7,11 +7,16 @@ import 'package:provider/provider.dart';
 void main() {
   runApp(
     ChangeNotifierProvider(
-      create: (context) => ImatDataHandler(),
+      create: (context) {
+        final handler = ImatDataHandler();
+        handler.reset(); // Reset everything on startup
+        return handler;
+      },
       child: const MyApp(),
     ),
   );
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

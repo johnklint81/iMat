@@ -33,8 +33,7 @@ class ProductCard extends StatelessWidget {
               child: Stack(
                 children: [
                   ClipRRect(
-                    borderRadius:
-                    const BorderRadius.vertical(top: Radius.circular(12)),
+                    borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
                     child: AspectRatio(
                       aspectRatio: 4 / 3,
                       child: FittedBox(
@@ -43,16 +42,30 @@ class ProductCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Icon(Icons.star, size: 32, color: Colors.black), // fake "border"
-                      Icon(Icons.star, size: 18, color: Colors.white), // inner fill
-                    ],
+                  Positioned(
+                    top: 6,
+                    left: 6,
+                    child: GestureDetector(
+                      onTap: () => iMat.toggleFavorite(product),
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Icon(Icons.star_border, size: 40, color: Colors.black), // outline
+                          Icon(
+                            Icons.star,
+                            size: 24,
+                            color: iMat.isFavorite(product) ? Colors.amber : Colors.transparent,
+                          ),
+                        ],
+                      ),
+
+
+                    ),
                   ),
                 ],
               ),
             ),
+
 
             // Text and Button
             Padding(
