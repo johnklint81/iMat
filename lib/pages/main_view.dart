@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:imat_app/app_theme.dart';
 import 'package:imat_app/model/imat_data_handler.dart';
-import 'package:imat_app/widgets/product_card.dart';
+import 'package:imat_app/widgets/main_product_area.dart';
+import 'package:imat_app/widgets/search.dart';
 import 'package:provider/provider.dart';
 import 'package:imat_app/widgets/shopping_cart_widget.dart';
 
@@ -11,7 +12,7 @@ class MainView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var iMat = context.watch<ImatDataHandler>();
-    var products = iMat.selectProducts;
+
 
     return Scaffold(
       appBar: AppBar(
@@ -27,16 +28,7 @@ class MainView extends StatelessWidget {
                 ),
             ),
             const SizedBox(width: 20),
-            Expanded(
-              child: TextField( // search
-                decoration: InputDecoration(
-                  hintText: 'Sök produkter...',
-                  border: OutlineInputBorder(),
-                  isDense: true,
-                  contentPadding: EdgeInsets.all(8),
-                ),
-              ),
-            ),
+            Search(),
             IconButton(
               icon: const Icon(Icons.person), // user/account
               onPressed: () {},
@@ -60,28 +52,7 @@ class MainView extends StatelessWidget {
             ),
           ),
           // Main product area
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(AppTheme.paddingSmall),
-              child: GridView.builder(
-                itemCount: products.length,
-                // This sets max cards to 4, regardless of width of screen.
-                // We could change this to 5 if we wanted, it is also adaptive
-                // for smaller screens
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
-                  crossAxisSpacing: AppTheme.paddingSmall,
-                  mainAxisSpacing: AppTheme.paddingSmall,
-                  childAspectRatio: 3 / 4,
-                ),
-
-                  itemBuilder: (context, index) {
-                  final product = products[index];
-                  return ProductCard(product, iMat);
-                },
-              ),
-            ),
-          ),
+          MainProductArea(),
           // Optional right-side cart panel
           const ShoppingCartWidget(),
         ],
