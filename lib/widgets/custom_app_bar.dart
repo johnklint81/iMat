@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:imat_app/app_theme.dart';
+import 'package:imat_app/widgets/account_button.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? centerWidget;
@@ -31,6 +32,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             cursor: SystemMouseCursors.click,
             child: InkWell(
               onTap: onTitleTap,
+              splashColor: AppTheme.backgroundSplashColor,
+              highlightColor: Colors.transparent,
               borderRadius: BorderRadius.circular(4),
               child: const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
@@ -44,14 +47,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             ),
           ),
-
-
           const Spacer(),
           centerWidget ?? const SizedBox(),
           const Spacer(),
-          rightWidget ?? const SizedBox(width: 48),
+          rightWidget ?? const SizedBox(width: 48), // ✅ fixed
         ],
       ),
+
     );
   }
 }
