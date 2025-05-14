@@ -20,6 +20,7 @@ class MainProductArea extends StatelessWidget {
         return SizedBox( // <-- constrain GridView to available width
           width: constraints.maxWidth,
           child: GridView.builder(
+            scrollDirection: Axis.vertical,
             itemCount: products.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: crossAxisCount,

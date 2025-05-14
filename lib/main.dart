@@ -9,7 +9,7 @@ void main() {
     ChangeNotifierProvider(
       create: (context) {
         final handler = ImatDataHandler();
-        handler.reset(); // Reset everything on startup
+        // handler.reset(); // Reset everything on startup
         return handler;
       },
       child: const MyApp(),

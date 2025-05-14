@@ -62,7 +62,9 @@ class _CategoryListItemState extends State<CategoryListItem> {
 
 
 class CategorySelector extends StatelessWidget {
-  const CategorySelector({super.key});
+  final VoidCallback? onCategorySelected;
+
+  const CategorySelector({super.key, this.onCategorySelected});
   static const Map<ProductCategory, String> categoryLabels = {
     ProductCategory.MELONS: "Meloner",
     ProductCategory.FLOUR_SUGAR_SALT: "Mjöl, Socker & Salt",
@@ -92,50 +94,44 @@ class CategorySelector extends StatelessWidget {
     final handler = context.read<ImatDataHandler>();
     final products = handler.products;
 
-    final categories = products
-        .map((p) => p.category)
-        .toSet()
-        .toList()
+    final categories = (products.isEmpty
+        ? CategorySelector.categoryLabels.keys
+        : products.map((p) => p.category)).toSet().toList()
       ..sort((a, b) => a.toString().compareTo(b.toString()));
 
     return ListView(
       children: [
         const Divider(color: Colors.black),
         const SizedBox(height: AppTheme.paddingTiny),
-
-        // Hem
         CategoryListItem(
           label: "Hem",
           onTap: () {
             handler.selectAllProducts();
+            onCategorySelected?.call(); // hide account view
           },
           icon: Icons.home,
         ),
 
         const SizedBox(height: AppTheme.paddingTiny),
-
-        // Favoriter
         CategoryListItem(
           label: "Favoriter",
           onTap: () {
             handler.selectFavorites();
+            onCategorySelected?.call();
           },
           icon: Icons.star,
         ),
         const Divider(color: Colors.black),
         const SizedBox(height: AppTheme.paddingTiny),
-
-        // Alla Produkter
         CategoryListItem(
           label: "Alla Produkter",
           onTap: () {
             handler.selectAllProducts();
+            onCategorySelected?.call();
           },
         ),
 
         const SizedBox(height: AppTheme.paddingTiny),
-
-        // Categories
         ...categories.map((category) {
           final label = categoryLabels[category] ?? category.toString();
           return CategoryListItem(
@@ -143,12 +139,16 @@ class CategorySelector extends StatelessWidget {
             onTap: () {
               final filtered = products.where((p) => p.category == category).toList();
               handler.selectSelection(filtered);
+              onCategorySelected?.call(); // 👈 hide account view
             },
+
+
           );
         }).toList(),
       ],
     );
   }
+
 
 
 

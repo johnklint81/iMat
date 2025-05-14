@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:imat_app/app_theme.dart';
-import 'package:imat_app/model/imat_data_handler.dart';
 import 'package:imat_app/widgets/main_product_area.dart';
 import 'package:imat_app/widgets/search.dart';
-import 'package:provider/provider.dart';
 import 'package:imat_app/widgets/shopping_cart_widget.dart';
 import 'package:imat_app/widgets/account_view.dart';
 import '../widgets/categories.dart';
@@ -20,7 +18,6 @@ class _MainViewState extends State<MainView> {
 
   @override
   Widget build(BuildContext context) {
-    var iMat = context.watch<ImatDataHandler>();
 
     return Scaffold(
       appBar: AppBar(
@@ -51,8 +48,15 @@ class _MainViewState extends State<MainView> {
             width: 250,
             color: AppTheme.backgroundColor,
             padding: const EdgeInsets.all(8),
-            child: const CategorySelector(),
+            child: CategorySelector(
+              onCategorySelected: () {
+                setState(() {
+                  showAccount = false;
+                });
+              },
+            ),
           ),
+
 
           // Middle area
           Expanded(
