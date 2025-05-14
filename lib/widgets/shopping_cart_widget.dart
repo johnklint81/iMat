@@ -35,27 +35,25 @@ class ShoppingCartWidget extends StatelessWidget {
 
           const SizedBox(height: 12),
 
-          items.isEmpty
-              ? Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text("Din varukorg är tom.", style: AppTheme.mediumText),
-              Text(
-                "Lägg till varor genom att klicka på 'Välj'.",
-                style: AppTheme.smallText.copyWith(color: Colors.grey),
-              ),
-            ],
-          )
-              : Expanded(
-            child: ListView.builder(
+          Expanded(
+            child: items.isEmpty
+                ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.shopping_basket, size: 48, color: Colors.grey),
+                const SizedBox(height: 8),
+                Text("Din kundvagn är tom.", style: AppTheme.mediumText),
+                Text("Lägg till varor genom att klicka på 'Välj'.",
+                    style: AppTheme.smallText.copyWith(color: Colors.grey)),
+              ],
+            )
+                : ListView.builder(
               itemCount: items.length,
               itemBuilder: (context, index) {
                 return ShoppingCartProductCard(items[index]);
               },
             ),
           ),
-
-          const Spacer(),
 
           Container(
             width: double.infinity,

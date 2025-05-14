@@ -5,55 +5,60 @@ import 'package:imat_app/widgets/main_product_area.dart';
 import 'package:imat_app/widgets/search.dart';
 import 'package:provider/provider.dart';
 import 'package:imat_app/widgets/shopping_cart_widget.dart';
+import 'package:imat_app/widgets/account_view.dart';
 
-class MainView extends StatelessWidget {
+import '../widgets/categories.dart';
+
+class MainView extends StatefulWidget {
   const MainView({super.key});
 
   @override
+  State<MainView> createState() => _MainViewState();
+}
+
+class _MainViewState extends State<MainView> {
+  bool showAccount = false;
+
+  @override
   Widget build(BuildContext context) {
-    var iMat = context.watch<ImatDataHandler>();
-
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppTheme.backgroundColor,
         title: Row(
           children: [
-            // logo/title
             const Text(
-                "iMat",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                ),
+              "iMat",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
             ),
             const SizedBox(width: 20),
-            Search(),
+            const Expanded(child: Search()),
             IconButton(
-              icon: const Icon(Icons.person), // user/account
-              onPressed: () {},
+              icon: const Icon(Icons.person),
+              onPressed: () {
+                setState(() {
+                  showAccount = !showAccount;
+                });
+              },
             ),
           ],
         ),
       ),
       body: Row(
         children: [
-          // Sidebar with categories
+          // Sidebar
           Container(
             width: 250,
             color: AppTheme.backgroundColor,
             padding: const EdgeInsets.all(8),
-            child: ListView(
-              children: [
-                ListTile(title: Text('Frukt')),
-                ListTile(title: Text('Grönsaker')),
-                ListTile(title: Text('Mejeri')),
-              ],
-            ),
+            child: const CategorySelector(),
           ),
-          // Main product area
-          MainProductArea(),
-          // Optional right-side cart panel
+
+          // Main product area or account view
+          Expanded(
+            child: showAccount ? const AccountView() : const MainProductArea(),
+          ),
+
+          // Cart
           const ShoppingCartWidget(),
         ],
       ),

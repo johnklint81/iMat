@@ -111,9 +111,18 @@ class CheckoutStepReceipt extends StatelessWidget {
                   alignment: Alignment.topCenter,
                   child: ElevatedButton(
                     onPressed: () async {
+                      final cart = context.read<ImatDataHandler>().getShoppingCart();
+                      if (cart.items.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text("Kundvagnen är tom!"))
+                        );
+                        return;
+                      }
+
                       await context.read<ImatDataHandler>().placeOrder();
                       onDone();
                     },
+
                     style: ElevatedButton.styleFrom(
                         backgroundColor: AppTheme.buttonColor2,
                         foregroundColor: Colors.black    // Text/icon color

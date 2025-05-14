@@ -156,12 +156,16 @@ class InternetHandler {
     return putEndpoint("orders", json: jsonEncode([]), cid: kGroupId);
   }
 
+  static Future<String> reset() async {
+    return postEndpoint("reset", json: jsonEncode([]), cid: kGroupId);
+  }
+
   static Future<String> putEndpoint(
-    String endPoint, {
-    required String json,
-    int cid = 0,
-    int pid = 0,
-  }) async {
+      String endPoint, {
+        required String json,
+        int cid = 0,
+        int pid = 0,
+      }) async {
     var resourcePath = baseURL + endPoint;
 
     //print('Put ${json}');
@@ -185,7 +189,7 @@ class InternetHandler {
         headers: apiKeyPlusJsonHeader,
         body: json,
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode >= 200 && response.statusCode < 300) {
         return response.body;
       } else {
         dbugPrint('put $endPoint ${response.statusCode}');
@@ -196,11 +200,51 @@ class InternetHandler {
     return '';
   }
 
+  static Future<String> postEndpoint(
+      String endPoint, {
+        required String json,
+        int cid = 0,
+        int pid = 0,
+      }) async {
+    var resourcePath = baseURL + endPoint;
+
+    //print('Put ${json}');
+    // Add customer identifier
+    if (cid > 0) {
+      resourcePath = '$resourcePath/$cid';
+    }
+    //print('Put ${json}');
+    // Add product identifier
+    if (pid > 0) {
+      resourcePath = '$resourcePath/$pid';
+    }
+
+    dbugPrint(resourcePath);
+
+    var url = Uri.parse(resourcePath);
+
+    try {
+      var response = await http.post(
+        url,
+        headers: apiKeyPlusJsonHeader,
+        body: json,
+      );
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        return response.body;
+      } else {
+        dbugPrint('post $endPoint ${response.statusCode}');
+      }
+    } catch (e) {
+      dbugPrint('put $endPoint $e');
+    }
+    return '';
+  }
+
   static Future<String> deleteEndpoint(
-    String endPoint, {
-    int cid = 0,
-    int pid = 0,
-  }) async {
+      String endPoint, {
+        int cid = 0,
+        int pid = 0,
+      }) async {
     var resourcePath = baseURL + endPoint;
 
     //print('Put ${json}');
