@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
+  static const Color backgroundColor = Color(0xFFFFEECE);
+  static const Color buttonColor1 = Color(0xFF4CAF50);  // Green
+  static const Color buttonColor2 = Color(0xFFF57C00); // orange.shade700
+  static const Color borderColor = Colors.black12;
   static const double paddingTiny = 4.0;
   static const double paddingSmall = 8.0;
   static const double paddingMediumSmall = 12.0;

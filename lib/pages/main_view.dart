@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:imat_app/app_theme.dart';
-import 'package:imat_app/model/imat/product.dart';
 import 'package:imat_app/model/imat_data_handler.dart';
 import 'package:imat_app/widgets/product_card.dart';
 import 'package:provider/provider.dart';
@@ -16,10 +15,17 @@ class MainView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFFFFEECE),
+        backgroundColor: AppTheme.backgroundColor,
         title: Row(
           children: [
-            const Text('iMat'), // logo/title
+            // logo/title
+            const Text(
+                "iMat",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                ),
+            ),
             const SizedBox(width: 20),
             Expanded(
               child: TextField( // search
@@ -35,10 +41,6 @@ class MainView extends StatelessWidget {
               icon: const Icon(Icons.person), // user/account
               onPressed: () {},
             ),
-            IconButton(
-              icon: const Icon(Icons.shopping_cart), // cart
-              onPressed: () {},
-            ),
           ],
         ),
       ),
@@ -47,7 +49,7 @@ class MainView extends StatelessWidget {
           // Sidebar with categories
           Container(
             width: 250,
-            color: Color(0xFFFFEECE),
+            color: AppTheme.backgroundColor,
             padding: const EdgeInsets.all(8),
             child: ListView(
               children: [
@@ -82,8 +84,6 @@ class MainView extends StatelessWidget {
           ),
           // Optional right-side cart panel
           const ShoppingCartWidget(),
-
-
         ],
       ),
     );

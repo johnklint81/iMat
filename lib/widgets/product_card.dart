@@ -3,6 +3,8 @@ import 'package:imat_app/app_theme.dart';
 import 'package:imat_app/model/imat/product.dart';
 import 'package:imat_app/model/imat_data_handler.dart';
 
+import '../model/imat/shopping_item.dart';
+
 class ProductCard extends StatelessWidget {
   final Product product;
   final ImatDataHandler iMat;
@@ -74,14 +76,17 @@ class ProductCard extends StatelessWidget {
                     child: SizedBox(
                       width: 200,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          final item = ShoppingItem(product); // 1.0 items by default
+                          iMat.shoppingCartAdd(item);         // add to cart via backend
+                        },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.orange.shade700,
+                          backgroundColor: AppTheme.buttonColor2,
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          side: const BorderSide(color: Colors.black12, width: 2),
+                          side: const BorderSide(color: AppTheme.borderColor, width: 2),
                           padding:
                           const EdgeInsets.symmetric(vertical: 8),
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
