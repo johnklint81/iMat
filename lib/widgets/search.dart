@@ -7,6 +7,8 @@ class Search extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
+    final iMat = context.watch<ImatDataHandler>();
     return SizedBox(
       height: 36,
       child: TextField(
