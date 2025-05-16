@@ -7,8 +7,6 @@ class Search extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var iMat = context.watch<ImatDataHandler>();
-
     return SizedBox(
       height: 36,
       child: TextField(
@@ -20,6 +18,8 @@ class Search extends StatelessWidget {
         decoration: const InputDecoration(
           hintText: 'Sök produkter...',
           isDense: true,
+          filled: true, //
+          fillColor: Colors.white,
           contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(width: 1.5, color: Colors.black),

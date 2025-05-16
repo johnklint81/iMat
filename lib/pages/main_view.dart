@@ -5,6 +5,7 @@ import 'package:imat_app/widgets/search.dart';
 import 'package:imat_app/widgets/shopping_cart_widget.dart';
 import 'package:imat_app/widgets/account_view.dart';
 import '../model/imat_data_handler.dart';
+import '../widgets/account_button.dart';
 import '../widgets/categories.dart';
 import 'package:provider/provider.dart';
 
@@ -28,14 +29,15 @@ class _MainViewState extends State<MainView> {
           width: 600,
           child: Search(),
         ),
-        rightWidget: IconButton(
-          icon: const Icon(Icons.person, size: AppTheme.paddingHuge),
+        rightWidget: AccountButton(
+          isActive: showAccount,
           onPressed: () {
             setState(() {
               showAccount = !showAccount;
             });
           },
         ),
+
         onTitleTap: () {
           setState(() {
             showAccount = false;
