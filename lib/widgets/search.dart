@@ -12,6 +12,7 @@ class Search extends StatelessWidget {
     return SizedBox(
       height: 36,
       child: TextField(
+        onSubmitted: (value) => iMat.selectSelection(iMat.findProducts(value)),
         style: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.bold,
