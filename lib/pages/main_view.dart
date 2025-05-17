@@ -50,7 +50,7 @@ class _MainViewState extends State<MainView> {
         children: [
           // Sidebar
           Container(
-            width: 250,
+            width: 300,
             color: AppTheme.backgroundColor,
             padding: const EdgeInsets.all(8),
             child: CategorySelector(

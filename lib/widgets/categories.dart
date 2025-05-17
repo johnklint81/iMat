@@ -42,13 +42,12 @@ class _CategoryListItemState extends State<CategoryListItem> {
             child: Row(
               children: [
                 if (widget.icon != null) ...[
-                  Icon(widget.icon, size: 20),
+                  Icon(widget.icon, size: 32),
                   const SizedBox(width: 8),
                 ],
                 Text(
                   widget.label,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 16),
+                  style: AppTheme.mediumHeading,
                 ),
               ],
             ),
@@ -100,7 +99,7 @@ class _CategoryListItemState extends State<CategoryListItem> {
 
     return ListView(
       children: [
-        const Divider(color: Colors.black),
+        // const Divider(color: Colors.black),
         const SizedBox(height: AppTheme.paddingTiny),
         CategoryListItem(
           label: "Hem",

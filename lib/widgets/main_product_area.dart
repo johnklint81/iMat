@@ -21,16 +21,16 @@ class MainProductArea extends StatelessWidget {
           width: constraints.maxWidth,
           child: Padding(
             padding: const EdgeInsets.symmetric(
-                horizontal: AppTheme.paddingLarge,
-                vertical: AppTheme.paddingLarge
+                horizontal: AppTheme.paddingLARGE,
+                vertical: AppTheme.paddingLARGE
             ),
             child: GridView.builder(
               scrollDirection: Axis.vertical,
               itemCount: products.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: crossAxisCount,
-                crossAxisSpacing: AppTheme.paddingLarge,
-                mainAxisSpacing: AppTheme.paddingLarge,
+                crossAxisSpacing: AppTheme.paddingLARGE,
+                mainAxisSpacing: AppTheme.paddingLARGE,
                 childAspectRatio: 3 / 4,
               ),
               itemBuilder: (context, index) {

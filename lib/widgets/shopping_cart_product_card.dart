@@ -12,6 +12,9 @@ class ShoppingCartProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final iMat = Provider.of<ImatDataHandler>(context, listen: false);
+    String quantityStr = item.amount.toInt().toString();
+    double baseSize = AppTheme.mediumHeading.fontSize ?? 16;
+    double fontSize = quantityStr.length > 2 ? baseSize - 7 : baseSize;
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4),
@@ -27,7 +30,7 @@ class ShoppingCartProductCard extends StatelessWidget {
           // Product name
           Text(
             item.product.name,
-            style: AppTheme.smallText.copyWith(fontWeight: FontWeight.bold),
+            style: AppTheme.mediumLargeHeading,
             overflow: TextOverflow.ellipsis,
           ),
           const SizedBox(height: 4),
@@ -37,7 +40,7 @@ class ShoppingCartProductCard extends StatelessWidget {
               // Left: price
               Text(
                 '${item.product.price.toStringAsFixed(2)} kr',
-                style: AppTheme.smallText,
+                style: AppTheme.mediumText,
               ),
 
               const Spacer(),
@@ -49,13 +52,20 @@ class ShoppingCartProductCard extends StatelessWidget {
                 onPressed: () => iMat.shoppingCartUpdate(item, delta: -1),
               ),
 
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
+              const SizedBox(width: 8),
+
+              SizedBox(
+                width: 24,
                 child: Text(
-                  '${item.amount.toInt()}',
-                  style: AppTheme.smallText,
+                  quantityStr,
+                  style: AppTheme.mediumHeading.copyWith(fontSize: fontSize),
+                  textAlign: TextAlign.center,
                 ),
               ),
+
+
+              const SizedBox(width: 8),
+
               _squareButton(
                 icon: Icons.add,
                 backgroundColor: AppTheme.buttonColor2,
@@ -88,7 +98,7 @@ class ShoppingCartProductCard extends StatelessWidget {
           side: const BorderSide(color: Colors.black12),
         ),
         onPressed: onPressed,
-        child: Icon(icon, size: 16, color: iconColor),
+        child: Icon(icon, size: AppTheme.shoppingCartButtonFontSize, color: iconColor),
       ),
     );
   }

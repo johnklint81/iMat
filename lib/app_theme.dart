@@ -12,15 +12,17 @@ class AppTheme {
   static const double paddingMediumSmall = 12.0;
   static const double paddingMedium = 16.0;
   static const double paddingLarge = 24.0;
+  static const double paddingLARGE = 28.0;
   static const double paddingHuge = 32.0;
   static const double appbarHeight = 90.0;
   static const double productCardButtonWidth = 175;
   static const double searchbarHeight = 50.0;
   static const double searchbarFontSize = 24.0;
+  static const double shoppingCartButtonFontSize = 24.0;
 
   static ColorScheme colorScheme = ColorScheme.fromSeed(seedColor: Color(0xFFFFEECE));
   static const TextStyle accountButtonStyle = TextStyle(
-    fontSize: 24,
+    fontSize: 32,
     fontWeight: FontWeight.w700,
   );
   static const TextStyle logoStyle = TextStyle(
@@ -54,7 +56,10 @@ class AppTheme {
     fontSize: 32,
     fontWeight: FontWeight.w400,
   );
-
+  static const TextStyle LARGEHeading = TextStyle(
+    fontSize: 40,
+    fontWeight: FontWeight.w400,
+  );
   static const Widget starStyle = Icon(
     Icons.star_border,
     color: Colors.black,

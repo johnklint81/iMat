@@ -19,7 +19,7 @@ class ShoppingCartWidget extends StatelessWidget {
           (sum, item) => sum + item.total,
     );
     return Container(
-      width: 250,
+      width: 300,
       color: const Color(0xFFFFEECE),
       padding: const EdgeInsets.all(8),
       child: Column(
@@ -29,7 +29,7 @@ class ShoppingCartWidget extends StatelessWidget {
             alignment: Alignment.topCenter,
             child: Text(
               'Varukorg',
-              style: AppTheme.largeHeading,
+              style: AppTheme.LARGEHeading,
             ),
           ),
 
@@ -68,9 +68,9 @@ class ShoppingCartWidget extends StatelessWidget {
               children: [
                 Text(
                   'Totalt:',
-                  style: AppTheme.mediumHeading,
+                  style: AppTheme.mediumLargeHeading,
                 ),
-                Text('${total.toStringAsFixed(2)} kr', style: AppTheme.mediumHeading),
+                Text('${total.toStringAsFixed(2)} kr', style: AppTheme.mediumLargeHeading),
               ],
             ),
           ),
