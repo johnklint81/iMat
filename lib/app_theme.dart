@@ -13,9 +13,20 @@ class AppTheme {
   static const double paddingMedium = 16.0;
   static const double paddingLarge = 24.0;
   static const double paddingHuge = 32.0;
+  static const double appbarHeight = 90.0;
+  static const double productCardButtonWidth = 175;
+  static const double searchbarHeight = 50.0;
+  static const double searchbarFontSize = 24.0;
 
   static ColorScheme colorScheme = ColorScheme.fromSeed(seedColor: Color(0xFFFFEECE));
-
+  static const TextStyle accountButtonStyle = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w700,
+  );
+  static const TextStyle logoStyle = TextStyle(
+    fontSize: 42,
+    fontWeight: FontWeight.w700,
+  );
   static const TextStyle smallHeading = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w700,

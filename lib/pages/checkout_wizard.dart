@@ -5,8 +5,12 @@ import 'package:imat_app/pages/wizard/checkout_step_address.dart';
 import 'package:imat_app/pages/wizard/checkout_step_delivery.dart';
 import 'package:imat_app/pages/wizard/checkout_step_payment.dart';
 import 'package:imat_app/pages/wizard/checkout_step_receipt.dart';
+import 'package:provider/provider.dart';
 import '../app_theme.dart';
+import '../model/imat_data_handler.dart';
+import '../widgets/account_view.dart';
 import '../widgets/custom_app_bar.dart';
+import '../widgets/account_button.dart';
 
 class CheckoutWizard extends StatefulWidget {
   const CheckoutWizard({super.key});
@@ -16,6 +20,7 @@ class CheckoutWizard extends StatefulWidget {
 }
 
 class _CheckoutWizardState extends State<CheckoutWizard> {
+  bool showAccount = false;
   int _step = 0;
   String _paymentMethod = 'VISA/Mastercard'; // default
 
@@ -49,16 +54,26 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
           _getStepTitle(),
           style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        rightWidget: IconButton(
-          icon: const Icon(Icons.person, size: AppTheme.paddingHuge),
+        rightWidget: AccountButton(
+          isActive: showAccount,
           onPressed: () {
-            // Pop all routes until the root (MainView)
-            Navigator.of(context).popUntil((route) => route.isFirst);
+            setState(() {
+              showAccount = !showAccount;
+            });
           },
         ),
-        onTitleTap: () {
-          Navigator.popUntil(context, (route) => route.isFirst);
-        },
+
+          onTitleTap: () {
+            setState(() {
+              showAccount = false;
+            });
+            final iMat = Provider.of<ImatDataHandler>(context, listen: false);
+            iMat.selectAllProducts();
+
+            // Navigate back to the main view
+            Navigator.of(context).popUntil((route) => route.isFirst);
+          }
+
       ),
 
 
@@ -76,7 +91,9 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
 
             // Step content
             Expanded(
-              child: IndexedStack(
+              child: showAccount
+                  ? const AccountView()
+                  : IndexedStack(
                 index: _step,
                 children: [
                   CheckoutStepCart(
@@ -113,6 +130,7 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
                 ],
               ),
             ),
+
           ],
         ),
       ),

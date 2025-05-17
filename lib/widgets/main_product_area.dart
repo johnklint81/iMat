@@ -15,7 +15,7 @@ class MainProductArea extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         const cardWidth = 200.0;
-        final crossAxisCount = (constraints.maxWidth / cardWidth).floor().clamp(1, 5);
+        final crossAxisCount = (constraints.maxWidth / cardWidth).floor().clamp(1, 4);
 
         return SizedBox( // <-- constrain GridView to available width
           width: constraints.maxWidth,

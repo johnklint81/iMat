@@ -194,7 +194,7 @@ class _CheckoutStepAddressState extends State<CheckoutStepAddress> {
                     ElevatedButton(
                       onPressed: _handleNext,
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: AppTheme.buttonColor2,
+                          backgroundColor: AppTheme.buttonColor1,
                           foregroundColor: Colors.black
                       ),
                       child: Text(

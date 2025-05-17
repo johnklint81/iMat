@@ -8,7 +8,6 @@ import '../model/imat_data_handler.dart';
 import '../widgets/account_button.dart';
 import '../widgets/categories.dart';
 import 'package:provider/provider.dart';
-
 import '../widgets/custom_app_bar.dart';
 
 class MainView extends StatefulWidget {

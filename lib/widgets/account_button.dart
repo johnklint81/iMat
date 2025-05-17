@@ -37,11 +37,11 @@ class AccountButton extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: const [
-                Icon(Icons.person, size: 28),
+                Icon(Icons.person, size: 32),
                 SizedBox(width: 6),
                 Text(
                   "Konto",
-                  style: AppTheme.mediumHeading,
+                  style: AppTheme.accountButtonStyle,
                 ),
               ],
             ),

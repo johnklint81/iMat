@@ -96,7 +96,7 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
                     ElevatedButton(
                       onPressed: widget.onNext,
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: AppTheme.buttonColor2,
+                          backgroundColor: AppTheme.buttonColor1,
                           foregroundColor: Colors.black
                       ),
                       child: Text(
