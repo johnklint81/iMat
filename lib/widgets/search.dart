@@ -7,9 +7,12 @@ class Search extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
+    final iMat = context.watch<ImatDataHandler>();
     return SizedBox(
       height: 36,
       child: TextField(
+        onSubmitted: (value) => iMat.selectSelection(iMat.findProducts(value)),
         style: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.bold,
