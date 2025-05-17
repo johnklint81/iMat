@@ -41,6 +41,10 @@ class AppTheme {
     fontSize: 20,
     fontWeight: FontWeight.w700,
   );
+  static const TextStyle mediumLargeHeading = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w700,
+  );
   static const TextStyle mediumText = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w500,

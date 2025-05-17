@@ -17,23 +17,30 @@ class MainProductArea extends StatelessWidget {
         const cardWidth = 200.0;
         final crossAxisCount = (constraints.maxWidth / cardWidth).floor().clamp(1, 4);
 
-        return SizedBox( // <-- constrain GridView to available width
+        return SizedBox(
           width: constraints.maxWidth,
-          child: GridView.builder(
-            scrollDirection: Axis.vertical,
-            itemCount: products.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: crossAxisCount,
-              crossAxisSpacing: AppTheme.paddingSmall,
-              mainAxisSpacing: AppTheme.paddingSmall,
-              childAspectRatio: 3 / 4,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: AppTheme.paddingLarge,
+                vertical: AppTheme.paddingLarge
             ),
-            itemBuilder: (context, index) {
-              final product = products[index];
-              return ProductCard(product, iMat);
-            },
+            child: GridView.builder(
+              scrollDirection: Axis.vertical,
+              itemCount: products.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: crossAxisCount,
+                crossAxisSpacing: AppTheme.paddingLarge,
+                mainAxisSpacing: AppTheme.paddingLarge,
+                childAspectRatio: 3 / 4,
+              ),
+              itemBuilder: (context, index) {
+                final product = products[index];
+                return ProductCard(product, iMat);
+              },
+            ),
           ),
         );
+
       },
     );
   }

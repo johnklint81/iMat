@@ -20,7 +20,7 @@ class ProductCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         side: const BorderSide(
           color: Colors.white,
-          width: AppTheme.paddingMediumSmall,
+          width: AppTheme.paddingMedium,
         ),
       ),
       child: Padding(
@@ -43,17 +43,17 @@ class ProductCard extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    top: 6,
+                    bottom: 6,
                     left: 6,
                     child: GestureDetector(
                       onTap: () => iMat.toggleFavorite(product),
                       child: Stack(
                         alignment: Alignment.center,
                         children: [
-                          Icon(Icons.star_border, size: 40, color: Colors.black), // outline
+                          Icon(Icons.star_border, size: 52, color: Colors.black), // outline
                           Icon(
                             Icons.star,
-                            size: 24,
+                            size: 32,
                             color: iMat.isFavorite(product) ? Colors.amber : Colors.transparent,
                           ),
                         ],
@@ -75,13 +75,13 @@ class ProductCard extends StatelessWidget {
                 children: [
                   Text(
                     product.name,
-                    style: AppTheme.smallHeading,
+                    style: AppTheme.mediumHeading,
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),
                   Text(
                     '${product.price.toStringAsFixed(2)} ${product.unit}',
-                    style: AppTheme.mediumHeading,
+                    style: AppTheme.mediumLargeHeading,
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 12),
