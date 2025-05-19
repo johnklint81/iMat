@@ -40,11 +40,11 @@ class ShoppingCartWidget extends StatelessWidget {
                 ? Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.shopping_basket, size: 48, color: Colors.grey),
+                Icon(Icons.shopping_basket, size: 64, color: Colors.grey),
                 const SizedBox(height: 8),
-                Text("Din kundvagn är tom.", style: AppTheme.mediumText),
+                Text("Din kundvagn är tom.", style: AppTheme.mediumText.copyWith(color: Colors.black)),
                 Text("Lägg till varor genom att klicka på 'Välj'.",
-                    style: AppTheme.smallText.copyWith(color: Colors.grey)),
+                    style: AppTheme.mediumText.copyWith(color: Colors.grey)),
               ],
             )
                 : ListView.builder(
