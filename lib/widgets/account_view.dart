@@ -55,7 +55,7 @@ class _AccountViewState extends State<AccountView> {
               // Top greeting
               Text(
                 "Hi $name",
-                style: AppTheme.largeHeading,
+                style: AppTheme.VLARGEHeading,
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: AppTheme.paddingMedium),
@@ -73,13 +73,13 @@ class _AccountViewState extends State<AccountView> {
                           .white,
                       foregroundColor: selected ? Colors.white : Colors.black,
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 8),
+                          horizontal: 16, vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                         side: const BorderSide(color: AppTheme.borderColor),
                       ),
                     ),
-                    child: Text(tabs[index], style: AppTheme.smallText),
+                    child: Text(tabs[index], style: AppTheme.largeHeading),
                   );
                 }),
               ),
@@ -88,7 +88,7 @@ class _AccountViewState extends State<AccountView> {
 
               // Frame with tab content
               Container(
-                width: 600,
+                width: AppTheme.accountViewSize,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Colors.white,

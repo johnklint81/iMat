@@ -24,10 +24,8 @@ class _MainViewState extends State<MainView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        centerWidget: const SizedBox(
-          width: 600,
-          child: Search(),
-        ),
+        centerWidget: const Search(),
+
         rightWidget: AccountButton(
           isActive: showAccount,
           onPressed: () {

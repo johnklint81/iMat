@@ -50,11 +50,14 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        centerWidget: Text(
-          _getStepTitle(),
-          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        rightWidget: AccountButton(
+          centerWidget: Center(
+            child: Text(
+              _getStepTitle(),
+              style: AppTheme.LARGEHeading,
+            ),
+          ),
+
+          rightWidget: AccountButton(
           isActive: showAccount,
           onPressed: () {
             setState(() {

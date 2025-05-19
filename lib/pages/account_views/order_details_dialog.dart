@@ -18,7 +18,7 @@ class OrderDetailsDialog extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 500),
+          constraints: const BoxConstraints(maxWidth: 800),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

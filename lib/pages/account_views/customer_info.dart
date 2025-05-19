@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:imat_app/model/imat_data_handler.dart';
 
+import '../../app_theme.dart';
+
 class CustomerInfo extends StatefulWidget {
   const CustomerInfo({super.key});
 
@@ -119,19 +121,22 @@ class _CustomerInfoState extends State<CustomerInfo> {
   }
   Widget _buildField(String label, TextEditingController controller, {List<TextInputFormatter>? inputFormatters}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
+      padding: const EdgeInsets.symmetric(vertical: 10),
       child: TextField(
         controller: controller,
         enabled: _editing,
         inputFormatters: inputFormatters,
+        style: AppTheme.largeHeading,
         decoration: InputDecoration(
           labelText: label,
+          labelStyle: AppTheme.mediumLargeHeading,
           border: const OutlineInputBorder(),
-          isDense: true,
+          contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
         ),
         textInputAction: TextInputAction.next,
       ),
     );
   }
+
 
 }

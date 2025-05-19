@@ -21,7 +21,7 @@ class ProductDetailDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       backgroundColor: AppTheme.backgroundColor,
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 500), // Adjust as needed
+        constraints: const BoxConstraints(maxWidth: AppTheme.detailCardSize), // Adjust as needed
         child: Padding(
           padding: const EdgeInsets.all(24),
           child: Column(
@@ -37,27 +37,71 @@ class ProductDetailDialog extends StatelessWidget {
                 ),
               ),
               Center(
-                child: SizedBox(height: 200, child: iMat.getImage(product)),
+                child: AspectRatio(
+                  aspectRatio: 4 / 3,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: FittedBox(
+                      fit: BoxFit.contain,
+                      child: iMat.getImage(product),
+                    ),
+                  ),
+                ),
               ),
+
               const SizedBox(height: 16),
-              Text(product.name, style: AppTheme.mediumLargeHeading),
+              Text(product.name, style: AppTheme.largeHeading),
               const SizedBox(height: 8),
               Text(
                 "${product.price.toStringAsFixed(2)} ${product.unit}",
-                style: AppTheme.mediumLargeHeading,
+                style: AppTheme.largeHeading,
               ),
               if (detail != null) ...[
                 const SizedBox(height: 12),
+                const Divider(
+                  color: Colors.black,
+                  thickness: 1,
+                  height: 24, // space above and below
+                ),
 
-                Text(
-                  "Innehåll: ${detail!.contents}",
-                  style: AppTheme.mediumText,
+                RichText(
+                  text: TextSpan(
+                    style: AppTheme.largeText,
+                    children: [
+                      const TextSpan(
+                        text: "Innehåll:",
+                        style: TextStyle(decoration: TextDecoration.underline),
+                      ),
+                      TextSpan(text: " ${detail!.contents}"),
+                    ],
+                  ),
                 ),
-                Text("Ursprung: ${detail!.origin}", style: AppTheme.mediumText),
-                Text(
-                  "Beskrivning: ${detail!.description}",
-                  style: AppTheme.mediumText,
+
+                RichText(
+                  text: TextSpan(
+                    style: AppTheme.largeText,
+                    children: [
+                      const TextSpan(
+                        text: "Ursprung:",
+                        style: TextStyle(decoration: TextDecoration.underline),
+                      ),
+                      TextSpan(text: " ${detail!.origin}"),
+                    ],
+                  ),
                 ),
+                RichText(
+                  text: TextSpan(
+                    style: AppTheme.largeText,
+                    children: [
+                      const TextSpan(
+                        text: "Beskrivning:",
+                        style: TextStyle(decoration: TextDecoration.underline),
+                      ),
+                      TextSpan(text: " ${detail!.description}"),
+                    ],
+                  ),
+                ),
+
               ],
               const SizedBox(height: AppTheme.paddingMedium),
               Center(

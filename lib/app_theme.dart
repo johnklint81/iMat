@@ -19,6 +19,9 @@ class AppTheme {
   static const double searchbarHeight = 50.0;
   static const double searchbarFontSize = 24.0;
   static const double shoppingCartButtonFontSize = 24.0;
+  static const double frameWidth = 600.0;
+  static const double detailCardSize = 600.0;
+  static const double accountViewSize = 739.0;
 
   static ColorScheme colorScheme = ColorScheme.fromSeed(seedColor: Color(0xFFFFEECE));
   static const TextStyle accountButtonStyle = TextStyle(
@@ -47,18 +50,31 @@ class AppTheme {
     fontSize: 24,
     fontWeight: FontWeight.w700,
   );
+  static const TextStyle mediumLargeText= TextStyle(
+    fontSize: 28,
+    fontWeight: FontWeight.w500,
+  );
   static const TextStyle mediumText = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w500,
     letterSpacing: 0.15,
   );
+  static const TextStyle largeText = TextStyle(
+    fontSize: 28,
+    fontWeight: FontWeight.w500,
+    letterSpacing: 0.15,
+  );
   static const TextStyle largeHeading = TextStyle(
     fontSize: 32,
-    fontWeight: FontWeight.w400,
+    fontWeight: FontWeight.w700,
   );
   static const TextStyle LARGEHeading = TextStyle(
     fontSize: 40,
     fontWeight: FontWeight.w400,
+  );
+  static const TextStyle VLARGEHeading = TextStyle(
+    fontSize: 54,
+    fontWeight: FontWeight.w600,
   );
   static const Widget starStyle = Icon(
     Icons.star_border,

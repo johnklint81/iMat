@@ -24,7 +24,7 @@ class Orders extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Dina ordrar", style: AppTheme.mediumHeading),
+        Text("Dina ordrar:", style: AppTheme.LARGEHeading),
         const SizedBox(height: 8),
         const Divider(color: Colors.black),
         const SizedBox(height: 12),

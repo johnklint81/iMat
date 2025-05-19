@@ -29,54 +29,61 @@ class ProductCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // Image + Star
+            // TOP: Image + Star → takes 2/3 of the available height
             Expanded(
-              child: Stack(
+              flex: 2,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  ClipRRect(
-                    borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-                    child: AspectRatio(
-                      aspectRatio: 4 / 3,
-                      child: FittedBox(
-                        fit: BoxFit.contain,
-                        child: GestureDetector(
-                          onTap: () {
-                            final detail = iMat.getDetailWithId(product.productId);
-                            showDialog(
-                              context: context,
-                              barrierDismissible: true,
-                              builder: (_) => ProductDetailDialog(product: product, detail: detail),
-                            );
-                          },
-
-
+                  // 1) Image fills the available space except room for the star
+                  Expanded(
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                      child: GestureDetector(
+                        onTap: () {
+                          final detail = iMat.getDetailWithId(product.productId);
+                          showDialog(
+                            context: context,
+                            barrierDismissible: true,
+                            builder: (_) => ProductDetailDialog(
+                              product: product,
+                              detail: detail,
+                            ),
+                          );
+                        },
+                        child: FittedBox(
+                          fit: BoxFit.contain,
                           child: iMat.getImage(product),
                         ),
                       ),
                     ),
                   ),
-                  Positioned(
-                    bottom: 2,
-                    left: 6,
-                    child: GestureDetector(
-                      onTap: () => iMat.toggleFavorite(product),
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Icon(Icons.star_border, size: 52, color: Colors.black), // outline
-                          Icon(
-                            Icons.star,
-                            size: 32,
-                            color: iMat.isFavorite(product) ? Colors.amber : Colors.transparent,
-                          ),
-                        ],
+
+                  // 2) Star sits *inside* this flex, at its bottom
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Align(
+                      alignment: Alignment.bottomLeft,
+                      child: GestureDetector(
+                        onTap: () => iMat.toggleFavorite(product),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            const Icon(Icons.star_border, size: 48, color: Colors.black),
+                            Icon(
+                              Icons.star,
+                              size: 32,
+                              color: iMat.isFavorite(product) ? Colors.amber : Colors.transparent,
+                            ),
+                          ],
+                        ),
                       ),
-
-
                     ),
                   ),
                 ],
               ),
             ),
+
 
 
             // Text and Button
