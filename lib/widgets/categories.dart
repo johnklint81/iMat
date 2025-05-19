@@ -142,7 +142,7 @@ class _CategoryListItemState extends State<CategoryListItem> {
 
 
           );
-        }).toList(),
+        }),
       ],
     );
   }

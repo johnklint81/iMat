@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:imat_app/app_theme.dart';
-import 'package:imat_app/widgets/account_button.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? centerWidget;

@@ -33,7 +33,7 @@ class Search extends StatelessWidget {
           ),
           suffixIcon: Row(
             mainAxisSize: MainAxisSize.min,
-            children: const [
+            children: [
               Icon(Icons.search, size: 36, color: Colors.black),
               SizedBox(width: AppTheme.paddingTiny),
             ],

@@ -21,7 +21,7 @@ class _AccountButtonState extends State<AccountButton> {
 
   @override
   Widget build(BuildContext context) {
-    const borderRadius = BorderRadius.all(Radius.circular(24));
+    const borderRadius = BorderRadius.all(Radius.circular(64));
     final backgroundColor = widget.isActive
         ? const Color(0x1AFFC266)
         : _isHovered

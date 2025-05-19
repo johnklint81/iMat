@@ -15,7 +15,7 @@ class AppTheme {
   static const double paddingLARGE = 28.0;
   static const double paddingHuge = 32.0;
   static const double appbarHeight = 90.0;
-  static const double productCardButtonWidth = 175;
+  static const double productCardButtonWidth = 150.0;
   static const double searchbarHeight = 50.0;
   static const double searchbarFontSize = 24.0;
   static const double shoppingCartButtonFontSize = 24.0;

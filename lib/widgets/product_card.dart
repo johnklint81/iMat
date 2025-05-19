@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:imat_app/app_theme.dart';
 import 'package:imat_app/model/imat/product.dart';
 import 'package:imat_app/model/imat_data_handler.dart';
-
+import 'package:imat_app/widgets/product_detail_dialog.dart';
 import '../model/imat/shopping_item.dart';
 
 class ProductCard extends StatelessWidget {
@@ -38,12 +38,24 @@ class ProductCard extends StatelessWidget {
                       aspectRatio: 4 / 3,
                       child: FittedBox(
                         fit: BoxFit.contain,
-                        child: iMat.getImage(product),
+                        child: GestureDetector(
+                          onTap: () {
+                            final detail = iMat.getDetailWithId(product.productId);
+                            showDialog(
+                              context: context,
+                              barrierDismissible: true,
+                              builder: (_) => ProductDetailDialog(product: product, detail: detail),
+                            );
+                          },
+
+
+                          child: iMat.getImage(product),
+                        ),
                       ),
                     ),
                   ),
                   Positioned(
-                    bottom: 6,
+                    bottom: 2,
                     left: 6,
                     child: GestureDetector(
                       onTap: () => iMat.toggleFavorite(product),
