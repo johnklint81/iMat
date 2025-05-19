@@ -27,14 +27,19 @@ class WizardCartItemCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Thumbnail
-          SizedBox(
-            width: 48,
-            height: 48,
+          Container(
+            width: 64,
+            height: 64,
+            alignment: Alignment.center,
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(4),
-              child: iMat.getImage(product),
+              borderRadius: BorderRadius.circular(6),
+              child: FittedBox(
+                fit: BoxFit.cover,
+                child: iMat.getImage(product),
+              ),
             ),
           ),
+
           const SizedBox(width: 12),
 
           // Right side: product info
@@ -48,13 +53,13 @@ class WizardCartItemCard extends StatelessWidget {
                     Expanded(
                       child: Text(
                         product.name,
-                        style: AppTheme.smallText.copyWith(fontWeight: FontWeight.bold),
+                        style: AppTheme.mediumText.copyWith(fontWeight: FontWeight.bold),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     Text(
                       "${subtotal.toStringAsFixed(2)} kr",
-                      style: AppTheme.smallText.copyWith(fontWeight: FontWeight.bold),
+                      style: AppTheme.mediumText.copyWith(fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -66,7 +71,7 @@ class WizardCartItemCard extends StatelessWidget {
                     Expanded(
                       child: Text(
                         "${product.price.toStringAsFixed(2)} kr/st",
-                        style: AppTheme.smallText,
+                        style: AppTheme.mediumText,
                       ),
                     ),
                     _squareButton(
@@ -77,7 +82,7 @@ class WizardCartItemCard extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: Text(
                         '${item.amount.toInt()}',
-                        style: AppTheme.smallText,
+                        style: AppTheme.mediumHeading,
                       ),
                     ),
                     _squareButton(
@@ -98,13 +103,15 @@ class WizardCartItemCard extends StatelessWidget {
   Widget _squareButton({
     required IconData icon,
     required VoidCallback onPressed,
+    Color backgroundColor = AppTheme.buttonColor2,
+    Color iconColor = Colors.black,
   }) {
     return SizedBox(
       width: 28,
       height: 28,
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
-          backgroundColor: AppTheme.buttonColor2,
+          backgroundColor: backgroundColor,
           padding: EdgeInsets.zero,
           minimumSize: Size.zero,
           shape: RoundedRectangleBorder(
@@ -113,8 +120,9 @@ class WizardCartItemCard extends StatelessWidget {
           side: const BorderSide(color: Colors.black12),
         ),
         onPressed: onPressed,
-        child: Icon(icon, size: 16, color: Colors.black),
+        child: Icon(icon, size: AppTheme.shoppingCartButtonFontSize, color: iconColor),
       ),
     );
   }
+
 }

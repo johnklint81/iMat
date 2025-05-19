@@ -43,7 +43,7 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                width: 600,
+                width: AppTheme.wizardCardSize,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -63,7 +63,7 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
                     return RadioListTile<String>(
                       value: entry.key,
                       groupValue: _selectedMethod,
-                      title: Text(entry.value, style: AppTheme.mediumText),
+                      title: Text(entry.value, style: AppTheme.mediumLargeText),
                       onChanged: (value) {
                         if (value != null) {
                           setState(() {
@@ -78,7 +78,7 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
               ),
               const SizedBox(height: AppTheme.paddingMediumSmall),
               SizedBox(
-                width: 600,
+                width: AppTheme.wizardCardSize,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

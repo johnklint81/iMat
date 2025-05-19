@@ -39,7 +39,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
             return Stack(
               children: [
-                // iMat logo
+              // iMat logo
                 Positioned(
                   left: iMatWidth / 2 - 50,
                   top: 0,

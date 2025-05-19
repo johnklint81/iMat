@@ -22,6 +22,7 @@ class AppTheme {
   static const double frameWidth = 600.0;
   static const double detailCardSize = 600.0;
   static const double accountViewSize = 739.0;
+  static const double wizardCardSize = 739.0;
 
   static ColorScheme colorScheme = ColorScheme.fromSeed(seedColor: Color(0xFFFFEECE));
   static const TextStyle accountButtonStyle = TextStyle(

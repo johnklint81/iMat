@@ -79,23 +79,25 @@ class _CheckoutStepAddressState extends State<CheckoutStepAddress> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: AppTheme.mediumText),
+          Text(label, style: AppTheme.mediumLargeHeading),
           const SizedBox(height: 4),
           TextFormField(
             controller: controller,
             validator: (value) => value == null || value.isEmpty ? 'Fältet krävs' : null,
             inputFormatters: inputFormatters,
             textInputAction: TextInputAction.next,
+            style: AppTheme.mediumLargeText,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               isDense: true,
-              contentPadding: EdgeInsets.all(12),
+              contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
             ),
           ),
         ],
       ),
     );
   }
+
 
 
   @override
@@ -112,7 +114,7 @@ class _CheckoutStepAddressState extends State<CheckoutStepAddress> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                width: 600,
+                width: AppTheme.wizardCardSize,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -176,7 +178,7 @@ class _CheckoutStepAddressState extends State<CheckoutStepAddress> {
               ),
               const SizedBox(height: AppTheme.paddingMediumSmall),
               SizedBox(
-                width: 600,
+                width: AppTheme.wizardCardSize,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

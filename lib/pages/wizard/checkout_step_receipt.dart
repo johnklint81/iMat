@@ -34,7 +34,7 @@ class CheckoutStepReceipt extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                width: 600,
+                width: AppTheme.wizardCardSize,
                 padding: const EdgeInsets.all(AppTheme.paddingMedium),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -55,7 +55,7 @@ class CheckoutStepReceipt extends StatelessWidget {
                     Center(
                       child: Text(
                         "Tack för din beställning!",
-                        style: AppTheme.largeHeading,
+                        style: AppTheme.LARGEHeading,
                       ),
                     ),
                     const SizedBox(height: AppTheme.paddingMediumSmall),
@@ -69,26 +69,26 @@ class CheckoutStepReceipt extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Text("Betalningsmetod:", style: AppTheme.mediumText),
-                              Text(paymentMethod, style: AppTheme.mediumText),
+                              const Text("Betalningsmetod:", style: AppTheme.mediumLargeText),
+                              Text(paymentMethod, style: AppTheme.mediumLargeText),
                             ],
                           ),
                           const SizedBox(height: AppTheme.paddingTiny),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Text("Leveranssätt:", style: AppTheme.mediumText),
-                              Text(deliveryMethod, style: AppTheme.mediumText),
+                              const Text("Leveranssätt:", style: AppTheme.mediumLargeText),
+                              Text(deliveryMethod, style: AppTheme.mediumLargeText),
                             ],
                           ),
                           const SizedBox(height: AppTheme.paddingTiny),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Text("Beräknad leveranstid:", style: AppTheme.mediumText),
+                              const Text("Beräknad leveranstid:", style: AppTheme.mediumLargeText),
                               Text(
                                 "${deliveryTime.hour}:${deliveryTime.minute.toString().padLeft(2, '0')}",
-                                style: AppTheme.mediumText,
+                                style: AppTheme.mediumLargeText,
                               ),
                             ],
                           ),
@@ -99,14 +99,14 @@ class CheckoutStepReceipt extends StatelessWidget {
                     const SizedBox(height: AppTheme.paddingSmall),
                     Align(
                       alignment: Alignment.centerRight,
-                      child: Text("Totalt: ${total.toStringAsFixed(2)} kr", style: AppTheme.mediumHeading),
+                      child: Text("Totalt: ${total.toStringAsFixed(2)} kr", style: AppTheme.largeHeading),
                     ),
                   ],
                 ),
               ),
               const SizedBox(height: AppTheme.paddingMediumSmall),
               SizedBox(
-                width: 600,
+                width: AppTheme.wizardCardSize,
                 child: Align(
                   alignment: Alignment.topCenter,
                   child: ElevatedButton(

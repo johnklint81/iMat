@@ -34,7 +34,7 @@ class CheckoutStepCart extends StatelessWidget {
             children: [
               // Cart Frame
               Container(
-                width: 600,
+                width: AppTheme.wizardCardSize,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -68,7 +68,7 @@ class CheckoutStepCart extends StatelessWidget {
 
               // Button Row
               SizedBox(
-                width: 600,
+                width: AppTheme.wizardCardSize,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
