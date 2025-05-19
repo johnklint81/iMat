@@ -112,7 +112,7 @@ class _MainViewState extends State<MainView> {
           Expanded(
             child: Column(
               children: [
-                if (selectedCategory != null)
+                if (!showAccount && selectedCategory != null)
                   SubcategoryBar(
                     subcategories: currentSubcategories,
                     selectedSubcategory: selectedSubcategory,
