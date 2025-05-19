@@ -6,12 +6,16 @@ class CheckoutStepPayment extends StatefulWidget {
   final VoidCallback onBack;
   final ValueChanged<String> onSelectedMethod;
 
+  final double totalAmount;
+
   const CheckoutStepPayment({
     required this.onNext,
     required this.onBack,
     required this.onSelectedMethod,
+    required this.totalAmount,
     super.key,
   });
+
 
 
   @override
@@ -85,28 +89,79 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
                     ElevatedButton(
                       onPressed: widget.onBack,
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: AppTheme.buttonColor2,
-                          foregroundColor: Colors.black
+                        backgroundColor: AppTheme.buttonColor2,
                       ),
                       child: Text(
-                          'Tillbaka',
+                        'Tillbaka',
                         style: AppTheme.mediumHeading.copyWith(color: Colors.white),
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: widget.onNext,
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                              title: const Text('Bekräfta ditt köp', style: AppTheme.largeHeading),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Vill du genomföra köpet?', style: AppTheme.mediumLargeText),
+                                  const SizedBox(height: 12),
+                                  Text(
+                                    'Totalsumma: ${widget.totalAmount.toStringAsFixed(2)} kr',
+                                    style: AppTheme.mediumLargeHeading,
+                                  ),
+                                ],
+                              ),
+                              actionsAlignment: MainAxisAlignment.spaceBetween,
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.of(context).pop(),
+                                  style: TextButton.styleFrom(
+                                    backgroundColor: AppTheme.buttonColor2,
+                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                                  ),
+                                  child: Text(
+                                    'Avbryt',
+                                    style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                                  ),
+                                ),
+
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    widget.onNext();
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppTheme.buttonColor1,
+                                  ),
+                                  child: Text(
+                                    'Köp',
+                                    style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: AppTheme.buttonColor1,
-                          foregroundColor: Colors.black
+                        backgroundColor: AppTheme.buttonColor1,
                       ),
                       child: Text(
-                          'Betala',
-                          style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                        'Betala',
+                        style: AppTheme.mediumHeading.copyWith(color: Colors.white),
                       ),
                     ),
                   ],
                 ),
               ),
+
             ],
           ),
         ),

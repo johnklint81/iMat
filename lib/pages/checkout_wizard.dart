@@ -29,6 +29,13 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
       if (_step < 4) _step++;
     });
   }
+  double getTotalAmount() {
+    final cart = context.read<ImatDataHandler>().getShoppingCart();
+    return cart.items.fold<double>(
+      0.0,
+          (sum, item) => sum + item.total,
+    );
+  }
 
   void _previousStep() {
     setState(() {
@@ -125,6 +132,7 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
                         }[methodKey]!;
                       });
                     },
+                    totalAmount: getTotalAmount(),
                   ),
                   CheckoutStepReceipt(
                     onDone: () => Navigator.of(context).popUntil((route) => route.isFirst),
