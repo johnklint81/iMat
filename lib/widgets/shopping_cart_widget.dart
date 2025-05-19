@@ -54,6 +54,32 @@ class ShoppingCartWidget extends StatelessWidget {
               },
             ),
           ),
+          if (items.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(bottom: AppTheme.paddingMedium),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    iMat.shoppingCartClear();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red.shade400,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      side: const BorderSide(color: AppTheme.borderColor, width: 2),
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                  ),
+                  icon: const Icon(Icons.delete),
+                  label: const Text(
+                    "Töm varukorgen",
+                    style: AppTheme.mediumHeading,
+                  ),
+                ),
+              ),
+            ),
 
           Container(
             width: double.infinity,
@@ -96,8 +122,9 @@ class ShoppingCartWidget extends StatelessWidget {
                 ),
                 padding: const EdgeInsets.symmetric(vertical: 12),
               ),
+
               child: const Text(
-                  "Gå till kassan",
+                  "\$   Gå till kassan",
                   style: AppTheme.mediumHeading),
             ),
           ),
