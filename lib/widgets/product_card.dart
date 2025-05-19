@@ -39,23 +39,32 @@ class ProductCard extends StatelessWidget {
                   Expanded(
                     child: ClipRRect(
                       borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-                      child: GestureDetector(
-                        onTap: () {
-                          final detail = iMat.getDetailWithId(product.productId);
-                          showDialog(
-                            context: context,
-                            barrierDismissible: true,
-                            builder: (_) => ProductDetailDialog(
-                              product: product,
-                              detail: detail,
+                      child: Expanded(
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                          child: MouseRegion(
+                            cursor: SystemMouseCursors.click,
+                            child: GestureDetector(
+                              onTap: () {
+                                final detail = iMat.getDetailWithId(product.productId);
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: true,
+                                  builder: (_) => ProductDetailDialog(
+                                    product: product,
+                                    detail: detail,
+                                  ),
+                                );
+                              },
+                              child: FittedBox(
+                                fit: BoxFit.contain,
+                                child: iMat.getImage(product),
+                              ),
                             ),
-                          );
-                        },
-                        child: FittedBox(
-                          fit: BoxFit.contain,
-                          child: iMat.getImage(product),
+                          ),
                         ),
                       ),
+
                     ),
                   ),
 
@@ -64,27 +73,30 @@ class ProductCard extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 8),
                     child: Align(
                       alignment: Alignment.bottomLeft,
-                      child: GestureDetector(
-                        onTap: () => iMat.toggleFavorite(product),
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            const Icon(Icons.star_border, size: 48, color: Colors.black),
-                            Icon(
-                              Icons.star,
-                              size: 32,
-                              color: iMat.isFavorite(product) ? Colors.amber : Colors.transparent,
-                            ),
-                          ],
+                      child: MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: GestureDetector(
+                          onTap: () => iMat.toggleFavorite(product),
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Icon(
+                                Icons.star,
+                                size: 38,
+                                color: iMat.isFavorite(product) ? Colors.amber : Colors.transparent,
+                              ),
+                              const Icon(Icons.star_border, size: 48, color: Colors.black),
+
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
+
                 ],
               ),
             ),
-
-
 
             // Text and Button
             Padding(
