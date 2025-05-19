@@ -29,46 +29,39 @@ class ProductCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // Image + Star
-            // TOP: Image + Star → takes 2/3 of the available height
             Expanded(
               flex: 2,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // 1) Image fills the available space except room for the star
+                  // Product image with hover + click
                   Expanded(
                     child: ClipRRect(
                       borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-                      child: Expanded(
-                        child: ClipRRect(
-                          borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-                          child: MouseRegion(
-                            cursor: SystemMouseCursors.click,
-                            child: GestureDetector(
-                              onTap: () {
-                                final detail = iMat.getDetailWithId(product.productId);
-                                showDialog(
-                                  context: context,
-                                  barrierDismissible: true,
-                                  builder: (_) => ProductDetailDialog(
-                                    product: product,
-                                    detail: detail,
-                                  ),
-                                );
-                              },
-                              child: FittedBox(
-                                fit: BoxFit.contain,
-                                child: iMat.getImage(product),
+                      child: MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: GestureDetector(
+                          onTap: () {
+                            final detail = iMat.getDetailWithId(product.productId);
+                            showDialog(
+                              context: context,
+                              barrierDismissible: true,
+                              builder: (_) => ProductDetailDialog(
+                                product: product,
+                                detail: detail,
                               ),
-                            ),
+                            );
+                          },
+                          child: FittedBox(
+                            fit: BoxFit.contain,
+                            child: iMat.getImage(product),
                           ),
                         ),
                       ),
-
                     ),
                   ),
 
-                  // 2) Star sits *inside* this flex, at its bottom
+                  // Favorite star
                   Padding(
                     padding: const EdgeInsets.only(top: 8),
                     child: Align(
@@ -86,14 +79,12 @@ class ProductCard extends StatelessWidget {
                                 color: iMat.isFavorite(product) ? Colors.amber : Colors.transparent,
                               ),
                               const Icon(Icons.star_border, size: 48, color: Colors.black),
-
                             ],
                           ),
                         ),
                       ),
                     ),
                   ),
-
                 ],
               ),
             ),
@@ -121,8 +112,8 @@ class ProductCard extends StatelessWidget {
                       width: AppTheme.productCardButtonWidth,
                       child: ElevatedButton(
                         onPressed: () {
-                          final item = ShoppingItem(product); // 1.0 items by default
-                          iMat.shoppingCartAdd(item);         // add to cart via backend
+                          final item = ShoppingItem(product);
+                          iMat.shoppingCartAdd(item);
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppTheme.buttonColor2,
@@ -131,14 +122,12 @@ class ProductCard extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20),
                           ),
                           side: const BorderSide(color: AppTheme.borderColor, width: 2),
-                          padding:
-                          const EdgeInsets.symmetric(vertical: 8),
+                          padding: const EdgeInsets.symmetric(vertical: 8),
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
                         child: Text(
                           "Välj",
-                          style: AppTheme.mediumHeading
-                              .copyWith(color: Colors.white),
+                          style: AppTheme.mediumHeading.copyWith(color: Colors.white),
                         ),
                       ),
                     ),

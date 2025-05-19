@@ -1,36 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:imat_app/model/imat/product.dart'; // Product class
+import 'package:imat_app/app_theme.dart';
+import 'package:imat_app/model/imat/product.dart';
 import 'package:imat_app/model/imat_data_handler.dart';
-
-import '../app_theme.dart';
 
 class CategoryListItem extends StatefulWidget {
   final String label;
   final VoidCallback onTap;
   final IconData? icon;
-
   const CategoryListItem({
     super.key,
     required this.label,
     required this.onTap,
     this.icon,
   });
-
   @override
   State<CategoryListItem> createState() => _CategoryListItemState();
 }
 
-
-
 class _CategoryListItemState extends State<CategoryListItem> {
   bool _hovering = false;
-
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
       onEnter: (_) => setState(() => _hovering = true),
-      onExit: (_) => setState(() => _hovering = false),
+      onExit:  (_) => setState(() => _hovering = false),
       child: Material(
         color: _hovering ? AppTheme.buttonColor2 : Colors.transparent,
         borderRadius: BorderRadius.circular(6),
@@ -45,10 +39,7 @@ class _CategoryListItemState extends State<CategoryListItem> {
                   Icon(widget.icon, size: 32),
                   const SizedBox(width: 8),
                 ],
-                Text(
-                  widget.label,
-                  style: AppTheme.mediumHeading,
-                ),
+                Text(widget.label, style: AppTheme.mediumHeading),
               ],
             ),
           ),
@@ -58,33 +49,22 @@ class _CategoryListItemState extends State<CategoryListItem> {
   }
 }
 
-
-  class CategorySelector extends StatelessWidget {
-  final VoidCallback? onCategorySelected;
-
+class CategorySelector extends StatelessWidget {
+  final void Function(String? category)? onCategorySelected;
   const CategorySelector({super.key, this.onCategorySelected});
-  static const Map<ProductCategory, String> categoryLabels = {
-    ProductCategory.MELONS: "Meloner",
-    ProductCategory.FLOUR_SUGAR_SALT: "Mjöl, Socker & Salt",
-    ProductCategory.MEAT: "Kött",
-    ProductCategory.DAIRIES: "Mejeriprodukter",
-    ProductCategory.VEGETABLE_FRUIT: "Grönsaker & Frukt",
-    ProductCategory.CABBAGE: "Kål",
-    ProductCategory.NUTS_AND_SEEDS: "Nötter & Frön",
-    ProductCategory.PASTA: "Pasta",
-    ProductCategory.POTATO_RICE: "Potatis & Ris",
-    ProductCategory.ROOT_VEGETABLE: "Rotfrukter",
-    ProductCategory.FRUIT: "Frukt",
-    ProductCategory.SWEET: "Sötsaker",
-    ProductCategory.HERB: "Örter",
-    ProductCategory.POD: "Baljväxter",
-    ProductCategory.BREAD: "Bröd",
-    ProductCategory.BERRY: "Bär",
-    ProductCategory.CITRUS_FRUIT: "Citrusfrukter",
-    ProductCategory.HOT_DRINKS: "Varma drycker",
-    ProductCategory.COLD_DRINKS: "Kalla drycker",
-    ProductCategory.EXOTIC_FRUIT: "Exotisk frukt",
-    ProductCategory.FISH: "Fisk",
+
+  static const Map<String, List<ProductCategory>> groupedCategories = {
+    'Grönt':           [ ProductCategory.VEGETABLE_FRUIT, ProductCategory.ROOT_VEGETABLE,
+      ProductCategory.CABBAGE, ProductCategory.HERB, ProductCategory.POD ],
+    'Frukt':           [ ProductCategory.FRUIT, ProductCategory.BERRY, ProductCategory.CITRUS_FRUIT,
+      ProductCategory.EXOTIC_FRUIT, ProductCategory.MELONS ],
+    'Mejeriprodukter': [ ProductCategory.DAIRIES ],
+    'Fisk':            [ ProductCategory.FISH ],
+    'Bröd & Pasta':    [ ProductCategory.BREAD, ProductCategory.PASTA ],
+    'Potatis & Ris':   [ ProductCategory.POTATO_RICE ],
+    'Nötter & Sötsaker':[ ProductCategory.NUTS_AND_SEEDS, ProductCategory.SWEET ],
+    'Drycker':         [ ProductCategory.HOT_DRINKS, ProductCategory.COLD_DRINKS ],
+    'Mjöl, socker & salt':     [ ProductCategory.FLOUR_SUGAR_SALT ],
   };
 
   @override
@@ -92,32 +72,25 @@ class _CategoryListItemState extends State<CategoryListItem> {
     final handler = context.read<ImatDataHandler>();
     final products = handler.products;
 
-    final categories = (products.isEmpty
-        ? CategorySelector.categoryLabels.keys
-        : products.map((p) => p.category)).toSet().toList()
-      ..sort((a, b) => a.toString().compareTo(b.toString()));
-
     return ListView(
       children: [
-        // const Divider(color: Colors.black),
         const SizedBox(height: AppTheme.paddingTiny),
         CategoryListItem(
           label: "Hem",
+          icon: Icons.home,
           onTap: () {
             handler.selectAllProducts();
-            onCategorySelected?.call(); // hide account view
+            onCategorySelected?.call(null);
           },
-          icon: Icons.home,
         ),
-
         const SizedBox(height: AppTheme.paddingTiny),
         CategoryListItem(
           label: "Favoriter",
+          icon: Icons.star,
           onTap: () {
             handler.selectFavorites();
-            onCategorySelected?.call();
+            onCategorySelected?.call(null);
           },
-          icon: Icons.star,
         ),
         const Divider(color: Colors.black),
         const SizedBox(height: AppTheme.paddingTiny),
@@ -125,30 +98,23 @@ class _CategoryListItemState extends State<CategoryListItem> {
           label: "Alla Produkter",
           onTap: () {
             handler.selectAllProducts();
-            onCategorySelected?.call();
+            onCategorySelected?.call(null);
           },
         ),
-
         const SizedBox(height: AppTheme.paddingTiny),
-        ...categories.map((category) {
-          final label = categoryLabels[category] ?? category.toString();
-          return CategoryListItem(
-            label: label,
+        // Now your grouped sidebar buttons:
+        for (final entry in groupedCategories.entries)
+          CategoryListItem(
+            label: entry.key,
             onTap: () {
-              final filtered = products.where((p) => p.category == category).toList();
+              final filtered = products
+                  .where((p) => entry.value.contains(p.category))
+                  .toList();
               handler.selectSelection(filtered);
-              onCategorySelected?.call(); // 👈 hide account view
+              onCategorySelected?.call(entry.key);
             },
-
-
-          );
-        }),
+          ),
       ],
     );
   }
-
-
-
-
-
 }

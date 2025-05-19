@@ -15,14 +15,19 @@ class MainProductArea extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         const cardWidth = 200.0;
-        final crossAxisCount = (constraints.maxWidth / cardWidth).floor().clamp(1, 4);
+        final crossAxisCount = (constraints.maxWidth / cardWidth).floor().clamp(
+          1,
+          4,
+        );
 
         return SizedBox(
           width: constraints.maxWidth,
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: AppTheme.paddingLARGE,
-                vertical: AppTheme.paddingLARGE
+            padding: const EdgeInsets.fromLTRB(
+              AppTheme.paddingLARGE, // left
+              AppTheme.paddingTiny, // top
+              AppTheme.paddingLARGE, // right
+              AppTheme.paddingLARGE, // bottom
             ),
             child: GridView.builder(
               scrollDirection: Axis.vertical,
@@ -40,7 +45,6 @@ class MainProductArea extends StatelessWidget {
             ),
           ),
         );
-
       },
     );
   }
