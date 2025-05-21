@@ -72,7 +72,7 @@ class ShoppingCartWidget extends StatelessWidget {
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 12),
                   ),
-                  icon: const Icon(Icons.delete),
+                  icon: const Icon(Icons.delete, size: AppTheme.cartButtonSize, color: Colors.white),
                   label: const Text(
                     "Töm varukorgen",
                     style: AppTheme.mediumHeading,

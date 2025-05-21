@@ -24,6 +24,7 @@ class AppTheme {
   static const double detailCardSize = 600.0;
   static const double accountViewSize = 739.0;
   static const double wizardCardSize = 739.0;
+  static const double cartButtonSize = 24.0;
 
   static ColorScheme colorScheme = ColorScheme.fromSeed(seedColor: Color(0xFFFFEECE));
   static const TextStyle accountButtonStyle = TextStyle(
