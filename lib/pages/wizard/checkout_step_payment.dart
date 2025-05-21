@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:imat_app/app_theme.dart';
+import 'package:provider/provider.dart';
+import 'package:imat_app/model/imat_data_handler.dart';
 
 class CheckoutStepPayment extends StatefulWidget {
   final VoidCallback onNext;
@@ -73,7 +75,7 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
                           setState(() {
                             _selectedMethod = value;
                           });
-                          widget.onSelectedMethod(value); // ⬅️ Notify parent
+                          widget.onSelectedMethod(value);
                         }
                       },
                     );
@@ -98,6 +100,45 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
                     ),
                     ElevatedButton(
                       onPressed: () {
+                        final cart = context.read<ImatDataHandler>().getShoppingCart().items;
+                        if (cart.isEmpty) {
+                          showDialog(
+                            context: context,
+                            builder: (_) => AlertDialog(
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                              title: Center(
+                                child: Text(
+                                  "Varukorgen är tom",
+                                  style: AppTheme.largeHeading.copyWith(fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              content: Text(
+                                "Du måste ha minst en vara i varukorgen för att slutföra köpet.",
+                                style: AppTheme.mediumLargeText,
+                                textAlign: TextAlign.center,
+                              ),
+                              actionsAlignment: MainAxisAlignment.center,
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.of(context).pop(),
+                                  style: TextButton.styleFrom(
+                                    backgroundColor: AppTheme.buttonColor2,
+                                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                                  ),
+                                  child: Text(
+                                    "OK",
+                                    style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+
+                          return;
+                        }
+
                         showDialog(
                           context: context,
                           barrierDismissible: false,
@@ -131,7 +172,6 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
                                     style: AppTheme.mediumHeading.copyWith(color: Colors.white),
                                   ),
                                 ),
-
                                 ElevatedButton(
                                   onPressed: () {
                                     Navigator.of(context).pop();

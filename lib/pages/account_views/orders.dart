@@ -9,9 +9,7 @@ class Orders extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final orders = context
-        .watch<ImatDataHandler>()
-        .orders;
+    final orders = context.watch<ImatDataHandler>().orders.reversed.toList();
 
     // Debug print
     for (final order in orders) {

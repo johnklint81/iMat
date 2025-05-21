@@ -106,13 +106,44 @@ class ShoppingCartWidget extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                if (cart.items.isNotEmpty){
-                  //Går bara till kassan om man har något i varukorgen
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const CheckoutWizard()),
-                );}
+                if (cart.items.isNotEmpty) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const CheckoutWizard()),
+                  );
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (_) => AlertDialog(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      title: const Text(
+                        "Varukorgen är tom",
+                        style: AppTheme.largeHeading,
+                      ),
+                      content: const Text(
+                        "Du måste ha minst en vara i varukorgen för att gå till kassan.",
+                        style: AppTheme.mediumLargeText,
+                      ),
+                      actionsAlignment: MainAxisAlignment.center,
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          style: TextButton.styleFrom(
+                            backgroundColor: AppTheme.buttonColor2,
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                          ),
+                          child: Text(
+                            "OK",
+                            style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }
               },
+
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.buttonColor1,
                 foregroundColor: Colors.white,

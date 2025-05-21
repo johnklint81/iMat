@@ -24,7 +24,7 @@ class _AccountViewState extends State<AccountView> {
   @override
   Widget build(BuildContext context) {
     final name = context
-        .read<ImatDataHandler>()
+        .watch<ImatDataHandler>()
         .getCustomer()
         .firstName;
 
