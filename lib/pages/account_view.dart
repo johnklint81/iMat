@@ -69,7 +69,7 @@ class _AccountViewState extends State<AccountView> {
                   return ElevatedButton(
                     onPressed: () => setState(() => selectedIndex = index),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: selected ? AppTheme.buttonColor1 : Colors
+                      backgroundColor: selected ? AppTheme.buttonColor2 : Colors
                           .white,
                       foregroundColor: selected ? Colors.white : Colors.black,
                       padding: const EdgeInsets.symmetric(
