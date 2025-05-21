@@ -111,6 +111,7 @@ class _MainViewState extends State<MainView> {
 
             ),
           ),
+          Container(width: AppTheme.paddingLarge, color: Colors.white),
           Expanded(
             child: Column(
               children: [
@@ -135,6 +136,7 @@ class _MainViewState extends State<MainView> {
               ],
             ),
           ),
+          Container(width: AppTheme.paddingLarge, color: Colors.white),
           const ShoppingCartWidget(),
         ],
       ),

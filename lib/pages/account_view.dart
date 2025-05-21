@@ -73,7 +73,7 @@ class _AccountViewState extends State<AccountView> {
                           .white,
                       foregroundColor: selected ? Colors.white : Colors.black,
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 16),
+                          horizontal: 16, vertical: 8),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                         side: const BorderSide(color: AppTheme.borderColor),
