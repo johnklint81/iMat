@@ -23,7 +23,7 @@ class _AccountButtonState extends State<AccountButton> {
   Widget build(BuildContext context) {
     const borderRadius = BorderRadius.all(Radius.circular(64));
     final backgroundColor = widget.isActive
-        ? const Color(0xFFF57C00)
+        ? AppTheme.buttonColor1
         : _isHovered
         ? const Color(0x0D000000) // light translucent black on hover
         : Colors.white;

@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../app_theme.dart';
 import '../model/imat_data_handler.dart';
-import '../pages/checkout_wizard.dart';
+import '../pages/checkout_wizard_view.dart';
 
 class ShoppingCartWidget extends StatelessWidget {
   const ShoppingCartWidget({super.key});

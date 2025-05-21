@@ -5,7 +5,7 @@ import 'package:imat_app/app_theme.dart';
 import 'package:imat_app/widgets/main_product_area.dart';
 import 'package:imat_app/widgets/search.dart';
 import 'package:imat_app/widgets/shopping_cart_widget.dart';
-import 'package:imat_app/widgets/account_view.dart';
+import 'package:imat_app/pages/account_view.dart';
 import 'package:imat_app/widgets/account_button.dart';
 import 'package:imat_app/widgets/custom_app_bar.dart';
 import 'package:imat_app/widgets/sub_category_bar.dart';
@@ -97,6 +97,7 @@ class _MainViewState extends State<MainView> {
             child: CategorySelector(
               onCategorySelected: (String? cat) {
                 setState(() {
+                  showAccount = false; // ✅ Hide the account view
                   selectedCategory = cat;
                   selectedSubcategory = null;
                   if (cat != null) {
@@ -107,6 +108,7 @@ class _MainViewState extends State<MainView> {
                   }
                 });
               },
+
             ),
           ),
           Expanded(

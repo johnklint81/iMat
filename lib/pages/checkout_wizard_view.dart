@@ -8,7 +8,7 @@ import 'package:imat_app/pages/wizard/checkout_step_receipt.dart';
 import 'package:provider/provider.dart';
 import '../app_theme.dart';
 import '../model/imat_data_handler.dart';
-import '../widgets/account_view.dart';
+import 'account_view.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/account_button.dart';
 
