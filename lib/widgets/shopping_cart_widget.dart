@@ -100,7 +100,7 @@ class ShoppingCartWidget extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: AppTheme.paddingLarge),
+          const SizedBox(height: AppTheme.paddingMedium),
 
           SizedBox(
             width: double.infinity,
