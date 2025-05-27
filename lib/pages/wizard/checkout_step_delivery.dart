@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:imat_app/app_theme.dart';
+import 'package:provider/provider.dart';
+import 'package:imat_app/model/imat_data_handler.dart';
 
 class CheckoutStepDelivery extends StatefulWidget {
   final VoidCallback onNext;
@@ -160,7 +162,12 @@ class _CheckoutStepDeliveryState extends State<CheckoutStepDelivery> {
                       child: Text('Tillbaka', style: AppTheme.mediumHeading.copyWith(color: Colors.white)),
                     ),
                     ElevatedButton(
-                      onPressed: widget.onNext,
+                      onPressed: () {
+                        final handler = Provider.of<ImatDataHandler>(context, listen: false);
+                        handler.deliveryOption = _selectedOption;
+                        handler.deliveryDate = _selectedDate;
+                        widget.onNext();
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppTheme.buttonColor1,
                         foregroundColor: Colors.white,

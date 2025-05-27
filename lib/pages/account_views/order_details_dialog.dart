@@ -11,7 +11,7 @@ class OrderDetailsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dateFormatted = DateFormat('yyyy-MM-dd').format(order.date);
+    final orderDateFormatted = DateFormat('yyyy-MM-dd').format(order.date);
 
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -28,8 +28,11 @@ class OrderDetailsDialog extends StatelessWidget {
                 const Divider(),
                 const SizedBox(height: 12),
                 _buildDetailRow("Ordernummer:", order.orderNumber.toString()),
-                _buildDetailRow("Datum:", dateFormatted),
-                _buildDetailRow("Status:", "På väg"),
+                _buildDetailRow("Datum:", orderDateFormatted),
+                _buildDetailRow("Leveranssätt:", _formatDeliveryOption(order)),
+                if (order.deliveryOption == 'date' && order.deliveryDate != null)
+                  _buildDetailRow("Leveransdatum:", DateFormat('yyyy-MM-dd').format(order.deliveryDate!)),
+
                 const SizedBox(height: 24),
                 ReceiptItemList(order: order),
                 const SizedBox(height: 24),
@@ -69,5 +72,20 @@ class OrderDetailsDialog extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _formatDeliveryOption(Order order) {
+    switch (order.deliveryOption) {
+      case 'asap':
+        return 'Så fort som möjligt';
+      case 'pickup':
+        return 'Hämta vid utlämning';
+      case 'date':
+        return order.deliveryDate != null
+            ? 'På specifikt datum'
+            : 'Datum ej angivet';
+      default:
+        return 'Okänt';
+    }
   }
 }
