@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:imat_app/model/imat/order.dart';
 import 'package:imat_app/app_theme.dart';
 import 'package:imat_app/widgets/receipt_item_list.dart';
+import 'package:imat_app/model/imat_data_handler.dart';
+import 'package:imat_app/model/imat/shopping_item.dart';
 
 class OrderDetailsDialog extends StatelessWidget {
   final Order order;
@@ -32,27 +35,52 @@ class OrderDetailsDialog extends StatelessWidget {
                 _buildDetailRow("Leveranssätt:", _formatDeliveryOption(order)),
                 if (order.deliveryOption == 'date' && order.deliveryDate != null)
                   _buildDetailRow("Leveransdatum:", DateFormat('yyyy-MM-dd').format(order.deliveryDate!)),
-
                 const SizedBox(height: 24),
                 ReceiptItemList(order: order),
                 const SizedBox(height: 24),
-                Center(
-                  child: TextButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    style: TextButton.styleFrom(
-                      backgroundColor: AppTheme.buttonColor2,
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-                    ),
-                    child: Text(
-                      "Stäng",
-                      style: AppTheme.mediumHeading.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        color: Colors.white,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        final handler = context.read<ImatDataHandler>();
+                        for (final item in order.items) {
+                          handler.shoppingCartAdd(
+                            ShoppingItem(item.product, amount: item.amount),
+                          );
+                        }
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Alla varor har lagts till i kundvagnen')),
+                        );
+                        Navigator.of(context).pop();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppTheme.buttonColor1,
+                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                      ),
+                      child: Text(
+                        "Lägg till i kundvagn",
+                        style: AppTheme.mediumHeading.copyWith(color: Colors.white),
                       ),
                     ),
-                  ),
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      style: TextButton.styleFrom(
+                        backgroundColor: AppTheme.buttonColor2,
+                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                      ),
+                      child: Text(
+                        "Stäng",
+                        style: AppTheme.mediumHeading.copyWith(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

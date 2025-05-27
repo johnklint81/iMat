@@ -9,14 +9,23 @@ class ShoppingItem {
   double get total => product.price * amount;
 
   ShoppingItem.fromJson(Map<String, dynamic> json)
-    : product = Product.fromJson(json[_product]),
-      amount = json[_amount];
+      : product = Product.fromJson(json[_product]),
+        amount = json[_amount];
 
   Map<String, dynamic> toJson() => {
     _product: product.toJson(),
     _amount: amount,
   };
 
+  // ✅ Lägg till denna metod:
+  ShoppingItem copyWith({Product? product, double? amount}) {
+    return ShoppingItem(
+      product ?? this.product,
+      amount: amount ?? this.amount,
+    );
+  }
+
   static const _product = 'product';
   static const _amount = 'amount';
 }
+
