@@ -67,15 +67,18 @@ class CheckoutStepReceipt extends StatelessWidget {
                         style: AppTheme.LARGEHeading,
                       ),
                     ),
-                    const SizedBox(height: AppTheme.paddingMediumSmall),
-                    SizedBox(
-                      height: 500, // Adjust height as needed or use a responsive value
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(
+                        maxHeight: 300, // Justera efter design
+                      ),
                       child: SingleChildScrollView(
                         child: Column(
                           children: items.map((item) => WizardReceiptItemCard(item)).toList(),
                         ),
                       ),
                     ),
+
+
 
                     const SizedBox(height: AppTheme.paddingMediumSmall),
                     Align(
