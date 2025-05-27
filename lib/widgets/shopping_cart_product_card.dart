@@ -42,19 +42,17 @@ class ShoppingCartProductCard extends StatelessWidget {
               SizedBox(
                 width: 28,
                 height: 28,
-                child: OutlinedButton(
+                child: RawMaterialButton(
                   onPressed: () => iMat.shoppingCartRemove(item),
-                  style: OutlinedButton.styleFrom(
-                    padding: EdgeInsets.zero,
-                    backgroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    side: const BorderSide(color: Colors.black12),
-                  ),
-                  child: const Icon(Icons.delete, size: AppTheme.cartButtonSize, color: Colors.red),
+                  shape: const CircleBorder(),
+                  fillColor: Colors.white,
+                  elevation: 0,
+                  constraints: const BoxConstraints.tightFor(width: 28, height: 28),
+                  padding: EdgeInsets.zero,
+                  child: const Icon(Icons.close, size: AppTheme.cartButtonSize, color: Colors.black),
                 ),
               ),
+
             ],
           ),
 
@@ -123,7 +121,7 @@ class ShoppingCartProductCard extends StatelessWidget {
   Widget _squareButton({
     required IconData icon,
     required VoidCallback onPressed,
-    Color backgroundColor = AppTheme.buttonColor2,
+    Color backgroundColor = AppTheme.backgroundColor,
     Color iconColor = Colors.black,
   }) {
     return SizedBox(
