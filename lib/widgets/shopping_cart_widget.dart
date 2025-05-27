@@ -25,13 +25,29 @@ class ShoppingCartWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Align(
-            alignment: Alignment.topCenter,
-            child: Text(
-              'Varukorg',
-              style: AppTheme.LARGEHeading,
-            ),
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              const Center(
+                child: Text(
+                  'Varukorg',
+                  style: AppTheme.LARGEHeading,
+                ),
+              ),
+              Positioned(
+                right: 0,
+                child: IconButton(
+                  onPressed: () => iMat.shoppingCartClear(),
+                  tooltip: 'Töm varukorgen',
+                  icon: const Icon(Icons.delete, size: 36),
+                  color: Colors.red.shade400,
+                ),
+              ),
+            ],
           ),
+
+
+
 
           const SizedBox(height: 12),
 
@@ -54,32 +70,6 @@ class ShoppingCartWidget extends StatelessWidget {
               },
             ),
           ),
-          if (items.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.only(bottom: AppTheme.paddingMedium),
-              child: SizedBox(
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    iMat.shoppingCartClear();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red.shade400,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6),
-                      side: const BorderSide(color: AppTheme.borderColor, width: 2),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                  ),
-                  icon: const Icon(Icons.delete, size: AppTheme.cartButtonSize, color: Colors.white),
-                  label: const Text(
-                    "Töm varukorgen",
-                    style: AppTheme.mediumHeading,
-                  ),
-                ),
-              ),
-            ),
 
           Container(
             width: double.infinity,

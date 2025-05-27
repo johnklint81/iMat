@@ -30,102 +30,91 @@ class CheckoutStepCart extends StatelessWidget {
             final fullH = constraints.maxHeight;
             const buttonH = 48.0;
             const buttonSpacing = AppTheme.paddingMediumSmall;
-            const totalRowH = 32.0; // adjust if your total‐text row is taller
-            const extraPadding = 16.0 * 2; // Container’s vertical padding
+            const totalRowH = 32.0;
+            const extraPadding = 16.0 * 2;
 
-            // Compute how tall our list can get at most, so we never exceed the screen minus everything else:
-            final maxListH = fullH
-                - buttonH
-                - buttonSpacing
-                - totalRowH
-                - extraPadding;
-
-            // Rough item height—tweak to match your card’s actual height
+            final maxListH = fullH - buttonH - buttonSpacing - totalRowH - extraPadding;
             const itemH = 72.0;
-            // Clamp
-            final listH = (items.length * itemH).clamp(0.0, maxListH);
 
             return SizedBox(
               width: AppTheme.wizardCardSize,
-              // Let the Column be only as tall as its content (list + total + buttons + spacings)
-              child: Column(mainAxisSize: MainAxisSize.min, children: [
-                // ── White frame with dynamic list + total ──
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppTheme.borderColor),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: AppTheme.borderColor,
-                        blurRadius: 6,
-                        offset: Offset(0, 2),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // ── White frame with scrollable product list ──
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: AppTheme.borderColor),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: AppTheme.borderColor,
+                          blurRadius: 6,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minHeight: itemH,
+                            maxHeight: maxListH,
+                          ),
+                          child: ListView.separated(
+                            shrinkWrap: true,
+                            itemCount: items.length,
+                            separatorBuilder: (_, __) => const SizedBox(height: AppTheme.paddingSmall),
+                            itemBuilder: (context, index) => WizardCartItemCard(items[index]),
+                          ),
+                        ),
+                        const SizedBox(height: AppTheme.paddingMediumSmall),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            "Totalt: ${total.toStringAsFixed(2)} kr",
+                            style: AppTheme.mediumHeading,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: buttonSpacing),
+
+                  // ── Button row ──
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ElevatedButton(
+                        onPressed: onCancel,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppTheme.buttonColor2,
+                          foregroundColor: Colors.black,
+                        ),
+                        child: Text(
+                          "Avbryt",
+                          style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: onNext,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppTheme.buttonColor1,
+                          foregroundColor: Colors.black,
+                        ),
+                        child: Text(
+                          "Nästa",
+                          style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                        ),
                       ),
                     ],
                   ),
-                  child: Column(mainAxisSize: MainAxisSize.min, children: [
-                    // The only scrollable bit
-                    SizedBox(
-                      height: listH,
-                      child: ListView.separated(
-                        itemCount: items.length,
-                        separatorBuilder: (_, __) =>
-                        const SizedBox(height: AppTheme.paddingSmall),
-                        itemBuilder: (c, i) =>
-                            WizardCartItemCard(items[i]),
-                      ),
-                    ),
-
-                    const SizedBox(height: AppTheme.paddingMediumSmall),
-
-                    // Total row stays inside the white frame
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        "Totalt: ${total.toStringAsFixed(2)} kr",
-                        style: AppTheme.mediumHeading,
-                      ),
-                    ),
-                  ]),
-                ),
-
-                // ── Spacing before buttons ──
-                const SizedBox(height: buttonSpacing),
-
-                // ── Button row, always visible below the frame ──
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ElevatedButton(
-                      onPressed: onCancel,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppTheme.buttonColor2,
-                        foregroundColor: Colors.black,
-                      ),
-                      child: Text(
-                        "Avbryt",
-                        style: AppTheme
-                            .mediumHeading
-                            .copyWith(color: Colors.white),
-                      ),
-                    ),
-                    ElevatedButton(
-                      onPressed: onNext,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppTheme.buttonColor1,
-                        foregroundColor: Colors.black,
-                      ),
-                      child: Text(
-                        "Nästa",
-                        style: AppTheme
-                            .mediumHeading
-                            .copyWith(color: Colors.white),
-                      ),
-                    ),
-                  ],
-                ),
-              ]),
+                ],
+              ),
             );
           }),
         ),
