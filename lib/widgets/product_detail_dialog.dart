@@ -10,11 +10,7 @@ class ProductDetailDialog extends StatefulWidget {
   final Product product;
   final ProductDetail? detail;
 
-  const ProductDetailDialog({
-    super.key,
-    required this.product,
-    this.detail,
-  });
+  const ProductDetailDialog({super.key, required this.product, this.detail});
 
   @override
   _ProductDetailDialogState createState() => _ProductDetailDialogState();
@@ -79,70 +75,113 @@ class _ProductDetailDialogState extends State<ProductDetailDialog> {
                           ),
                         ),
                         const SizedBox(height: 24),
-                        Text(widget.product.name,
-                            style: AppTheme.largeHeading.copyWith(
-                              color: Colors.black,
-                              height: 1.0,
-                            )),
-                        const SizedBox(height: 8),
-                        Text(
-                          "${widget.product.price.toStringAsFixed(2)} ${widget.product.unit}",
-                          style: AppTheme.largeHeading.copyWith(
-                            color: Colors.black,
-                            fontFamily: 'Georgia',
-                            height: 1.0,
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                          textHeightBehavior: const TextHeightBehavior(
-                            applyHeightToFirstAscent: false,
-                            applyHeightToLastDescent: false,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.product.name,
+                                style: AppTheme.largeHeading.copyWith(
+                                  color: Colors.black,
+                                  height: 1.0,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                "${widget.product.price.toStringAsFixed(2)} ${widget.product.unit}",
+                                style: AppTheme.largeHeading.copyWith(
+                                  color: Colors.black,
+                                  fontFamily: 'Georgia',
+                                  height: 1.0,
+                                ),
+                                textHeightBehavior: const TextHeightBehavior(
+                                  applyHeightToFirstAscent: false,
+                                  applyHeightToLastDescent: false,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
+
                         if (widget.detail != null) ...[
                           const SizedBox(height: 8),
-                          const Divider(color: Colors.black, thickness: 1, height: 32),
-                          RichText(
-                            text: TextSpan(
-                              style: AppTheme.largeText.copyWith(color: Colors.black),
+                          // const Divider(
+                          //   color: Colors.black,
+                          //   thickness: 1,
+                          //   height: 32,
+                          // ),
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const TextSpan(
-                                  text: "Innehåll: ",
-                                  style: TextStyle(decoration: TextDecoration.underline),
+                                RichText(
+                                  text: TextSpan(
+                                    style: AppTheme.largeText.copyWith(
+                                      color: Colors.black,
+                                    ),
+                                    children: [
+                                      const TextSpan(
+                                        text: "Innehåll: ",
+                                        style: TextStyle(
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                      ),
+                                      TextSpan(text: widget.detail!.contents),
+                                    ],
+                                  ),
                                 ),
-                                TextSpan(text: widget.detail!.contents),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          RichText(
-                            text: TextSpan(
-                              style: AppTheme.largeText.copyWith(color: Colors.black),
-                              children: [
-                                const TextSpan(
-                                  text: "Ursprung: ",
-                                  style: TextStyle(decoration: TextDecoration.underline),
+                                const SizedBox(height: 12),
+                                RichText(
+                                  text: TextSpan(
+                                    style: AppTheme.largeText.copyWith(
+                                      color: Colors.black,
+                                    ),
+                                    children: [
+                                      const TextSpan(
+                                        text: "Ursprung: ",
+                                        style: TextStyle(
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                      ),
+                                      TextSpan(text: widget.detail!.origin),
+                                    ],
+                                  ),
                                 ),
-                                TextSpan(text: widget.detail!.origin),
+                                const SizedBox(height: 12),
+                                Text(
+                                  "Beskrivning:",
+                                  style: AppTheme.largeText.copyWith(
+                                    color: Colors.black,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Scrollbar(
+                                  controller: _descController,
+                                  thumbVisibility: true,
+                                  child: SingleChildScrollView(
+                                    controller: _descController,
+                                    child: Text(
+                                      widget.detail!.description,
+                                      style: AppTheme.largeText.copyWith(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ],
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          Text(
-                            "Beskrivning:",
-                            style: AppTheme.largeText.copyWith(
-                              color: Colors.black,
-                              decoration: TextDecoration.underline,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Scrollbar(
-                            controller: _descController,
-                            thumbVisibility: true,
-                            child: SingleChildScrollView(
-                              controller: _descController,
-                              child: Text(
-                                widget.detail!.description,
-                                style: AppTheme.largeText.copyWith(color: Colors.black),
-                              ),
                             ),
                           ),
                         ],
@@ -177,7 +216,9 @@ class _ProductDetailDialogState extends State<ProductDetailDialog> {
                     ),
                     child: Text(
                       "Välj",
-                      style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                      style: AppTheme.mediumHeading.copyWith(
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
