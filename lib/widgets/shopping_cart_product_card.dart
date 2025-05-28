@@ -12,9 +12,7 @@ class ShoppingCartProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final iMat = Provider.of<ImatDataHandler>(context, listen: false);
-    String quantityStr = item.amount.toInt().toString();
-    double baseSize = AppTheme.mediumHeading.fontSize ?? 16;
-    double fontSize = quantityStr.length > 2 ? baseSize - 7 : baseSize;
+    final quantityStr = item.amount.toInt().toString();
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4),
@@ -27,48 +25,90 @@ class ShoppingCartProductCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Product name
-          Text(
-            item.product.name,
-            style: AppTheme.mediumLargeHeading,
-            overflow: TextOverflow.ellipsis,
+          // Top row with product name and trash button
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Product name
+              Expanded(
+                child: Text(
+                  item.product.name,
+                  style: AppTheme.mediumLargeHeading,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+
+              // Trash icon button
+              SizedBox(
+                width: 28,
+                height: 28,
+                child: RawMaterialButton(
+                  onPressed: () => iMat.shoppingCartRemove(item),
+                  shape: const CircleBorder(),
+                  fillColor: Colors.white,
+                  elevation: 0,
+                  constraints: const BoxConstraints.tightFor(width: 28, height: 28),
+                  padding: EdgeInsets.zero,
+                  child: const Icon(Icons.close, size: AppTheme.cartButtonSize, color: Colors.black),
+                ),
+              ),
+
+            ],
           ),
+
           const SizedBox(height: 4),
+
           // Price and quantity controls
           Row(
             children: [
-              // Left: price
+              // Price
               Text(
                 '${item.product.price.toStringAsFixed(2)} kr',
                 style: AppTheme.mediumText,
               ),
-
               const Spacer(),
 
-              // Right: quantity controls
               _squareButton(
                 icon: Icons.remove,
-                backgroundColor: AppTheme.buttonColor2,
                 onPressed: () => iMat.shoppingCartUpdate(item, delta: -1),
               ),
-
-              const SizedBox(width: 8),
+              const SizedBox(width: 6),
 
               SizedBox(
-                width: 24,
-                child: Text(
-                  quantityStr,
-                  style: AppTheme.mediumHeading.copyWith(fontSize: fontSize),
+                width: 42,
+                height: 28,
+                child: TextField(
+                  controller: TextEditingController(text: quantityStr),
                   textAlign: TextAlign.center,
+                  textAlignVertical: TextAlignVertical.center,
+                  style: AppTheme.mediumHeading.copyWith(fontSize: 16),
+                  keyboardType: TextInputType.number,
+                  onSubmitted: (value) {
+                    final parsed = int.tryParse(value);
+                    if (parsed != null && parsed > 0) {
+                      final delta = parsed - item.amount.toInt();
+                      if (delta != 0) {
+                        iMat.shoppingCartUpdate(item, delta: delta.toDouble());
+                      }
+                    }
+                  },
+                  decoration: InputDecoration(
+                    isDense: true,
+                    contentPadding: const EdgeInsets.symmetric(vertical: 6),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(4),
+                      borderSide: const BorderSide(color: Colors.black12),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(4),
+                      borderSide: const BorderSide(color: Colors.black12),
+                    ),
+                  ),
                 ),
               ),
-
-
-              const SizedBox(width: 8),
-
+              const SizedBox(width: 6),
               _squareButton(
                 icon: Icons.add,
-                backgroundColor: AppTheme.buttonColor2,
                 onPressed: () => iMat.shoppingCartUpdate(item, delta: 1),
               ),
             ],
@@ -81,7 +121,7 @@ class ShoppingCartProductCard extends StatelessWidget {
   Widget _squareButton({
     required IconData icon,
     required VoidCallback onPressed,
-    Color backgroundColor = AppTheme.buttonColor2,
+    Color backgroundColor = AppTheme.backgroundColor,
     Color iconColor = Colors.black,
   }) {
     return SizedBox(
@@ -102,5 +142,4 @@ class ShoppingCartProductCard extends StatelessWidget {
       ),
     );
   }
-
 }

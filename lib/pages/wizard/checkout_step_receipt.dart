@@ -19,8 +19,17 @@ class CheckoutStepReceipt extends StatelessWidget {
     final cart = context.watch<ImatDataHandler>().getShoppingCart();
     final items = cart.items;
     final total = items.fold<double>(0, (sum, item) => sum + item.total);
-    const deliveryMethod = "Så fort som möjligt";
-    final deliveryTime = DateTime.now().add(const Duration(hours: 2));
+    final handler = context.watch<ImatDataHandler>();
+    final deliveryMethod = handler.deliveryOption == 'date' && handler.deliveryDate != null
+        ? handler.deliveryDate!.toLocal().toString().split(' ')[0]
+        : handler.deliveryOption == 'pickup'
+        ? 'Hämtas vid utlämning'
+        : 'Så fort som möjligt';
+
+    final deliveryTime = handler.deliveryOption == 'date' && handler.deliveryDate != null
+        ? handler.deliveryDate!
+        : DateTime.now().add(const Duration(hours: 2));
+
 
     return Container(
       width: double.infinity,
@@ -58,8 +67,19 @@ class CheckoutStepReceipt extends StatelessWidget {
                         style: AppTheme.LARGEHeading,
                       ),
                     ),
-                    const SizedBox(height: AppTheme.paddingMediumSmall),
-                    ...items.map((item) => WizardReceiptItemCard(item)),
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(
+                        maxHeight: 300, // Justera efter design
+                      ),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: items.map((item) => WizardReceiptItemCard(item)).toList(),
+                        ),
+                      ),
+                    ),
+
+
+
                     const SizedBox(height: AppTheme.paddingMediumSmall),
                     Align(
                       alignment: Alignment.centerRight,

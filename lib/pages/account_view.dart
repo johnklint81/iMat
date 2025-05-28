@@ -24,7 +24,7 @@ class _AccountViewState extends State<AccountView> {
   @override
   Widget build(BuildContext context) {
     final name = context
-        .read<ImatDataHandler>()
+        .watch<ImatDataHandler>()
         .getCustomer()
         .firstName;
 
@@ -69,11 +69,11 @@ class _AccountViewState extends State<AccountView> {
                   return ElevatedButton(
                     onPressed: () => setState(() => selectedIndex = index),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: selected ? AppTheme.buttonColor1 : Colors
+                      backgroundColor: selected ? AppTheme.buttonColor2 : Colors
                           .white,
                       foregroundColor: selected ? Colors.white : Colors.black,
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 16),
+                          horizontal: 16, vertical: 8),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                         side: const BorderSide(color: AppTheme.borderColor),

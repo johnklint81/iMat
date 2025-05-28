@@ -14,95 +14,111 @@ class CheckoutStepCart extends StatelessWidget {
     super.key,
   });
 
-
   @override
   Widget build(BuildContext context) {
     final cart = context.watch<ImatDataHandler>().getShoppingCart();
     final items = cart.items;
-    final total = items.fold<double>(0, (sum, item) => sum + item.total);
+    final total = items.fold<double>(0, (sum, i) => sum + i.total);
 
-    return Container(
-      color: AppTheme.backgroundColor, // ← background behind the frame
-      width: double.infinity,
-      height: double.infinity,
-      child: Align(
-        alignment: Alignment.topCenter,
-        child: Padding(
-          padding: const EdgeInsets.only(top: AppTheme.paddingSmall),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Cart Frame
-              Container(
-                width: AppTheme.wizardCardSize,
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppTheme.borderColor),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: AppTheme.borderColor,
-                      blurRadius: 6,
-                      offset: Offset(0, 2),
+    return Scaffold(
+      backgroundColor: AppTheme.backgroundColor,
+      body: Padding(
+        padding: const EdgeInsets.only(top: AppTheme.paddingSmall),
+        child: Align(
+          alignment: Alignment.topCenter,
+          child: LayoutBuilder(builder: (context, constraints) {
+            final fullH = constraints.maxHeight;
+            const buttonH = 48.0;
+            const buttonSpacing = AppTheme.paddingMediumSmall;
+            const totalRowH = 32.0;
+            const extraPadding = 16.0 * 2;
+
+            final maxListH = fullH - buttonH - buttonSpacing - totalRowH - extraPadding;
+            const itemH = 72.0;
+
+            return SizedBox(
+              width: AppTheme.wizardCardSize,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // ── White frame with scrollable product list ──
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: AppTheme.borderColor),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: AppTheme.borderColor,
+                          blurRadius: 6,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    ...items.map((item) => WizardCartItemCard(item)),
-                    const SizedBox(height: AppTheme.paddingMediumSmall),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        "Totalt: ${total.toStringAsFixed(2)} kr",
-                        style: AppTheme.mediumHeading,
-                      ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minHeight: itemH,
+                            maxHeight: maxListH,
+                          ),
+                          child: ListView.separated(
+                            shrinkWrap: true,
+                            itemCount: items.length,
+                            separatorBuilder: (_, __) => const SizedBox(height: AppTheme.paddingSmall),
+                            itemBuilder: (context, index) => WizardCartItemCard(items[index]),
+                          ),
+                        ),
+                        const SizedBox(height: AppTheme.paddingMediumSmall),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            "Totalt: ${total.toStringAsFixed(2)} kr",
+                            style: AppTheme.mediumHeading,
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
+                  ),
 
-              const SizedBox(height: AppTheme.paddingMediumSmall),
+                  const SizedBox(height: buttonSpacing),
 
-              // Button Row
-              SizedBox(
-                width: AppTheme.wizardCardSize,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ElevatedButton(
-                      onPressed: onCancel,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppTheme.buttonColor2,
-                        foregroundColor: Colors.black
-                      ),
-                      child: Text(
+                  // ── Button row ──
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ElevatedButton(
+                        onPressed: onCancel,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppTheme.buttonColor2,
+                          foregroundColor: Colors.black,
+                        ),
+                        child: Text(
                           "Avbryt",
                           style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                        ),
                       ),
-                    ),
-
-                    ElevatedButton(
-                      onPressed: onNext,
-                      style: ElevatedButton.styleFrom(
+                      ElevatedButton(
+                        onPressed: onNext,
+                        style: ElevatedButton.styleFrom(
                           backgroundColor: AppTheme.buttonColor1,
-                          foregroundColor: Colors.black
-                      ),
-                      child: Text(
+                          foregroundColor: Colors.black,
+                        ),
+                        child: Text(
                           "Nästa",
                           style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
+                ],
               ),
-            ],
-          ),
+            );
+          }),
         ),
       ),
     );
-
   }
 }

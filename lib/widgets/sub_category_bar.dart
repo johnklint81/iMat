@@ -32,7 +32,7 @@ class SubcategoryBar extends StatelessWidget {
               foregroundColor: isSelected ? Colors.white : Colors.black,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               side: const BorderSide(color: AppTheme.borderColor),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
             ),
             child: Text(
               sub,

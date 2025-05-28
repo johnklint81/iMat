@@ -5,7 +5,8 @@ class AppTheme {
   static const Color backgroundSplashColor = Color(0x50FFC266);
   static const Color buttonColor1 = Color(0xFF4CAF50);  // Green
   static const Color buttonColor2 = Color(0xFFF57C00); // orange.shade700
-  static const Color buttonColor3 = Color(0xFFFFE3C2); // Hem/Favoriter-knappfärg
+  static const Color buttonColor3 = Color(0xFFFFB066); // Moderate choice
+  // static const Color buttonColor3 = Color(0xFFFFC68C); // Moderate choice
   static const Color borderColor = Colors.black12;
   static const double paddingSuperTiny = 2.0;
   static const double paddingTiny = 4.0;
@@ -24,6 +25,7 @@ class AppTheme {
   static const double detailCardSize = 600.0;
   static const double accountViewSize = 739.0;
   static const double wizardCardSize = 739.0;
+  static const double cartButtonSize = 24.0;
 
   static ColorScheme colorScheme = ColorScheme.fromSeed(seedColor: Color(0xFFFFEECE));
   static const TextStyle accountButtonStyle = TextStyle(

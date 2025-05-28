@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../app_theme.dart';
 import '../model/imat_data_handler.dart';
-import '../pages/checkout_wizard.dart';
+import '../pages/checkout_wizard_view.dart';
 
 class ShoppingCartWidget extends StatelessWidget {
   const ShoppingCartWidget({super.key});
@@ -25,13 +25,29 @@ class ShoppingCartWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Align(
-            alignment: Alignment.topCenter,
-            child: Text(
-              'Varukorg',
-              style: AppTheme.LARGEHeading,
-            ),
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              const Center(
+                child: Text(
+                  'Varukorg',
+                  style: AppTheme.LARGEHeading,
+                ),
+              ),
+              Positioned(
+                right: 0,
+                child: IconButton(
+                  onPressed: () => iMat.shoppingCartClear(),
+                  tooltip: 'Töm varukorgen',
+                  icon: const Icon(Icons.delete, size: 36),
+                  color: Colors.red.shade400,
+                ),
+              ),
+            ],
           ),
+
+
+
 
           const SizedBox(height: 12),
 
@@ -54,32 +70,6 @@ class ShoppingCartWidget extends StatelessWidget {
               },
             ),
           ),
-          if (items.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.only(bottom: AppTheme.paddingMedium),
-              child: SizedBox(
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    iMat.shoppingCartClear();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red.shade400,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6),
-                      side: const BorderSide(color: AppTheme.borderColor, width: 2),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                  ),
-                  icon: const Icon(Icons.delete),
-                  label: const Text(
-                    "Töm varukorgen",
-                    style: AppTheme.mediumHeading,
-                  ),
-                ),
-              ),
-            ),
 
           Container(
             width: double.infinity,
@@ -100,19 +90,50 @@ class ShoppingCartWidget extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: AppTheme.paddingLarge),
+          const SizedBox(height: AppTheme.paddingMedium),
 
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                if (cart.items.isNotEmpty){
-                  //Går bara till kassan om man har något i varukorgen
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const CheckoutWizard()),
-                );}
+                if (cart.items.isNotEmpty) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const CheckoutWizard()),
+                  );
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (_) => AlertDialog(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      title: const Text(
+                        "Varukorgen är tom",
+                        style: AppTheme.largeHeading,
+                      ),
+                      content: const Text(
+                        "Du måste ha minst en vara i varukorgen för att gå till kassan.",
+                        style: AppTheme.mediumLargeText,
+                      ),
+                      actionsAlignment: MainAxisAlignment.center,
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          style: TextButton.styleFrom(
+                            backgroundColor: AppTheme.buttonColor2,
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                          ),
+                          child: Text(
+                            "OK",
+                            style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }
               },
+
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.buttonColor1,
                 foregroundColor: Colors.white,

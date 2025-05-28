@@ -60,31 +60,6 @@ class ProductCard extends StatelessWidget {
                       ),
                     ),
                   ),
-
-                  // Favorite star
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8),
-                    child: Align(
-                      alignment: Alignment.bottomLeft,
-                      child: MouseRegion(
-                        cursor: SystemMouseCursors.click,
-                        child: GestureDetector(
-                          onTap: () => iMat.toggleFavorite(product),
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Icon(
-                                Icons.star,
-                                size: 38,
-                                color: iMat.isFavorite(product) ? Colors.amber : Colors.transparent,
-                              ),
-                              const Icon(Icons.star_border, size: 48, color: Colors.black),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -95,16 +70,46 @@ class ProductCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    product.name,
-                    style: AppTheme.mediumHeading,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    '${product.price.toStringAsFixed(2)} ${product.unit}',
-                    style: AppTheme.mediumLargeHeading,
-                    overflow: TextOverflow.ellipsis,
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              product.name,
+                              style: AppTheme.mediumHeading,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              '${product.price.toStringAsFixed(2)} ${product.unit}',
+                              style: AppTheme.mediumLargeHeading,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: GestureDetector(
+                          onTap: () => iMat.toggleFavorite(product),
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Icon(
+                                Icons.star,
+                                size: 42,
+                                color: iMat.isFavorite(product) ? Colors.amber : Colors.transparent,
+                              ),
+                              const Icon(Icons.star_border, size: 52, color: Colors.black),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 12),
                   Center(
@@ -135,6 +140,7 @@ class ProductCard extends StatelessWidget {
                 ],
               ),
             ),
+
           ],
         ),
       ),
