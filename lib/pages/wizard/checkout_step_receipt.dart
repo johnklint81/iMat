@@ -84,16 +84,8 @@ class CheckoutStepReceipt extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          _buildInfoRow(
-                            "Betalningsmetod:",
-                            {
-                              'card': 'VISA/Mastercard',
-                              'swish': 'Swish',
-                              'invoice': 'Faktura',
-                              'klarna': 'Klarna',
-                              'qliro': 'Qliro',
-                            }[paymentMethod] ?? paymentMethod,
-                          ),
+                          _buildInfoRow("Betalningsmetod:", _formatPaymentLabel(paymentMethod)),
+
 
                           const SizedBox(height: AppTheme.paddingTiny),
                           _buildInfoRow("Leveranssätt:", deliveryMethod),
@@ -142,6 +134,15 @@ class CheckoutStepReceipt extends StatelessWidget {
         ),
       ),
     );
+  }
+  String _formatPaymentLabel(String key) {
+    return {
+      'card': 'VISA/Mastercard',
+      'swish': 'Swish',
+      'invoice': 'Faktura',
+      'klarna': 'Klarna',
+      'qliro': 'Qliro',
+    }[key] ?? 'Okänt';
   }
 
   Widget _buildInfoRow(String label, String value) {

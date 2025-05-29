@@ -23,7 +23,8 @@ class CheckoutWizard extends StatefulWidget {
 class _CheckoutWizardState extends State<CheckoutWizard> {
   bool showAccount = false;
   int _step = 0;
-  String _paymentMethod = 'VISA/Mastercard';
+  String _paymentMethod = 'card';
+
 
   List<ShoppingItem> _receiptItems = [];
   double _finalTotal = 0.0;
@@ -114,13 +115,8 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
                     onBack: _previousStep,
                     onSelectedMethod: (methodKey) {
                       setState(() {
-                        _paymentMethod = {
-                          'card': 'VISA/Mastercard',
-                          'swish': 'Swish',
-                          'invoice': 'Faktura',
-                          'klarna': 'Klarna',
-                          'qliro': 'Qliro',
-                        }[methodKey]!;
+                        _paymentMethod = methodKey;
+
                       });
                     },
                     onSetReceiptData: (items, total) {

@@ -50,7 +50,7 @@ class SubcategoryBar extends StatelessWidget {
               side: const BorderSide(color: AppTheme.borderColor),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
             ),
-            child: const Text("Alla Underkategorier", style: AppTheme.mediumLargeHeading),
+            child: const Text("Alla underkategorier", style: AppTheme.mediumLargeHeading),
           ),
         ],
       ),

@@ -208,6 +208,7 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
                                     final handler = context.read<ImatDataHandler>();
                                     final items = List<ShoppingItem>.from(handler.getShoppingCart().items);
                                     final total = _calculateTotal(items);
+                                    widget.onSelectedMethod(_selectedMethod);
 
                                     widget.onSetReceiptData(items, total); // Sätt före placeOrder
 
