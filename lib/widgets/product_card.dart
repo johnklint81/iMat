@@ -77,11 +77,28 @@ class ProductCard extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              product.name,
-                              style: AppTheme.largeHeading,
-                              overflow: TextOverflow.ellipsis,
+                            GestureDetector(
+                              onTap: () {
+                                final detail = iMat.getDetailWithId(product.productId);
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: true,
+                                  builder: (_) => ProductDetailDialog(
+                                    product: product,
+                                    detail: detail,
+                                  ),
+                                );
+                              },
+                              child: MouseRegion(
+                                cursor: SystemMouseCursors.click,
+                                child: Text(
+                                  product.name,
+                                  style: AppTheme.largeHeading,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
                             ),
+
                             const SizedBox(height: 4),
                             Text(
                               '${product.price.toStringAsFixed(2)} ${product.unit}',
@@ -135,7 +152,7 @@ class ProductCard extends StatelessWidget {
 
                         child: Text(
                           "Välj",
-                          style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                          style: AppTheme.mediumLargeHeading.copyWith(color: Colors.white),
                         ),
                       ),
                     ),
