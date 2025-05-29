@@ -27,6 +27,11 @@ class _CheckoutStepDeliveryState extends State<CheckoutStepDelivery> {
     'date': 'På ett specifikt datum',
     'pickup': 'Hämta vid utlämning',
   };
+  final Map<String, String> _optionImages = {
+    'asap': '../assets/images/asap.jpg',
+    'date': '../assets/images/date.jpg',
+    'pickup': '../assets/images/pickup.jpg',
+  };
 
   bool get _canProceed {
     if (_selectedOption == 'date') {
@@ -74,7 +79,19 @@ class _CheckoutStepDeliveryState extends State<CheckoutStepDelivery> {
                       return RadioListTile<String>(
                         value: entry.key,
                         groupValue: _selectedOption,
-                        title: Text(entry.value, style: AppTheme.mediumLargeText),
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(entry.value, style: AppTheme.mediumLargeText),
+                            Image.asset(
+                              _optionImages[entry.key] ?? 'assets/images/default.png',
+                              width: 72,
+                              height: 64,
+                              fit: BoxFit.contain,
+                            ),
+                          ],
+                        ),
+
                         contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                         onChanged: (value) {
                           if (value == null) return;

@@ -75,7 +75,7 @@ class _CheckoutStepAddressState extends State<CheckoutStepAddress> {
   Widget _buildField(String label, TextEditingController controller,
       {List<TextInputFormatter>? inputFormatters}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: 4),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

@@ -27,6 +27,14 @@ class CheckoutStepPayment extends StatefulWidget {
 class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
   String _selectedMethod = 'card';
 
+  final Map<String, String> _methodImages = {
+    'card': '../assets/images/visamc.jpg',
+    'swish': '../assets/images/swish.png',
+    'invoice': '../assets/images/invoice.webp',
+    'klarna': '../assets/images/klarna.png',
+    'qliro': '../assets/images/qliro.png',
+  };
+
   final Map<String, String> _methods = {
     'card': 'VISA/Mastercard',
     'swish': 'Swish',
@@ -73,18 +81,30 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
                     return RadioListTile<String>(
                       value: entry.key,
                       groupValue: _selectedMethod,
-                      title: Text(entry.value, style: AppTheme.mediumLargeText),
                       onChanged: (value) {
                         if (value != null) {
                           setState(() {
                             _selectedMethod = value;
                           });
                           context.read<ImatDataHandler>().setPaymentMethod(value);
-
                         }
                       },
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(entry.value, style: AppTheme.mediumLargeText),
+                          Image.asset(
+                            _methodImages[entry.key] ?? 'assets/images/default.png',
+                            width: 72,
+                            height: 64,
+                            fit: BoxFit.contain,
+                          ),
+                        ],
+                      ),
+
                     );
                   }).toList(),
+
                 ),
               ),
               const SizedBox(height: AppTheme.paddingMediumSmall),
