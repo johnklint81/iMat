@@ -2,6 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:imat_app/app_theme.dart';
 import 'package:imat_app/model/imat_data_handler.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
+class CustomSvLocalizations extends DefaultMaterialLocalizations {
+  @override
+  String get okButtonLabel => 'OK';
+
+  @override
+  String get cancelButtonLabel => 'Avbryt';
+}
 
 class CheckoutStepDelivery extends StatefulWidget {
   final VoidCallback onNext;
@@ -15,6 +25,20 @@ class CheckoutStepDelivery extends StatefulWidget {
 
   @override
   State<CheckoutStepDelivery> createState() => _CheckoutStepDeliveryState();
+}
+class _CustomLocalizationsDelegate extends LocalizationsDelegate<MaterialLocalizations> {
+  const _CustomLocalizationsDelegate();
+
+  @override
+  bool isSupported(Locale locale) => locale.languageCode == 'sv';
+
+  @override
+  Future<MaterialLocalizations> load(Locale locale) async {
+    return CustomSvLocalizations();
+  }
+
+  @override
+  bool shouldReload(_CustomLocalizationsDelegate old) => false;
 }
 
 class _CheckoutStepDeliveryState extends State<CheckoutStepDelivery> {
@@ -81,16 +105,24 @@ class _CheckoutStepDeliveryState extends State<CheckoutStepDelivery> {
                         groupValue: _selectedOption,
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(entry.value, style: AppTheme.mediumLargeText),
-                            Image.asset(
-                              _optionImages[entry.key] ?? 'assets/images/default.png',
-                              width: 72,
-                              height: 64,
-                              fit: BoxFit.contain,
+                            Center(
+                              child: Padding(
+                                padding: EdgeInsets.only(left: entry.key == 'asap' ? 12.0 : 0.0),
+                                child: Image.asset(
+                                  _optionImages[entry.key] ?? 'assets/images/default.png',
+                                  width: entry.key == 'date' ? 96 : 88,
+                                  height: entry.key == 'date' ? 92 : 88,
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+
                             ),
                           ],
                         ),
+
 
                         contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                         onChanged: (value) {
@@ -126,11 +158,21 @@ class _CheckoutStepDeliveryState extends State<CheckoutStepDelivery> {
                               final now = DateTime.now();
                               final pickedDate = await showDatePicker(
                                 context: context,
-                                initialDate: now,
-                                firstDate: now,
-                                lastDate: now.add(const Duration(days: 30)),
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime.now(),
+                                lastDate: DateTime.now().add(const Duration(days: 30)),
                                 locale: const Locale('sv'),
+                                builder: (context, child) {
+                                  return MediaQuery(
+                                    data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+                                    child: child!,
+                                  );
+                                },
                               );
+
+
+
+
                               if (pickedDate != null) {
                                 setState(() {
                                   _selectedDate = pickedDate;
@@ -142,7 +184,7 @@ class _CheckoutStepDeliveryState extends State<CheckoutStepDelivery> {
                               _selectedDate != null
                                   ? 'Valt datum: ${_selectedDate!.toLocal().toString().split(' ')[0]}'
                                   : 'Välj datum',
-                              style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                              style: AppTheme.largeHeading.copyWith(color: Colors.white),
                             ),
                           ),
                           OutlinedButton(
@@ -161,12 +203,13 @@ class _CheckoutStepDeliveryState extends State<CheckoutStepDelivery> {
                               final now = TimeOfDay.now();
                               final pickedTime = await showTimePicker(
                                 context: context,
-                                initialTime: now,
-                                builder: (context, child) => Localizations.override(
-                                  context: context,
-                                  locale: const Locale('sv'),
-                                  child: child!,
-                                ),
+                                initialTime: TimeOfDay.now(),
+                                builder: (context, child) {
+                                  return MediaQuery(
+                                    data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+                                    child: child!,
+                                  );
+                                },
                               );
 
                               if (pickedTime != null) {
@@ -179,12 +222,11 @@ class _CheckoutStepDeliveryState extends State<CheckoutStepDelivery> {
                               _selectedTime != null
                                   ? 'Vald tid: ${_selectedTime!.format(context)}'
                                   : 'Välj tid',
-                              style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                              style: AppTheme.largeHeading.copyWith(color: Colors.white),
                             ),
                           ),
                         ],
                       ),
-
                     ],
                   ],
                 ),
@@ -207,7 +249,7 @@ class _CheckoutStepDeliveryState extends State<CheckoutStepDelivery> {
                       ),
                       child: Text(
                         'Tillbaka',
-                        style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                        style: AppTheme.largeHeading.copyWith(color: Colors.white),
                       ),
                     ),
 
@@ -242,7 +284,7 @@ class _CheckoutStepDeliveryState extends State<CheckoutStepDelivery> {
                       ),
                       child: Text(
                         'Nästa',
-                        style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                        style: AppTheme.largeHeading.copyWith(color: Colors.white),
                       ),
                     ),
                   ],

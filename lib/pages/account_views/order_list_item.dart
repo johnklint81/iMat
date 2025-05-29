@@ -54,7 +54,7 @@ class OrderListItem extends StatelessWidget {
               ),
               child: Text(
                 "Visa order",
-                style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                style: AppTheme.largeHeading.copyWith(color: Colors.white),
               ),
             ),
           ],

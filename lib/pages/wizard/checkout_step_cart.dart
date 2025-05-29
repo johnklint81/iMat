@@ -89,7 +89,7 @@ class CheckoutStepCart extends StatelessWidget {
                       ),
                       child: Text(
                         "Avbryt",
-                        style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                        style: AppTheme.largeHeading.copyWith(color: Colors.white),
                       ),
                     ),
                     ElevatedButton(
@@ -100,7 +100,7 @@ class CheckoutStepCart extends StatelessWidget {
                       ),
                       child: Text(
                         "Nästa",
-                        style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                        style: AppTheme.largeHeading.copyWith(color: Colors.white),
                       ),
                     ),
                   ],

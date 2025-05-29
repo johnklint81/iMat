@@ -30,7 +30,6 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
   final Map<String, String> _methodImages = {
     'card': 'assets/images/visamc.jpg',
     'swish': 'assets/images/swish.png',
-    'invoice': 'assets/images/invoice.webp',
     'klarna': 'assets/images/klarna.png',
     'qliro': 'assets/images/qliro.png',
   };
@@ -38,7 +37,6 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
   final Map<String, String> _methods = {
     'card': 'VISA/Mastercard',
     'swish': 'Swish',
-    'invoice': 'Faktura',
     'klarna': 'Klarna',
     'qliro': 'Qliro',
   };
@@ -93,12 +91,28 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(entry.value, style: AppTheme.mediumLargeText),
-                          Image.asset(
-                            _methodImages[entry.key] ?? 'assets/images/default.png',
-                            width: 72,
-                            height: 64,
-                            fit: BoxFit.contain,
+                          SizedBox(
+                            width: 128,  // common width for alignment
+                            height: 96, // common height for alignment
+                            child: Center(
+                              child: Image.asset(
+                                _methodImages[entry.key] ?? 'assets/images/default.png',
+                                width: entry.key == 'card'
+                                    ? 156
+                                    : entry.key == 'swish'
+                                    ? 70
+                                    : 124,
+                                height: entry.key == 'card'
+                                    ? 144
+                                    : entry.key == 'swish'
+                                    ? 72
+                                    : 96,
+                                fit: BoxFit.contain,
+                              ),
+                            ),
                           ),
+
+
                         ],
                       ),
 
@@ -120,7 +134,7 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
                       ),
                       child: Text(
                         'Tillbaka',
-                        style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                        style: AppTheme.largeHeading.copyWith(color: Colors.white),
                       ),
                     ),
                     ElevatedButton(
@@ -170,7 +184,7 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
                           builder: (BuildContext context) {
                             return AlertDialog(
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                              title: const Text('Bekräfta ditt köp', style: AppTheme.LARGEHeading),
+                              title: const Text('Bekräfta ditt köp', style: AppTheme.largeHeading),
                               content: SizedBox(
                                 width: 500,
                                 child: Column(
@@ -192,12 +206,12 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
                                   onPressed: () => Navigator.of(context).pop(),
                                   style: TextButton.styleFrom(
                                     backgroundColor: AppTheme.buttonColor2,
-                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                    // padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
                                   ),
                                   child: Text(
                                     'Avbryt',
-                                    style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                                    style: AppTheme.largeHeading.copyWith(color: Colors.white),
                                   ),
                                 ),
                                 ElevatedButton(
@@ -219,7 +233,7 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
                                   ),
                                   child: Text(
                                     'Köp',
-                                    style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                                    style: AppTheme.largeHeading.copyWith(color: Colors.white),
                                   ),
                                 ),
                               ],
@@ -232,7 +246,7 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
                       ),
                       child: Text(
                         'Betala',
-                        style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                        style: AppTheme.largeHeading.copyWith(color: Colors.white),
                       ),
                     ),
                   ],

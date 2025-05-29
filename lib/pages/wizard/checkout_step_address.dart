@@ -75,18 +75,18 @@ class _CheckoutStepAddressState extends State<CheckoutStepAddress> {
   Widget _buildField(String label, TextEditingController controller,
       {List<TextInputFormatter>? inputFormatters}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: AppTheme.mediumLargeHeading),
-          const SizedBox(height: 4),
+          Text(label, style: AppTheme.largeHeading),
+          // const SizedBox(height: 4),
           TextFormField(
             controller: controller,
             validator: (value) => value == null || value.isEmpty ? 'Fältet krävs' : null,
             inputFormatters: inputFormatters,
             textInputAction: TextInputAction.next,
-            style: AppTheme.mediumLargeText,
+            style: AppTheme.largeText,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               isDense: true,
@@ -176,7 +176,7 @@ class _CheckoutStepAddressState extends State<CheckoutStepAddress> {
 
                 ),
               ),
-              const SizedBox(height: AppTheme.paddingMediumSmall),
+              const SizedBox(height: AppTheme.paddingMedium),
               SizedBox(
                 width: AppTheme.wizardCardSize,
                 child: Row(
@@ -190,7 +190,7 @@ class _CheckoutStepAddressState extends State<CheckoutStepAddress> {
                       ),
                       child: Text(
                           'Tillbaka',
-                          style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                          style: AppTheme.largeHeading.copyWith(color: Colors.white),
                       ),
                     ),
                     ElevatedButton(
@@ -201,7 +201,7 @@ class _CheckoutStepAddressState extends State<CheckoutStepAddress> {
                       ),
                       child: Text(
                         'Nästa',
-                        style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                        style: AppTheme.largeHeading.copyWith(color: Colors.white),
                       ),
                     ),
                   ],
