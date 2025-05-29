@@ -38,54 +38,46 @@ class CheckoutStepCart extends StatelessWidget {
 
             return SizedBox(
               width: AppTheme.wizardCardSize,
+              height: constraints.maxHeight,
               child: Column(
-                mainAxisSize: MainAxisSize.min,
                 children: [
-                  // ── White frame with scrollable product list ──
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: AppTheme.borderColor),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: AppTheme.borderColor,
-                          blurRadius: 6,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ConstrainedBox(
-                          constraints: BoxConstraints(
-                            minHeight: itemH,
-                            maxHeight: maxListH,
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: AppTheme.borderColor),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: AppTheme.borderColor,
+                            blurRadius: 6,
+                            offset: Offset(0, 2),
                           ),
-                          child: ListView.separated(
-                            shrinkWrap: true,
-                            itemCount: items.length,
-                            separatorBuilder: (_, __) => const SizedBox(height: AppTheme.paddingSmall),
-                            itemBuilder: (context, index) => WizardCartItemCard(items[index]),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: ListView.separated(
+                              itemCount: items.length,
+                              separatorBuilder: (_, __) => const SizedBox(height: AppTheme.paddingSmall),
+                              itemBuilder: (context, index) => WizardCartItemCard(items[index]),
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: AppTheme.paddingMediumSmall),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                            "Totalt: ${total.toStringAsFixed(2)} kr",
-                            style: AppTheme.largeHeading,
+                          const SizedBox(height: AppTheme.paddingMediumSmall),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              "Totalt: ${total.toStringAsFixed(2)} kr",
+                              style: AppTheme.largeHeading,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-
-                  const SizedBox(height: buttonSpacing),
-
-                  // ── Button row ──
+                  const SizedBox(height: AppTheme.paddingMediumSmall),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -116,6 +108,7 @@ class CheckoutStepCart extends StatelessWidget {
                 ],
               ),
             );
+
           }),
         ),
       ),
