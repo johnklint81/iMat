@@ -2,23 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:imat_app/app_theme.dart';
 import 'package:imat_app/model/imat_data_handler.dart';
+import '../../model/imat/shopping_item.dart';
 import '../../widgets/wizard_receipt_item_card.dart';
 
 class CheckoutStepReceipt extends StatelessWidget {
   final VoidCallback onDone;
   final String paymentMethod;
+  final List<ShoppingItem> receiptItems;
+  final double total;
 
   const CheckoutStepReceipt({
     required this.onDone,
     required this.paymentMethod,
+    required this.receiptItems,
+    required this.total,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    final cart = context.watch<ImatDataHandler>().getShoppingCart();
-    final items = cart.items;
-    final total = items.fold<double>(0, (sum, item) => sum + item.total);
     final handler = context.watch<ImatDataHandler>();
     final deliveryMethod = handler.deliveryDescription;
     final deliveryTime = handler.deliveryDate ??
@@ -67,7 +69,7 @@ class CheckoutStepReceipt extends StatelessWidget {
                       constraints: const BoxConstraints(maxHeight: 300),
                       child: SingleChildScrollView(
                         child: Column(
-                          children: items
+                          children: receiptItems
                               .map((item) => WizardReceiptItemCard(item))
                               .toList(),
                         ),
@@ -82,7 +84,17 @@ class CheckoutStepReceipt extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          _buildInfoRow("Betalningsmetod:", paymentMethod),
+                          _buildInfoRow(
+                            "Betalningsmetod:",
+                            {
+                              'card': 'VISA/Mastercard',
+                              'swish': 'Swish',
+                              'invoice': 'Faktura',
+                              'klarna': 'Klarna',
+                              'qliro': 'Qliro',
+                            }[paymentMethod] ?? paymentMethod,
+                          ),
+
                           const SizedBox(height: AppTheme.paddingTiny),
                           _buildInfoRow("Leveranssätt:", deliveryMethod),
                           const SizedBox(height: AppTheme.paddingTiny),
@@ -111,23 +123,18 @@ class CheckoutStepReceipt extends StatelessWidget {
               const SizedBox(height: AppTheme.paddingMediumSmall),
 
               // Knappen som bara tar dig hem
-              SizedBox(
-                width: AppTheme.wizardCardSize,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    // Vi har redan lagt ordern, inga fler kontroller
-                    await context.read<ImatDataHandler>().placeOrder();
-                    onDone();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppTheme.buttonColor2,
-                    foregroundColor: Colors.white,
-                  ),
-                  child: Text(
-                    "Till startsidan",
-                    style:
-                    AppTheme.mediumHeading.copyWith(color: Colors.white),
-                  ),
+              ElevatedButton(
+                onPressed: onDone,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppTheme.buttonColor2,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                child: Text(
+                  "Till startsidan",
+                  style: AppTheme.mediumHeading.copyWith(color: Colors.white),
                 ),
               ),
             ],

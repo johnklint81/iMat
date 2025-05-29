@@ -18,6 +18,12 @@ class ImatDataHandler extends ChangeNotifier {
   ImatDataHandler() {
     _setUp();
   }
+  String paymentMethod = 'card'; // eller 'swish' etc.
+
+  void setPaymentMethod(String method) {
+    paymentMethod = method;
+    notifyListeners();
+  }
 
   String deliveryOption = 'asap';
   DateTime? deliveryDate;
@@ -35,13 +41,21 @@ class ImatDataHandler extends ChangeNotifier {
       case 'pickup':
         return 'Hämta vid utlämning';
       case 'date':
-        return deliveryDate != null
-            ? 'På datum: ${deliveryDate!.toLocal().toString().split(' ')[0]}'
-            : 'På ett specifikt datum';
+        if (deliveryDate != null) {
+          final local = deliveryDate!.toLocal();
+          final date = '${local.year}-${_twoDigits(local.month)}-${_twoDigits(local.day)}';
+          final time = '${_twoDigits(local.hour)}:${_twoDigits(local.minute)}';
+          return '$date';
+        } else {
+          return 'På ett specifikt datum';
+        }
       default:
         return 'Så fort som möjligt';
     }
   }
+
+  String _twoDigits(int n) => n < 10 ? '0$n' : '$n';
+
 
   List<Product> get products => _products;
   List<ProductDetail> get details => _details;
@@ -192,35 +206,53 @@ class ImatDataHandler extends ChangeNotifier {
   }
 
   Future<void> placeOrder() async {
-    // Spara leveransval till extras
-    _extras['lastDeliveryOption'] = deliveryOption;
-    if (deliveryDate != null) {
-      _extras['lastDeliveryDate'] = deliveryDate!.millisecondsSinceEpoch;
-    }
-
-    await InternetHandler.setExtras(_extras);
     await InternetHandler.placeOrder();
-
     _shoppingCart.clear();
     notifyListeners();
 
-    // Reload orders
+    // 🔁 Ladda om ordrar
     var response = await InternetHandler.getOrders();
     var jsonData = jsonDecode(response) as List;
 
     _orders.clear();
+    _orders.addAll(jsonData.map((item) => Order.fromJson(item)).toList());
+
+    // Hämta senaste ordern (nyaste datumet)
+    final lastOrder = _orders.reduce((a, b) =>
+    a.date.isAfter(b.date) ? a : b);
+
+    // 🔐 Spara leveransdata med korrekt timestamp
+    final key = 'delivery_${lastOrder.date.millisecondsSinceEpoch}';
+    _extras[key] = {
+      'option': deliveryOption,
+      'date': deliveryDate?.millisecondsSinceEpoch,
+      'payment': paymentMethod,
+    };
+
+    await InternetHandler.setExtras(_extras);
+
+    // 🔁 Uppdatera alla orderobjekt igen med leveransinfo
+    _orders.clear();
     _orders.addAll(jsonData.map((item) {
       final order = Order.fromJson(item);
-      // 🟠 Här sätter vi leveransdata till ordern direkt
-      order.deliveryOption = _extras['lastDeliveryOption'];
-      if (_extras.containsKey('lastDeliveryDate')) {
-        order.deliveryDate = DateTime.fromMillisecondsSinceEpoch(_extras['lastDeliveryDate']);
+      final key = 'delivery_${order.date.millisecondsSinceEpoch}';
+      if (_extras.containsKey(key)) {
+        final data = _extras[key];
+        order.deliveryOption = data['option'];
+        if (data['date'] != null) {
+          order.deliveryDate =
+              DateTime.fromMillisecondsSinceEpoch(data['date']);
+        }
+        order.paymentMethod = data['payment'];
       }
       return order;
-    }).toList());
+    }));
 
     notifyListeners();
   }
+
+
+
 
 
 
@@ -338,13 +370,30 @@ class ImatDataHandler extends ChangeNotifier {
     _customer = Customer.fromJson(jsonDecode(await InternetHandler.getCustomer()));
     _user = User.fromJson(jsonDecode(await InternetHandler.getUser()));
 
+    response = await InternetHandler.getExtras();
+    _extras = jsonDecode(response);
+
     response = await InternetHandler.getOrders();
     jsonData = jsonDecode(response);
-    _orders.addAll(jsonData.map((item) => Order.fromJson(item)));
+    _orders.addAll(jsonData.map((item) {
+      final order = Order.fromJson(item);
+      final key = 'delivery_order_${order.orderNumber}';
+      if (_extras.containsKey(key)) {
+        final data = _extras[key];
+        order.deliveryOption = data['option'];
+        if (data['date'] != null) {
+          order.deliveryDate = DateTime.fromMillisecondsSinceEpoch(data['date']);
+        }
+        order.paymentMethod = data['payment'];
+      }
+
+      return order;
+    }));
+
 
     _shoppingCart = ShoppingCart.fromJson(jsonDecode(await InternetHandler.getShoppingCart()));
-    _extras = jsonDecode(await InternetHandler.getExtras());
 
     notifyListeners();
   }
+
 }

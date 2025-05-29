@@ -1,46 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:imat_app/model/imat/order.dart';
-import 'package:imat_app/app_theme.dart';
 import 'package:imat_app/widgets/wizard_receipt_item_card.dart';
+import 'package:imat_app/app_theme.dart';
 
-class ReceiptItemList extends StatelessWidget {
+class OrderSummaryItemsOnly extends StatelessWidget {
   final Order order;
 
-  const ReceiptItemList({super.key, required this.order});
+  const OrderSummaryItemsOnly({super.key, required this.order});
 
   @override
   Widget build(BuildContext context) {
     final items = order.items;
-    final total = items.fold<double>(0, (sum, item) => sum + item.total);
+    final total = items.fold<double>(
+      0.0,
+          (sum, item) => sum + item.total,
+    );
 
     final paymentLabel = _formatPayment(order.paymentMethod);
     final deliveryMethod = _formatDelivery(order.deliveryOption);
-    final deliveryTime = order.deliveryDate != null
-        ? "${order.deliveryDate!.hour.toString().padLeft(2, '0')}:${order.deliveryDate!.minute.toString().padLeft(2, '0')}"
-        : "Okänt";
+    final deliveryTime = _formatDeliveryTime(order);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ...items.map((item) => WizardReceiptItemCard(item)),
-        const SizedBox(height: AppTheme.paddingMediumSmall),
-        Align(
-          alignment: Alignment.centerRight,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              _buildRow("Betalningsmetod:", paymentLabel),
-              const SizedBox(height: AppTheme.paddingTiny),
-              _buildRow("Leveranssätt:", deliveryMethod),
-              const SizedBox(height: AppTheme.paddingTiny),
-              _buildRow("Beräknad leveranstid:", deliveryTime),
-            ],
-          ),
+        // 🛒 Product cards
+        Column(
+          children: items.map((item) => WizardReceiptItemCard(item)).toList(),
         ),
+        const SizedBox(height: AppTheme.paddingMediumSmall),
+
+
         const SizedBox(height: AppTheme.paddingSmall),
+
+        // 💰 Total
         Align(
           alignment: Alignment.centerRight,
-          child: Text("Totalt: ${total.toStringAsFixed(2)} kr", style: AppTheme.largeHeading),
+          child: Text(
+            "Totalt: ${total.toStringAsFixed(2)} kr",
+            style: AppTheme.largeHeading,
+          ),
         ),
       ],
     );
@@ -77,5 +76,10 @@ class ReceiptItemList extends StatelessWidget {
       default:
         return 'Okänt';
     }
+  }
+
+  String _formatDeliveryTime(Order order) {
+    final dt = order.deliveryDate ?? DateTime.now().add(const Duration(hours: 2));
+    return DateFormat('HH:mm').format(dt);
   }
 }

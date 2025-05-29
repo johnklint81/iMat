@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:imat_app/app_theme.dart';
 import 'package:provider/provider.dart';
+import 'package:imat_app/app_theme.dart';
 import 'package:imat_app/model/imat_data_handler.dart';
+import '../../model/imat/shopping_item.dart';
 
 class CheckoutStepPayment extends StatefulWidget {
   final VoidCallback onNext;
   final VoidCallback onBack;
   final ValueChanged<String> onSelectedMethod;
-
+  final Function(List<ShoppingItem> items, double total) onSetReceiptData;
   final double totalAmount;
 
   const CheckoutStepPayment({
     required this.onNext,
     required this.onBack,
     required this.onSelectedMethod,
+    required this.onSetReceiptData,
     required this.totalAmount,
     super.key,
   });
-
-
 
   @override
   State<CheckoutStepPayment> createState() => _CheckoutStepPaymentState();
@@ -34,6 +34,10 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
     'klarna': 'Klarna',
     'qliro': 'Qliro',
   };
+
+  double _calculateTotal(List<ShoppingItem> items) {
+    return items.fold<double>(0.0, (sum, item) => sum + item.total);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +79,8 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
                           setState(() {
                             _selectedMethod = value;
                           });
-                          widget.onSelectedMethod(value);
+                          context.read<ImatDataHandler>().setPaymentMethod(value);
+
                         }
                       },
                     );
@@ -135,10 +140,10 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
                               ],
                             ),
                           );
-
                           return;
                         }
 
+                        // Visa bekräftelseruta
                         showDialog(
                           context: context,
                           barrierDismissible: false,
@@ -147,7 +152,7 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                               title: const Text('Bekräfta ditt köp', style: AppTheme.LARGEHeading),
                               content: SizedBox(
-                                width: 500, // or any desired width
+                                width: 500,
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -155,13 +160,13 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
                                     Text('Vill du genomföra köpet?', style: AppTheme.largeText),
                                     const SizedBox(height: 16),
                                     Text(
-                                      'Totalsumma: ${widget.totalAmount.toStringAsFixed(2)} kr',
+                                      'Totalsumma: ${_calculateTotal(cart).toStringAsFixed(2)} kr',
+
                                       style: AppTheme.largeHeading,
                                     ),
                                   ],
                                 ),
                               ),
-
                               actionsAlignment: MainAxisAlignment.spaceBetween,
                               actions: [
                                 TextButton(
@@ -181,11 +186,14 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
                                     Navigator.of(context).pop();
 
                                     final handler = context.read<ImatDataHandler>();
+                                    final items = List<ShoppingItem>.from(handler.getShoppingCart().items);
+                                    final total = _calculateTotal(items);
+
+                                    widget.onSetReceiptData(items, total); // Sätt före placeOrder
+
                                     await handler.placeOrder();
-
-                                    widget.onNext(); // Now safe to navigate
+                                    widget.onNext();
                                   },
-
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: AppTheme.buttonColor1,
                                   ),
@@ -210,7 +218,6 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
                   ],
                 ),
               ),
-
             ],
           ),
         ),

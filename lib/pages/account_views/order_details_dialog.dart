@@ -7,6 +7,8 @@ import 'package:imat_app/widgets/receipt_item_list.dart';
 import 'package:imat_app/model/imat_data_handler.dart';
 import 'package:imat_app/model/imat/shopping_item.dart';
 
+import '../../widgets/order_summary_items_only.dart';
+
 class OrderDetailsDialog extends StatelessWidget {
   final Order order;
 
@@ -15,9 +17,6 @@ class OrderDetailsDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final orderDateFormatted = DateFormat('yyyy-MM-dd').format(order.date);
-    final deliveryDateFormatted = order.deliveryOption == 'date' && order.deliveryDate != null
-        ? DateFormat('yyyy-MM-dd').format(order.deliveryDate!)
-        : null;
 
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -34,12 +33,12 @@ class OrderDetailsDialog extends StatelessWidget {
                 const Divider(),
                 const SizedBox(height: 12),
                 _buildDetailRow("Ordernummer:", order.orderNumber.toString()),
-                _buildDetailRow("Datum:", orderDateFormatted),
-                // _buildDetailRow("Leveranssätt:", _formatDeliveryOption(order)),
-                if (deliveryDateFormatted != null)
-                  _buildDetailRow("Leveransdatum:", deliveryDateFormatted),
+                _buildDetailRow("Datum för beställning:", orderDateFormatted),
+                _buildDetailRow("Betalningsmetod:", _formatPayment(order.paymentMethod)),
+                _buildDetailRow("Leveranssätt:", _formatDeliveryOption(order)),
+                _buildDetailRow("Leveranstid:", _formatDeliveryTime(order)),
                 const SizedBox(height: 24),
-                ReceiptItemList(order: order),
+                OrderSummaryItemsOnly(order: order),
                 const SizedBox(height: 24),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -100,24 +99,25 @@ class OrderDetailsDialog extends StatelessWidget {
         children: [
           Expanded(
             flex: 2,
-            child: Text(
-              label,
-              style: AppTheme.mediumLargeText, // match font size below the image
-            ),
+            child: Text(label, style: AppTheme.mediumLargeText),
           ),
           Expanded(
             flex: 3,
-            child: Text(
-              value,
-              style: AppTheme.mediumLargeText, // match font size
-              textAlign: TextAlign.right, // flush right
-            ),
+            child: Text(value, style: AppTheme.mediumLargeText, textAlign: TextAlign.right),
           ),
         ],
       ),
     );
   }
-
+  String _formatPayment(String? key) {
+    return {
+      'card': 'VISA/Mastercard',
+      'swish': 'Swish',
+      'invoice': 'Faktura',
+      'klarna': 'Klarna',
+      'qliro': 'Qliro',
+    }[key] ?? 'Okänt';
+  }
 
   String _formatDeliveryOption(Order order) {
     switch (order.deliveryOption) {
@@ -126,9 +126,14 @@ class OrderDetailsDialog extends StatelessWidget {
       case 'pickup':
         return 'Hämta vid utlämning';
       case 'date':
-        return 'På specifikt datum';
+        return 'På ett specifikt datum';
       default:
         return 'Okänt';
     }
+  }
+
+  String _formatDeliveryTime(Order order) {
+    final dt = order.deliveryDate ?? DateTime.now().add(const Duration(hours: 2));
+    return DateFormat('HH:mm').format(dt);
   }
 }

@@ -11,6 +11,7 @@ import '../model/imat_data_handler.dart';
 import 'account_view.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/account_button.dart';
+import '../model/imat/shopping_item.dart';
 
 class CheckoutWizard extends StatefulWidget {
   const CheckoutWizard({super.key});
@@ -22,19 +23,15 @@ class CheckoutWizard extends StatefulWidget {
 class _CheckoutWizardState extends State<CheckoutWizard> {
   bool showAccount = false;
   int _step = 0;
-  String _paymentMethod = 'VISA/Mastercard'; // default
+  String _paymentMethod = 'VISA/Mastercard';
+
+  List<ShoppingItem> _receiptItems = [];
+  double _finalTotal = 0.0;
 
   void _nextStep() {
     setState(() {
       if (_step < 4) _step++;
     });
-  }
-  double getTotalAmount() {
-    final cart = context.read<ImatDataHandler>().getShoppingCart();
-    return cart.items.fold<double>(
-      0.0,
-          (sum, item) => sum + item.total,
-    );
   }
 
   void _previousStep() {
@@ -42,14 +39,21 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
       if (_step > 0) _step--;
     });
   }
+
   String _getStepTitle() {
     switch (_step) {
-      case 0: return "Kundvagn";
-      case 1: return "Adress";
-      case 2: return "Leverans";
-      case 3: return "Betalning";
-      case 4: return "Kvitto";
-      default: return "";
+      case 0:
+        return "Kundvagn";
+      case 1:
+        return "Adress";
+      case 2:
+        return "Leverans";
+      case 3:
+        return "Betalning";
+      case 4:
+        return "Kvitto";
+      default:
+        return "";
     }
   }
 
@@ -57,14 +61,13 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-          centerWidget: Center(
-            child: Text(
-              _getStepTitle(),
-              style: AppTheme.LARGEHeading,
-            ),
+        centerWidget: Center(
+          child: Text(
+            _getStepTitle(),
+            style: AppTheme.LARGEHeading,
           ),
-
-          rightWidget: AccountButton(
+        ),
+        rightWidget: AccountButton(
           isActive: showAccount,
           onPressed: () {
             setState(() {
@@ -72,34 +75,22 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
             });
           },
         ),
-
-          onTitleTap: () {
-            setState(() {
-              showAccount = false;
-            });
-            final iMat = Provider.of<ImatDataHandler>(context, listen: false);
-            iMat.selectAllProducts();
-
-            // Navigate back to the main view
-            Navigator.of(context).popUntil((route) => route.isFirst);
-          }
-
+        onTitleTap: () {
+          setState(() {
+            showAccount = false;
+          });
+          final iMat = Provider.of<ImatDataHandler>(context, listen: false);
+          iMat.selectAllProducts();
+          Navigator.of(context).popUntil((route) => route.isFirst);
+        },
       ),
-
-
       body: Container(
         color: AppTheme.backgroundColor,
         child: Column(
           children: [
             const SizedBox(height: 12),
-
-            // Step Indicator Row
-            const SizedBox(height: 12),
             WizardStepIndicator(currentStep: _step),
             const SizedBox(height: 16),
-            const SizedBox(height: 16),
-
-            // Step content
             Expanded(
               child: showAccount
                   ? const AccountView()
@@ -132,20 +123,26 @@ class _CheckoutWizardState extends State<CheckoutWizard> {
                         }[methodKey]!;
                       });
                     },
-                    totalAmount: getTotalAmount(),
+                    onSetReceiptData: (items, total) {
+                      setState(() {
+                        _receiptItems = items;
+                        _finalTotal = total;
+                      });
+                    },
+                    totalAmount: _finalTotal,
                   ),
                   CheckoutStepReceipt(
                     onDone: () => Navigator.of(context).popUntil((route) => route.isFirst),
                     paymentMethod: _paymentMethod,
+                    receiptItems: _receiptItems,
+                    total: _finalTotal,
                   ),
                 ],
               ),
             ),
-
           ],
         ),
       ),
-
     );
   }
 }
