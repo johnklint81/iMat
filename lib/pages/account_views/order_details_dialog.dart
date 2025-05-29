@@ -20,27 +20,40 @@ class OrderDetailsDialog extends StatelessWidget {
 
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 800),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Orderdetaljer", style: AppTheme.largeHeading),
-                const SizedBox(height: 12),
-                const Divider(),
-                const SizedBox(height: 12),
-                _buildDetailRow("Ordernummer:", order.orderNumber.toString()),
-                _buildDetailRow("Datum för beställning:", orderDateFormatted),
-                _buildDetailRow("Betalningsmetod:", _formatPayment(order.paymentMethod)),
-                _buildDetailRow("Leveranssätt:", _formatDeliveryOption(order)),
-                _buildDetailRow("Leveranstid:", _formatDeliveryTime(order)),
-                const SizedBox(height: 24),
-                OrderSummaryItemsOnly(order: order),
-                const SizedBox(height: 24),
-                Row(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 800),
+        child: IntrinsicHeight(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Scrollable content
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Orderdetaljer", style: AppTheme.largeHeading),
+                      const SizedBox(height: 12),
+                      const Divider(),
+                      const SizedBox(height: 12),
+                      _buildDetailRow("Ordernummer:", order.orderNumber.toString()),
+                      _buildDetailRow("Datum för beställning:", orderDateFormatted),
+                      _buildDetailRow("Betalningsmetod:", _formatPayment(order.paymentMethod)),
+                      _buildDetailRow("Leveranssätt:", _formatDeliveryOption(order)),
+                      _buildDetailRow("Leveranstid:", _formatDeliveryTime(order)),
+                      const SizedBox(height: 24),
+                      OrderSummaryItemsOnly(order: order),
+                      const SizedBox(height: 24),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 12),
+              // Fixed bottom buttons
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
@@ -63,7 +76,7 @@ class OrderDetailsDialog extends StatelessWidget {
                       ),
                       child: Text(
                         "Lägg till i kundvagn",
-                        style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                        style: AppTheme.largeHeading.copyWith(color: Colors.white),
                       ),
                     ),
                     TextButton(
@@ -75,22 +88,19 @@ class OrderDetailsDialog extends StatelessWidget {
                       ),
                       child: Text(
                         "Stäng",
-                        style: AppTheme.mediumHeading.copyWith(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: Colors.white,
-                        ),
+                        style: AppTheme.largeHeading.copyWith(color: Colors.white),
                       ),
                     ),
                   ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
+
 
   Widget _buildDetailRow(String label, String value) {
     return Padding(
