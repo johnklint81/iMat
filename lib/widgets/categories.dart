@@ -54,7 +54,7 @@ class _CategoryListItemState extends State<CategoryListItem> {
                   Icon(widget.icon, size: 32),
                   const SizedBox(width: 8),
                 ],
-                Text(widget.label, style: AppTheme.mediumHeading),
+                Text(widget.label, style: AppTheme.mediumLargeHeading2),
               ],
             ),
           ),
@@ -113,7 +113,7 @@ class CategorySelector extends StatelessWidget {
           },
         ),
 
-        const SizedBox(height: AppTheme.paddingTiny),
+        const SizedBox(height: AppTheme.paddingSmall),
 
         CategoryListItem(
           label: "Favoriter",
@@ -126,8 +126,8 @@ class CategorySelector extends StatelessWidget {
           },
         ),
 
-        const Divider(color: Colors.black),
-        const SizedBox(height: AppTheme.paddingTiny),
+        const Divider(color: Colors.black26),
+        const SizedBox(height: 1),
 
         CategoryListItem(
           label: "Alla Produkter",
@@ -137,7 +137,7 @@ class CategorySelector extends StatelessWidget {
           },
         ),
 
-        const SizedBox(height: AppTheme.paddingTiny),
+        const SizedBox(height: AppTheme.paddingSmall),
 
         for (final entry in groupedCategories.entries)
           CategoryListItem(

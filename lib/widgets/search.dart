@@ -68,10 +68,10 @@ class _SearchState extends State<Search> {
                   contentPadding:
                   EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(width: 1.5, color: Colors.black),
+                    borderSide: BorderSide(width: 1.0, color: Colors.black38),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(width: 1.5, color: Colors.black),
+                    borderSide: BorderSide(width: 1.0, color: Colors.black38),
                   ),
                   suffixIcon: Row(
                     mainAxisSize: MainAxisSize.min,

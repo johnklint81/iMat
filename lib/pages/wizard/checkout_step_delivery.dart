@@ -78,7 +78,7 @@ class _CheckoutStepDeliveryState extends State<CheckoutStepDelivery> {
                       const SizedBox(height: 12),
                       OutlinedButton(
                         style: OutlinedButton.styleFrom(
-                          backgroundColor: AppTheme.buttonColor2,
+                          backgroundColor: AppTheme.buttonColor1,
                           foregroundColor: Colors.black,
                           side: const BorderSide(color: AppTheme.borderColor, width: 1.5),
                           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),

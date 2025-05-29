@@ -5,7 +5,7 @@ class AppTheme {
   static const Color backgroundSplashColor = Color(0x50FFC266);
   static const Color buttonColor1 = Color(0xFF4CAF50);  // Green
   static const Color buttonColor2 = Color(0xFFF57C00); // orange.shade700
-  static const Color buttonColor3 = Color(0xFFFFB066); // Moderate choice
+  static const Color buttonColor3 = Color(0xFFFFC285); // Moderate choice
   // static const Color buttonColor3 = Color(0xFFFFC68C); // Moderate choice
   static const Color borderColor = Colors.black12;
   static const double paddingSuperTiny = 2.0;
@@ -57,6 +57,10 @@ class AppTheme {
   static const TextStyle mediumLargeText= TextStyle(
     fontSize: 28,
     fontWeight: FontWeight.w500,
+  );
+  static const TextStyle mediumLargeHeading2= TextStyle(
+    fontSize: 28,
+    fontWeight: FontWeight.w700,
   );
   static const TextStyle mediumText = TextStyle(
     fontSize: 20,

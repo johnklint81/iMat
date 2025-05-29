@@ -22,24 +22,20 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: AppTheme.backgroundColor,
       elevation: 0,
       automaticallyImplyLeading: false,
-      shape: const Border(
-        bottom: BorderSide(color: Colors.black, width: 1),
-      ),
       toolbarHeight: AppTheme.appbarHeight,
       flexibleSpace: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
-            const iMatWidth = 300.0; // Hack to fix the size of the search bar when shrinking app size
+            const iMatWidth = 300.0;
             const kontoWidth = 380.0;
             const spacing = 77.0;
-
 
             final availableCenterWidth = constraints.maxWidth - iMatWidth - kontoWidth - 2 * spacing;
             final safeSearchWidth = availableCenterWidth.clamp(200.0, 600.0);
 
             return Stack(
               children: [
-              // iMat logo
+                // iMat logo
                 Positioned(
                   left: iMatWidth / 2 - 50,
                   top: 0,
@@ -83,6 +79,17 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     child: centerWidget ?? const SizedBox(),
                   ),
                 ),
+
+                // Custom bottom line with padding
+                Positioned(
+                  left: AppTheme.paddingSmall,
+                  right: AppTheme.paddingSmall,
+                  bottom: 0,
+                  child: Container(
+                    height: 1,
+                    color: Colors.black26,
+                  ),
+                ),
               ],
             );
           },
@@ -90,5 +97,4 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
     );
   }
-
 }
