@@ -145,19 +145,23 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
                           builder: (BuildContext context) {
                             return AlertDialog(
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                              title: const Text('Bekräfta ditt köp', style: AppTheme.largeHeading),
-                              content: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('Vill du genomföra köpet?', style: AppTheme.mediumLargeText),
-                                  const SizedBox(height: 12),
-                                  Text(
-                                    'Totalsumma: ${widget.totalAmount.toStringAsFixed(2)} kr',
-                                    style: AppTheme.mediumLargeHeading,
-                                  ),
-                                ],
+                              title: const Text('Bekräfta ditt köp', style: AppTheme.LARGEHeading),
+                              content: SizedBox(
+                                width: 500, // or any desired width
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Vill du genomföra köpet?', style: AppTheme.largeText),
+                                    const SizedBox(height: 16),
+                                    Text(
+                                      'Totalsumma: ${widget.totalAmount.toStringAsFixed(2)} kr',
+                                      style: AppTheme.largeHeading,
+                                    ),
+                                  ],
+                                ),
                               ),
+
                               actionsAlignment: MainAxisAlignment.spaceBetween,
                               actions: [
                                 TextButton(

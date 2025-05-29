@@ -66,7 +66,7 @@ class _SearchState extends State<Search> {
                   filled: true,
                   fillColor: Colors.white,
                   contentPadding:
-                  EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(width: 1.0, color: Colors.black38),
                   ),

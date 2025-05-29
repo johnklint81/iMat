@@ -24,9 +24,9 @@ class MainProductArea extends StatelessWidget {
           width: constraints.maxWidth,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(
-              AppTheme.paddingLARGE, // left
+              0, // left
               AppTheme.paddingTiny, // top
-              AppTheme.paddingLARGE, // right
+              0, // right
               AppTheme.paddingLARGE, // bottom
             ),
             child: GridView.builder(

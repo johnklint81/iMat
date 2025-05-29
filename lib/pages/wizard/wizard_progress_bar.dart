@@ -18,8 +18,8 @@ class WizardStepIndicator extends StatelessWidget {
         final isActive = index == currentStep;
         return Container(
           margin: const EdgeInsets.symmetric(horizontal: 6),
-          width: 16,
-          height: 16,
+          width: 36,
+          height: 36,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: isActive ? Colors.green : Colors.grey.shade300,

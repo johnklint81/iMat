@@ -212,7 +212,7 @@ class _MainViewState extends State<MainView> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: AppTheme.paddingSmall),
+            padding: const EdgeInsets.only(top: AppTheme.paddingMediumSmall),
             child: ClipRRect(
               borderRadius: const BorderRadius.only(
                 topRight: Radius.circular(12),
