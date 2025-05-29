@@ -76,7 +76,7 @@ class CheckoutStepCart extends StatelessWidget {
                           alignment: Alignment.centerRight,
                           child: Text(
                             "Totalt: ${total.toStringAsFixed(2)} kr",
-                            style: AppTheme.mediumHeading,
+                            style: AppTheme.largeHeading,
                           ),
                         ),
                       ],
