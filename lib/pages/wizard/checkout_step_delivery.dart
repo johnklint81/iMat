@@ -28,9 +28,9 @@ class _CheckoutStepDeliveryState extends State<CheckoutStepDelivery> {
     'pickup': 'Hämta vid utlämning',
   };
   final Map<String, String> _optionImages = {
-    'asap': '../assets/images/asap.jpg',
-    'date': '../assets/images/date.jpg',
-    'pickup': '../assets/images/pickup.jpg',
+    'asap': 'assets/images/asap.jpg',
+    'date': 'assets/images/date.jpg',
+    'pickup': 'assets/images/pickup.jpg',
   };
 
   bool get _canProceed {

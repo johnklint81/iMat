@@ -20,28 +20,24 @@ class CheckoutStepCart extends StatelessWidget {
     final items = cart.items;
     final total = items.fold<double>(0, (sum, i) => sum + i.total);
 
+    final estimatedHeight = items.length * 84.0; // ≈ item height incl. spacing
+
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
-      body: Padding(
-        padding: const EdgeInsets.only(top: AppTheme.paddingSmall),
-        child: Align(
-          alignment: Alignment.topCenter,
-          child: LayoutBuilder(builder: (context, constraints) {
-            final fullH = constraints.maxHeight;
-            const buttonH = 48.0;
-            const buttonSpacing = AppTheme.paddingMediumSmall;
-            const totalRowH = 32.0;
-            const extraPadding = 16.0 * 2;
-
-            final maxListH = fullH - buttonH - buttonSpacing - totalRowH - extraPadding;
-            const itemH = 72.0;
-
-            return SizedBox(
-              width: AppTheme.wizardCardSize,
-              height: constraints.maxHeight,
-              child: Column(
-                children: [
-                  Expanded(
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: AppTheme.paddingSmall),
+          child: SizedBox(
+            width: AppTheme.wizardCardSize,
+            child: Column(
+              children: [
+                // ── White card with collapsing/scrolling list ──
+                Flexible(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: 120,
+                      maxHeight: estimatedHeight > 600 ? 600 : estimatedHeight + 120,
+                    ),
                     child: Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
@@ -61,7 +57,7 @@ class CheckoutStepCart extends StatelessWidget {
                           Expanded(
                             child: ListView.separated(
                               itemCount: items.length,
-                              separatorBuilder: (_, __) => const SizedBox(height: AppTheme.paddingSmall),
+                              separatorBuilder: (_, __) => const SizedBox(height: 0),
                               itemBuilder: (context, index) => WizardCartItemCard(items[index]),
                             ),
                           ),
@@ -77,39 +73,41 @@ class CheckoutStepCart extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: AppTheme.paddingMediumSmall),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ElevatedButton(
-                        onPressed: onCancel,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppTheme.buttonColor2,
-                          foregroundColor: Colors.black,
-                        ),
-                        child: Text(
-                          "Avbryt",
-                          style: AppTheme.mediumHeading.copyWith(color: Colors.white),
-                        ),
-                      ),
-                      ElevatedButton(
-                        onPressed: onNext,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppTheme.buttonColor1,
-                          foregroundColor: Colors.black,
-                        ),
-                        child: Text(
-                          "Nästa",
-                          style: AppTheme.mediumHeading.copyWith(color: Colors.white),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            );
+                ),
 
-          }),
+                const SizedBox(height: AppTheme.paddingMediumSmall),
+
+                // ── Buttons ──
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      onPressed: onCancel,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppTheme.buttonColor2,
+                        foregroundColor: Colors.black,
+                      ),
+                      child: Text(
+                        "Avbryt",
+                        style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: onNext,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppTheme.buttonColor1,
+                        foregroundColor: Colors.black,
+                      ),
+                      child: Text(
+                        "Nästa",
+                        style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

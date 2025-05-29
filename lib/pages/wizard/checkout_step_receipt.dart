@@ -66,17 +66,17 @@ class CheckoutStepReceipt extends StatelessWidget {
 
                     // Lista med varor
                     ConstrainedBox(
-                      constraints: const BoxConstraints(maxHeight: 300),
+                      constraints: const BoxConstraints(maxHeight: 400),
                       child: SingleChildScrollView(
                         child: Column(
-                          children: receiptItems
-                              .map((item) => WizardReceiptItemCard(item))
-                              .toList(),
+                          children: [
+                            ...receiptItems.map((item) => WizardReceiptItemCard(item)).toList(),
+                          ],
                         ),
                       ),
                     ),
 
-                    const SizedBox(height: AppTheme.paddingMediumSmall),
+                    const SizedBox(height: AppTheme.paddingHuge),
 
                     // Betalningsmetod + leveransinfo
                     Align(

@@ -28,11 +28,11 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
   String _selectedMethod = 'card';
 
   final Map<String, String> _methodImages = {
-    'card': '../assets/images/visamc.jpg',
-    'swish': '../assets/images/swish.png',
-    'invoice': '../assets/images/invoice.webp',
-    'klarna': '../assets/images/klarna.png',
-    'qliro': '../assets/images/qliro.png',
+    'card': 'assets/images/visamc.jpg',
+    'swish': 'assets/images/swish.png',
+    'invoice': 'assets/images/invoice.webp',
+    'klarna': 'assets/images/klarna.png',
+    'qliro': 'assets/images/qliro.png',
   };
 
   final Map<String, String> _methods = {
@@ -177,12 +177,11 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
                                   mainAxisSize: MainAxisSize.min,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('Vill du genomföra köpet?', style: AppTheme.largeText),
+                                    Text('Är du säker på att du vill genomföra köpet?', style: AppTheme.largeText),
                                     const SizedBox(height: 16),
                                     Text(
                                       'Totalsumma: ${_calculateTotal(cart).toStringAsFixed(2)} kr',
-
-                                      style: AppTheme.largeHeading,
+                                      style: AppTheme.LARGEHeading,
                                     ),
                                   ],
                                 ),
