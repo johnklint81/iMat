@@ -36,7 +36,8 @@ class CheckoutStepCart extends StatelessWidget {
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
                       minHeight: 120,
-                      maxHeight: estimatedHeight > 600 ? 600 : estimatedHeight + 120,
+                      maxHeight: estimatedHeight > 680 ? 680 : estimatedHeight + 140,
+
                     ),
                     child: Container(
                       padding: const EdgeInsets.all(16),
