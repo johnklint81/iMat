@@ -177,10 +177,15 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
                                   ),
                                 ),
                                 ElevatedButton(
-                                  onPressed: () {
+                                  onPressed: () async {
                                     Navigator.of(context).pop();
-                                    widget.onNext();
+
+                                    final handler = context.read<ImatDataHandler>();
+                                    await handler.placeOrder();
+
+                                    widget.onNext(); // Now safe to navigate
                                   },
+
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: AppTheme.buttonColor1,
                                   ),

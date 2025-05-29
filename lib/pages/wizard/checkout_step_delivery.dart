@@ -94,40 +94,7 @@ class _CheckoutStepDeliveryState extends State<CheckoutStepDelivery> {
                             firstDate: now,
                             lastDate: now.add(const Duration(days: 30)),
                             locale: const Locale('sv'),
-                            builder: (context, child) {
-                              return Theme(
-                                data: Theme.of(context).copyWith(
-                                  dialogBackgroundColor: AppTheme.backgroundColor,
-                                  colorScheme: ColorScheme.light(
-                                    primary: AppTheme.buttonColor1,
-                                    onPrimary: Colors.white,
-                                    onSurface: Colors.black,
-                                  ),
-                                  datePickerTheme: DatePickerThemeData(
-                                    backgroundColor: AppTheme.backgroundColor,
-                                    surfaceTintColor: AppTheme.backgroundColor,
-                                    todayForegroundColor: MaterialStateProperty.all(Colors.black),
-                                    todayBackgroundColor: MaterialStateProperty.all(Colors.transparent),
-                                  ),
-                                  textButtonTheme: TextButtonThemeData(
-                                    style: ButtonStyle(
-                                      textStyle: MaterialStateProperty.all(
-                                        AppTheme.mediumHeading.copyWith(fontSize: 16),
-                                      ),
-                                      foregroundColor: MaterialStateProperty.all(Colors.white),
-                                      backgroundColor: MaterialStateProperty.resolveWith((states) {
-                                        final isCancel = states.contains(MaterialState.disabled);
-                                        return isCancel ? Colors.deepOrange : Colors.green;
-                                      }),
-                                    ),
-                                  ),
-                                ),
-                                child: MediaQuery(
-                                  data: MediaQuery.of(context).copyWith(textScaleFactor: 1.4),
-                                  child: child!,
-                                ),
-                              );
-                            },
+                              builder: (context, child) => child!,
                           );
 
                           if (picked != null) {

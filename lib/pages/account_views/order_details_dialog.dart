@@ -15,6 +15,9 @@ class OrderDetailsDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final orderDateFormatted = DateFormat('yyyy-MM-dd').format(order.date);
+    final deliveryDateFormatted = order.deliveryOption == 'date' && order.deliveryDate != null
+        ? DateFormat('yyyy-MM-dd').format(order.deliveryDate!)
+        : null;
 
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -26,15 +29,15 @@ class OrderDetailsDialog extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Orderdetaljer", style: AppTheme.mediumHeading),
+                Text("Orderdetaljer", style: AppTheme.largeHeading),
                 const SizedBox(height: 12),
                 const Divider(),
                 const SizedBox(height: 12),
                 _buildDetailRow("Ordernummer:", order.orderNumber.toString()),
                 _buildDetailRow("Datum:", orderDateFormatted),
-                _buildDetailRow("Leveranssätt:", _formatDeliveryOption(order)),
-                if (order.deliveryOption == 'date' && order.deliveryDate != null)
-                  _buildDetailRow("Leveransdatum:", DateFormat('yyyy-MM-dd').format(order.deliveryDate!)),
+                // _buildDetailRow("Leveranssätt:", _formatDeliveryOption(order)),
+                if (deliveryDateFormatted != null)
+                  _buildDetailRow("Leveransdatum:", deliveryDateFormatted),
                 const SizedBox(height: 24),
                 ReceiptItemList(order: order),
                 const SizedBox(height: 24),
@@ -95,12 +98,26 @@ class OrderDetailsDialog extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Row(
         children: [
-          Expanded(flex: 2, child: Text(label, style: AppTheme.smallText)),
-          Expanded(flex: 3, child: Text(value, style: AppTheme.smallText)),
+          Expanded(
+            flex: 2,
+            child: Text(
+              label,
+              style: AppTheme.mediumLargeText, // match font size below the image
+            ),
+          ),
+          Expanded(
+            flex: 3,
+            child: Text(
+              value,
+              style: AppTheme.mediumLargeText, // match font size
+              textAlign: TextAlign.right, // flush right
+            ),
+          ),
         ],
       ),
     );
   }
+
 
   String _formatDeliveryOption(Order order) {
     switch (order.deliveryOption) {
@@ -109,9 +126,7 @@ class OrderDetailsDialog extends StatelessWidget {
       case 'pickup':
         return 'Hämta vid utlämning';
       case 'date':
-        return order.deliveryDate != null
-            ? 'På specifikt datum'
-            : 'Datum ej angivet';
+        return 'På specifikt datum';
       default:
         return 'Okänt';
     }

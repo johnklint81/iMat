@@ -16,10 +16,11 @@ class CheckoutStepReceipt extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cart = context.watch<ImatDataHandler>().getShoppingCart();
-    final items = cart.items;
-    final total = items.fold<double>(0, (sum, item) => sum + item.total);
     final handler = context.watch<ImatDataHandler>();
+    final latestOrder = handler.orders.isNotEmpty ? handler.orders.last : null;
+    final items = latestOrder?.items ?? [];
+    final total = items.fold<double>(0, (sum, item) => sum + item.total);
+
     final deliveryMethod = handler.deliveryOption == 'date' && handler.deliveryDate != null
         ? handler.deliveryDate!.toLocal().toString().split(' ')[0]
         : handler.deliveryOption == 'pickup'
@@ -139,7 +140,6 @@ class CheckoutStepReceipt extends StatelessWidget {
                         return;
                       }
 
-                      await context.read<ImatDataHandler>().placeOrder();
                       onDone();
                     },
 

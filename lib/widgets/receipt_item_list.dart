@@ -30,26 +30,26 @@ class ReceiptItemList extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: const [
-                  Text("Betalningsmetod:", style: AppTheme.mediumText),
-                  Text("Kort", style: AppTheme.mediumText),
+                  Text("Betalningsmetod:", style: AppTheme.mediumLargeText),
+                  Text("Kort", style: AppTheme.mediumLargeText),
                 ],
               ),
               const SizedBox(height: AppTheme.paddingTiny),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text("Leveranssätt:", style: AppTheme.mediumText),
-                  Text(deliveryMethod, style: AppTheme.mediumText),
+                  const Text("Leveranssätt:", style: AppTheme.mediumLargeText),
+                  Text(deliveryMethod, style: AppTheme.mediumLargeText),
                 ],
               ),
               const SizedBox(height: AppTheme.paddingTiny),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text("Beräknad leveranstid:", style: AppTheme.mediumText),
+                  const Text("Beräknad leveranstid:", style: AppTheme.mediumLargeText),
                   Text(
                     "${deliveryTime.hour}:${deliveryTime.minute.toString().padLeft(2, '0')}",
-                    style: AppTheme.mediumText,
+                    style: AppTheme.mediumLargeText,
                   ),
                 ],
               ),
@@ -59,7 +59,7 @@ class ReceiptItemList extends StatelessWidget {
         const SizedBox(height: AppTheme.paddingSmall),
         Align(
           alignment: Alignment.centerRight,
-          child: Text("Totalt: ${total.toStringAsFixed(2)} kr", style: AppTheme.mediumHeading),
+          child: Text("Totalt: ${total.toStringAsFixed(2)} kr", style: AppTheme.largeHeading),
         ),
       ],
     );
