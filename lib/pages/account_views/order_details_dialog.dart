@@ -6,8 +6,8 @@ import 'package:imat_app/app_theme.dart';
 import 'package:imat_app/widgets/receipt_item_list.dart';
 import 'package:imat_app/model/imat_data_handler.dart';
 import 'package:imat_app/model/imat/shopping_item.dart';
-
 import '../../widgets/order_summary_items_only.dart';
+
 
 class OrderDetailsDialog extends StatelessWidget {
   final Order order;
@@ -17,6 +17,14 @@ class OrderDetailsDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final orderDateFormatted = DateFormat('yyyy-MM-dd').format(order.date);
+    final details = [
+      ("Ordernummer:", order.orderNumber.toString()),
+      ("Datum för beställning:", orderDateFormatted),
+      ("Betalningsmetod:", _formatPayment(order.paymentMethod)),
+      ("Leveranssätt:", _formatDeliveryOption(order)),
+      ("Beräknat leveransdatum:", _formatDeliveryDate(order)),
+      ("Beräknad leveranstid:", _formatDeliveryTime(order)),
+    ];
 
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -37,11 +45,43 @@ class OrderDetailsDialog extends StatelessWidget {
                       const SizedBox(height: 12),
                       const Divider(),
                       const SizedBox(height: 12),
-                      _buildDetailRow("Ordernummer:", order.orderNumber.toString()),
-                      _buildDetailRow("Datum för beställning:", orderDateFormatted),
-                      _buildDetailRow("Betalningsmetod:", _formatPayment(order.paymentMethod)),
-                      _buildDetailRow("Leveranssätt:", _formatDeliveryOption(order)),
-                      _buildDetailRow("Leveranstid:", _formatDeliveryTime(order)),
+
+                      // Rutor med alternerande färg
+                      Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: AppTheme.backgroundColor, // ändrat från Colors.white
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: AppTheme.borderColor),
+                        ),
+
+                        child: Column(
+                          children: List.generate(details.length, (i) {
+                            final (label, value) = details[i];
+                            final bgColor = i % 2 == 0 ? AppTheme.stripeLight : AppTheme.stripeDark;
+
+                            return Container(
+                              color: bgColor,
+                              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    flex: 2,
+                                    child: Text(label, style: AppTheme.mediumLargeText),
+                                  ),
+                                  Expanded(
+                                    flex: 3,
+                                    child: Text(value,
+                                        style: AppTheme.mediumLargeText,
+                                        textAlign: TextAlign.right),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }),
+                        ),
+                      ),
+
                       const SizedBox(height: 24),
                       OrderSummaryItemsOnly(order: order),
                       const SizedBox(height: 24),
@@ -49,7 +89,8 @@ class OrderDetailsDialog extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
+
               // Fixed bottom buttons
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
@@ -101,36 +142,20 @@ class OrderDetailsDialog extends StatelessWidget {
     );
   }
 
-
-  Widget _buildDetailRow(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
-      child: Row(
-        children: [
-          Expanded(
-            flex: 2,
-            child: Text(label, style: AppTheme.mediumLargeText),
-          ),
-          Expanded(
-            flex: 3,
-            child: Text(value, style: AppTheme.mediumLargeText, textAlign: TextAlign.right),
-          ),
-        ],
-      ),
-    );
-  }
   String _formatPayment(String? key) {
+    final normalized = key?.toLowerCase();
     return {
       'card': 'VISA/Mastercard',
       'swish': 'Swish',
       'invoice': 'Faktura',
       'klarna': 'Klarna',
       'qliro': 'Qliro',
-    }[key] ?? 'Okänt';
+    }[normalized] ?? 'Okänt';
   }
 
   String _formatDeliveryOption(Order order) {
-    switch (order.deliveryOption) {
+    final option = order.deliveryOption?.toLowerCase();
+    switch (option) {
       case 'asap':
         return 'Så fort som möjligt';
       case 'pickup':
@@ -140,6 +165,12 @@ class OrderDetailsDialog extends StatelessWidget {
       default:
         return 'Okänt';
     }
+  }
+
+
+  String _formatDeliveryDate(Order order) {
+    final dt = order.deliveryDate ?? DateTime.now().add(const Duration(hours: 2));
+    return DateFormat('yyyy-MM-dd').format(dt);
   }
 
   String _formatDeliveryTime(Order order) {

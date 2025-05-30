@@ -152,7 +152,7 @@ class _CheckoutStepDeliveryState extends State<CheckoutStepDelivery> {
                               foregroundColor: Colors.white,
                               side: const BorderSide(color: AppTheme.borderColor, width: 1.5),
                               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(36)),
                             ),
                             onPressed: () async {
                               final now = DateTime.now();
@@ -195,7 +195,7 @@ class _CheckoutStepDeliveryState extends State<CheckoutStepDelivery> {
                               foregroundColor: Colors.white,
                               side: const BorderSide(color: AppTheme.borderColor, width: 1.5),
                               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
                             ),
                             onPressed: _selectedDate == null
                                 ? null

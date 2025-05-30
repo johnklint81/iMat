@@ -26,6 +26,8 @@ class AppTheme {
   static const double accountViewSize = 739.0;
   static const double wizardCardSize = 739.0;
   static const double cartButtonSize = 24.0;
+  static const Color stripeLight = Color(0xFFFAFAFA); // ljus grå/beige
+  static const Color stripeDark = Color(0xFFEFEFEF);  // något mörkare
 
   static ColorScheme colorScheme = ColorScheme.fromSeed(seedColor: Color(0xFFFFEECE));
   static const TextStyle accountButtonStyle = TextStyle(
