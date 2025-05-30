@@ -28,6 +28,7 @@ class OrderDetailsDialog extends StatelessWidget {
 
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        backgroundColor: AppTheme.backgroundColor,
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 800),
         child: IntrinsicHeight(
