@@ -127,7 +127,7 @@ class ShoppingCartWidget extends StatelessWidget {
                                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
                               ),
-                              child: Text("OK", style: AppTheme.mediumHeading.copyWith(color: Colors.white)),
+                              child: Text("OK", style: AppTheme.mediumLargeHeading.copyWith(color: Colors.white)),
                             ),
                           ],
                         ),
