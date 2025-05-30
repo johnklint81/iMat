@@ -113,7 +113,7 @@ class OrderDetailsDialog extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppTheme.buttonColor1,
                         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(42)),
                       ),
                       child: Text(
                         "Lägg till i kundvagn",
@@ -125,7 +125,7 @@ class OrderDetailsDialog extends StatelessWidget {
                       style: TextButton.styleFrom(
                         backgroundColor: AppTheme.buttonColor2,
                         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(42)),
                       ),
                       child: Text(
                         "Stäng",
