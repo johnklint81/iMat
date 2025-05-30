@@ -18,15 +18,37 @@ class ImatDataHandler extends ChangeNotifier {
   ImatDataHandler() {
     _setUp();
   }
-  String paymentMethod = 'card'; // eller 'swish' etc.
+
+  String paymentMethod = 'card';
+  String deliveryOption = 'asap';
+  DateTime? deliveryDate;
 
   void setPaymentMethod(String method) {
     paymentMethod = method;
     notifyListeners();
   }
+  void selectAllProducts() {
+    _selectProducts.clear();
+    _selectProducts.addAll(_products);
+    notifyListeners();
+  }
 
-  String deliveryOption = 'asap';
-  DateTime? deliveryDate;
+  void selectFavorites() {
+    _selectProducts.clear();
+    _selectProducts.addAll(favorites);
+    notifyListeners();
+  }
+
+  void selectSelection(List<Product> selection) {
+    _selectProducts.clear();
+    _selectProducts.addAll(selection);
+    notifyListeners();
+  }
+
+  List<Product> findProducts(String search) {
+    final lowerSearch = search.toLowerCase();
+    return products.where((product) => product.name.toLowerCase().contains(lowerSearch)).toList();
+  }
 
   void setDelivery(String option, DateTime? date) {
     deliveryOption = option;
@@ -56,48 +78,10 @@ class ImatDataHandler extends ChangeNotifier {
 
   String _twoDigits(int n) => n < 10 ? '0$n' : '$n';
 
-
   List<Product> get products => _products;
   List<ProductDetail> get details => _details;
   List<Order> get orders => _orders;
-
   List<Product> get selectProducts => _selectProducts;
-
-  void selectAllProducts() {
-    _selectProducts.clear();
-    _selectProducts.addAll(_products);
-    notifyListeners();
-  }
-
-  void selectFavorites() {
-    _selectProducts.clear();
-    _selectProducts.addAll(favorites);
-    notifyListeners();
-  }
-
-  void selectSelection(List<Product> selection) {
-    _selectProducts.clear();
-    _selectProducts.addAll(selection);
-    notifyListeners();
-  }
-
-  List<Product> findProductsByCategory(ProductCategory category) {
-    return products.where((product) => product.category == category).toList();
-  }
-
-  List<Product> findProducts(String search) {
-    final lowerSearch = search.toLowerCase();
-    return products.where((product) => product.name.toLowerCase().contains(lowerSearch)).toList();
-  }
-
-  Product? getProduct(int idNbr) {
-    try {
-      return _products.firstWhere((p) => p.productId == idNbr);
-    } catch (_) {
-      return null;
-    }
-  }
-
   List<Product> get favorites => _favorites.values.toList();
 
   bool isFavorite(Product product) => _favorites.containsKey(product.productId);
@@ -146,6 +130,7 @@ class ImatDataHandler extends ChangeNotifier {
       return null;
     }
   }
+
   Map<String, dynamic> getExtras() => _extras;
 
   void addExtra(String key, dynamic jsonData) {
@@ -210,19 +195,15 @@ class ImatDataHandler extends ChangeNotifier {
     _shoppingCart.clear();
     notifyListeners();
 
-    // 🔁 Ladda om ordrar
     var response = await InternetHandler.getOrders();
     var jsonData = jsonDecode(response) as List;
 
     _orders.clear();
     _orders.addAll(jsonData.map((item) => Order.fromJson(item)).toList());
 
-    // Hämta senaste ordern (nyaste datumet)
-    final lastOrder = _orders.reduce((a, b) =>
-    a.date.isAfter(b.date) ? a : b);
+    final lastOrder = _orders.reduce((a, b) => a.date.isAfter(b.date) ? a : b);
 
-    // 🔐 Spara leveransdata med korrekt timestamp
-    final key = 'delivery_${lastOrder.date.millisecondsSinceEpoch}';
+    final key = 'delivery_order_${lastOrder.orderNumber}';
     _extras[key] = {
       'option': deliveryOption,
       'date': deliveryDate?.millisecondsSinceEpoch,
@@ -231,50 +212,31 @@ class ImatDataHandler extends ChangeNotifier {
 
     await InternetHandler.setExtras(_extras);
 
-    // 🔁 Uppdatera alla orderobjekt igen med leveransinfo
-    _orders.clear();
-    _orders.addAll(jsonData.map((item) {
-      final order = Order.fromJson(item);
-      final key = 'delivery_${order.date.millisecondsSinceEpoch}';
-      if (_extras.containsKey(key)) {
-        final data = _extras[key];
-        order.deliveryOption = data['option'];
+    for (final order in _orders) {
+      final k = 'delivery_order_${order.orderNumber}';
+      if (_extras.containsKey(k)) {
+        final data = _extras[k];
+        order.deliveryOption = data['option'] ?? order.deliveryOption;
+        order.paymentMethod = data['payment'] ?? order.paymentMethod;
         if (data['date'] != null) {
-          order.deliveryDate =
-              DateTime.fromMillisecondsSinceEpoch(data['date']);
+          order.deliveryDate = DateTime.fromMillisecondsSinceEpoch(data['date']);
         }
-        order.paymentMethod = data['payment'];
       }
-      return order;
-    }));
+    }
 
     notifyListeners();
   }
-
-
-
-
-
 
   void reset() async {
     await InternetHandler.reset();
     _favorites.clear();
     _orders.clear();
 
-    var response = await InternetHandler.getCreditCard();
-    _creditCard = CreditCard.fromJson(jsonDecode(response));
-
-    response = await InternetHandler.getCustomer();
-    _customer = Customer.fromJson(jsonDecode(response));
-
-    response = await InternetHandler.getUser();
-    _user = User.fromJson(jsonDecode(response));
-
-    response = await InternetHandler.getShoppingCart();
-    _shoppingCart = ShoppingCart.fromJson(jsonDecode(response));
-
-    response = await InternetHandler.getExtras();
-    _extras = jsonDecode(response);
+    _creditCard = CreditCard.fromJson(jsonDecode(await InternetHandler.getCreditCard()));
+    _customer = Customer.fromJson(jsonDecode(await InternetHandler.getCustomer()));
+    _user = User.fromJson(jsonDecode(await InternetHandler.getUser()));
+    _shoppingCart = ShoppingCart.fromJson(jsonDecode(await InternetHandler.getShoppingCart()));
+    _extras = jsonDecode(await InternetHandler.getExtras());
 
     notifyListeners();
   }
@@ -380,20 +342,17 @@ class ImatDataHandler extends ChangeNotifier {
       final key = 'delivery_order_${order.orderNumber}';
       if (_extras.containsKey(key)) {
         final data = _extras[key];
-        order.deliveryOption = data['option'];
+        order.deliveryOption = data['option'] ?? order.deliveryOption;
+        order.paymentMethod = data['payment'] ?? order.paymentMethod;
         if (data['date'] != null) {
           order.deliveryDate = DateTime.fromMillisecondsSinceEpoch(data['date']);
         }
-        order.paymentMethod = data['payment'];
       }
-
       return order;
     }));
-
 
     _shoppingCart = ShoppingCart.fromJson(jsonDecode(await InternetHandler.getShoppingCart()));
 
     notifyListeners();
   }
-
 }

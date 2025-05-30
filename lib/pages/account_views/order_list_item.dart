@@ -48,7 +48,7 @@ class OrderListItem extends StatelessWidget {
                 backgroundColor: AppTheme.buttonColor2,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(24),
                   side: const BorderSide(color: AppTheme.borderColor),
                 ),
               ),
