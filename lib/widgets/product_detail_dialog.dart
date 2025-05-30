@@ -206,7 +206,7 @@ class _ProductDetailDialogState extends State<ProductDetailDialog> {
                       backgroundColor: AppTheme.buttonColor2,
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(36),
                       ),
                       side: const BorderSide(
                         color: AppTheme.borderColor,
@@ -216,7 +216,7 @@ class _ProductDetailDialogState extends State<ProductDetailDialog> {
                     ),
                     child: Text(
                       "Välj",
-                      style: AppTheme.mediumHeading.copyWith(
+                      style: AppTheme.largeHeading.copyWith(
                         color: Colors.white,
                       ),
                     ),
