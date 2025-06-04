@@ -112,7 +112,7 @@ class _CheckoutStepAddressState extends State<CheckoutStepAddress> {
             children: [
               ConstrainedBox(
                 constraints: const BoxConstraints(
-                  maxHeight: 520, // justera vid behov
+                  maxHeight: 700, // justera vid behov
                 ),
                 child: SingleChildScrollView(
                   child: Container(
