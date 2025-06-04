@@ -80,7 +80,6 @@ class _CheckoutStepAddressState extends State<CheckoutStepAddress> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(label, style: AppTheme.largeHeading),
-          // const SizedBox(height: 4),
           TextFormField(
             controller: controller,
             validator: (value) => value == null || value.isEmpty ? 'Fältet krävs' : null,
@@ -98,116 +97,116 @@ class _CheckoutStepAddressState extends State<CheckoutStepAddress> {
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      color: AppTheme.backgroundColor,
-      child: Align(
-        alignment: Alignment.topCenter,
-        child: Padding(
-          padding: const EdgeInsets.only(top: AppTheme.paddingSmall),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: AppTheme.wizardCardSize,
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppTheme.borderColor),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: AppTheme.borderColor,
-                      blurRadius: 6,
-                      offset: Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: Form(
-                  key: _formKey,
-                  child: FocusTraversalGroup(
-                    child: Column(
-                      children: [
-                        _buildField(
-                          'Namn:',
-                          _nameController,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZåäöÅÄÖ ]')),
-                          ],
-                        ),
-                        _buildField(
-                          'Gatuadress:',
-                          _streetController,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZåäöÅÄÖ0-9 ]')),
-                          ],
-                        ),
-                        _buildField(
-                          'Postnummer:',
-                          _zipController,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            LengthLimitingTextInputFormatter(5),
-                          ],
-                        ),
-                        _buildField(
-                          'Ort:',
-                          _cityController,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZåäöÅÄÖ ]')),
-                          ],
-                        ),
-                        _buildField(
-                          'Telefonnummer:',
-                          _phoneController,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            LengthLimitingTextInputFormatter(15),
-                          ],
+    return Scaffold(
+      backgroundColor: AppTheme.backgroundColor,
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.only(top: AppTheme.paddingSmall, bottom: AppTheme.paddingMedium),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: MediaQuery.of(context).size.height,
+            ),
+            child: IntrinsicHeight(
+              child: Column(
+                children: [
+                  Container(
+                    width: AppTheme.wizardCardSize,
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: AppTheme.borderColor),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: AppTheme.borderColor,
+                          blurRadius: 6,
+                          offset: Offset(0, 2),
                         ),
                       ],
                     ),
-                  )
-
-                ),
-              ),
-              const SizedBox(height: AppTheme.paddingMedium),
-              SizedBox(
-                width: AppTheme.wizardCardSize,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ElevatedButton(
-                      onPressed: widget.onBack,
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: AppTheme.buttonColor2,
-                          foregroundColor: Colors.black
-                      ),
-                      child: Text(
-                          'Tillbaka',
-                          style: AppTheme.largeHeading.copyWith(color: Colors.white),
+                    child: Form(
+                      key: _formKey,
+                      child: FocusTraversalGroup(
+                        child: Column(
+                          children: [
+                            _buildField(
+                              'Namn:',
+                              _nameController,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZåäöÅÄÖ ]')),
+                              ],
+                            ),
+                            _buildField(
+                              'Gatuadress:',
+                              _streetController,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZåäöÅÄÖ0-9 ]')),
+                              ],
+                            ),
+                            _buildField(
+                              'Postnummer:',
+                              _zipController,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                LengthLimitingTextInputFormatter(5),
+                              ],
+                            ),
+                            _buildField(
+                              'Ort:',
+                              _cityController,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZåäöÅÄÖ ]')),
+                              ],
+                            ),
+                            _buildField(
+                              'Telefonnummer:',
+                              _phoneController,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                LengthLimitingTextInputFormatter(15),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    ElevatedButton(
-                      onPressed: _handleNext,
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: AppTheme.buttonColor1,
-                          foregroundColor: Colors.black
-                      ),
-                      child: Text(
-                        'Nästa',
-                        style: AppTheme.largeHeading.copyWith(color: Colors.white),
-                      ),
+                  ),
+                  const SizedBox(height: AppTheme.paddingMedium),
+                  SizedBox(
+                    width: AppTheme.wizardCardSize,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ElevatedButton(
+                          onPressed: widget.onBack,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppTheme.buttonColor2,
+                            foregroundColor: Colors.black,
+                          ),
+                          child: Text(
+                            'Tillbaka',
+                            style: AppTheme.largeHeading.copyWith(color: Colors.white),
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: _handleNext,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppTheme.buttonColor1,
+                            foregroundColor: Colors.black,
+                          ),
+                          child: Text(
+                            'Nästa',
+                            style: AppTheme.largeHeading.copyWith(color: Colors.white),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
