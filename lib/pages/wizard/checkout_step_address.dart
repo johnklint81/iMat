@@ -99,19 +99,23 @@ class _CheckoutStepAddressState extends State<CheckoutStepAddress> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.only(top: AppTheme.paddingSmall, bottom: AppTheme.paddingMedium),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: MediaQuery.of(context).size.height,
-            ),
-            child: IntrinsicHeight(
-              child: Column(
-                children: [
-                  Container(
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      color: AppTheme.backgroundColor,
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: Padding(
+          padding: const EdgeInsets.only(top: AppTheme.paddingSmall),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxHeight: 520, // justera vid behov
+                ),
+                child: SingleChildScrollView(
+                  child: Container(
                     width: AppTheme.wizardCardSize,
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
@@ -173,40 +177,38 @@ class _CheckoutStepAddressState extends State<CheckoutStepAddress> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: AppTheme.paddingMedium),
-                  SizedBox(
-                    width: AppTheme.wizardCardSize,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ElevatedButton(
-                          onPressed: widget.onBack,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppTheme.buttonColor2,
-                            foregroundColor: Colors.black,
-                          ),
-                          child: Text(
-                            'Tillbaka',
-                            style: AppTheme.largeHeading.copyWith(color: Colors.white),
-                          ),
-                        ),
-                        ElevatedButton(
-                          onPressed: _handleNext,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppTheme.buttonColor1,
-                            foregroundColor: Colors.black,
-                          ),
-                          child: Text(
-                            'Nästa',
-                            style: AppTheme.largeHeading.copyWith(color: Colors.white),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
+              const SizedBox(height: AppTheme.paddingMedium),
+              SizedBox(
+                width: AppTheme.wizardCardSize,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      onPressed: widget.onBack,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppTheme.buttonColor2,
+                      ),
+                      child: Text(
+                        'Tillbaka',
+                        style: AppTheme.largeHeading.copyWith(color: Colors.white),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: _handleNext,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppTheme.buttonColor1,
+                      ),
+                      child: Text(
+                        'Nästa',
+                        style: AppTheme.largeHeading.copyWith(color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),
