@@ -5,7 +5,7 @@ class Order {
   int orderNumber;
   DateTime date;
   List<ShoppingItem> items;
-
+  String? paymentMethod;
   String? deliveryOption;
   DateTime? deliveryDate;
 
@@ -15,22 +15,39 @@ class Order {
       this.items, {
         this.deliveryOption,
         this.deliveryDate,
+        this.paymentMethod,
       });
 
   factory Order.fromJson(Map<String, dynamic> json) {
-    int orderNumber = json[_orderNumber] as int;
-    int timeStamp = json[_date] as int;
-    List jsonItems = json[_items];
+    final orderNumber = json[_orderNumber];
+    final timeStamp = json[_date];
+    final jsonItems = json[_items];
 
-    List<ShoppingItem> items = [];
-    for (final item in jsonItems) {
-      items.add(ShoppingItem.fromJson(item));
+    if (orderNumber == null) {
+      print("⚠️ orderNumber saknas i: $json");
+    }
+    if (timeStamp == null) {
+      print("⚠️ date saknas i: $json");
+    }
+    if (jsonItems == null) {
+      print("⚠️ items saknas i: $json");
     }
 
-    // Hämta leveransval och datum om det finns
-    String? option = json[_deliveryOption];
-    String? dateStr = json[_deliveryDate];
-    DateTime? parsedDate = dateStr != null ? DateTime.tryParse(dateStr) : null;
+    if (orderNumber == null || timeStamp == null || jsonItems == null) {
+      throw FormatException('Order JSON saknar obligatoriska fält');
+    }
+
+    final items = [
+      for (final item in jsonItems) ShoppingItem.fromJson(item)
+    ];
+
+    final String? option = json[_deliveryOption];
+    final int? deliveryEpoch = json[_deliveryDate];
+    final String? payment = json[_paymentMethod];
+
+    final DateTime? parsedDate = deliveryEpoch != null
+        ? DateTime.fromMillisecondsSinceEpoch(deliveryEpoch)
+        : null;
 
     return Order(
       orderNumber,
@@ -38,15 +55,21 @@ class Order {
       items,
       deliveryOption: option,
       deliveryDate: parsedDate,
+      paymentMethod: payment,
     );
   }
+
+
+
 
   Map<String, dynamic> toJson() => {
     _orderNumber: orderNumber,
     _date: date.millisecondsSinceEpoch,
     _items: items.map((item) => item.toJson()).toList(),
-    _deliveryOption: deliveryOption,
-    _deliveryDate: deliveryDate?.toIso8601String(),
+    if (deliveryOption != null) _deliveryOption: deliveryOption,
+    if (deliveryDate != null)
+      _deliveryDate: deliveryDate!.millisecondsSinceEpoch,
+    if (paymentMethod != null) _paymentMethod: paymentMethod,
   };
 
   double getTotal() {
@@ -62,4 +85,5 @@ class Order {
   static const _items = 'items';
   static const _deliveryOption = 'deliveryOption';
   static const _deliveryDate = 'deliveryDate';
+  static const _paymentMethod = 'paymentMethod';
 }

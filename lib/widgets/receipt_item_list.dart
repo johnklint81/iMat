@@ -13,9 +13,11 @@ class ReceiptItemList extends StatelessWidget {
     final items = order.items;
     final total = items.fold<double>(0, (sum, item) => sum + item.total);
 
-    // Use dummy delivery info for now, adjust if needed
-    const deliveryMethod = "Så fort som möjligt";
-    final deliveryTime = order.date.add(const Duration(hours: 2));
+    final paymentLabel = _formatPayment(order.paymentMethod);
+    final deliveryMethod = _formatDelivery(order.deliveryOption);
+    final deliveryTime = order.deliveryDate != null
+        ? "${order.deliveryDate!.hour.toString().padLeft(2, '0')}:${order.deliveryDate!.minute.toString().padLeft(2, '0')}"
+        : "Okänt";
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,41 +29,53 @@ class ReceiptItemList extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Text("Betalningsmetod:", style: AppTheme.mediumText),
-                  Text("Kort", style: AppTheme.mediumText),
-                ],
-              ),
+              _buildRow("Betalningsmetod:", paymentLabel),
               const SizedBox(height: AppTheme.paddingTiny),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text("Leveranssätt:", style: AppTheme.mediumText),
-                  Text(deliveryMethod, style: AppTheme.mediumText),
-                ],
-              ),
+              _buildRow("Leveranssätt:", deliveryMethod),
               const SizedBox(height: AppTheme.paddingTiny),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text("Beräknad leveranstid:", style: AppTheme.mediumText),
-                  Text(
-                    "${deliveryTime.hour}:${deliveryTime.minute.toString().padLeft(2, '0')}",
-                    style: AppTheme.mediumText,
-                  ),
-                ],
-              ),
+              _buildRow("Beräknad leveranstid:", deliveryTime),
             ],
           ),
         ),
         const SizedBox(height: AppTheme.paddingSmall),
         Align(
           alignment: Alignment.centerRight,
-          child: Text("Totalt: ${total.toStringAsFixed(2)} kr", style: AppTheme.mediumHeading),
+          child: Text("Totalt: ${total.toStringAsFixed(2)} kr", style: AppTheme.largeHeading),
         ),
       ],
     );
+  }
+
+  Widget _buildRow(String label, String value) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(label, style: AppTheme.mediumLargeText),
+        Text(value, style: AppTheme.mediumLargeText),
+      ],
+    );
+  }
+
+  String _formatPayment(String? key) {
+    return {
+      'card': 'VISA/Mastercard',
+      'swish': 'Swish',
+      'invoice': 'Faktura',
+      'klarna': 'Klarna',
+      'qliro': 'Qliro',
+    }[key] ?? 'Okänt';
+  }
+
+  String _formatDelivery(String? key) {
+    switch (key) {
+      case 'asap':
+        return 'Så fort som möjligt';
+      case 'pickup':
+        return 'Hämta vid utlämning';
+      case 'date':
+        return 'På ett specifikt datum';
+      default:
+        return 'Okänt';
+    }
   }
 }

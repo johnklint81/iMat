@@ -126,7 +126,20 @@ class _MainViewState extends State<MainView> {
               },
             ),
           ),
-          Container(width: AppTheme.paddingLarge, color: Colors.white),
+          Padding(
+            padding: const EdgeInsets.only(top: AppTheme.paddingMediumSmall),
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(12),
+                topLeft: Radius.circular(12),
+              ),
+              child: Container(
+                width: AppTheme.paddingLarge,
+                color: Colors.white,
+              ),
+            ),
+          ),
+
           Expanded(
             child: Column(
               children: [
@@ -161,36 +174,59 @@ class _MainViewState extends State<MainView> {
                         }
 
                         if (selectedCategory == 'Fisk') {
-                          if (subLower == 'färsk fisk') {
-                            return name.contains('lax') || name.contains('sej');
-                          } else if (subLower == 'skaldjur') {
-                            return name.contains('kräftor') || name.contains('räkor');
-                          } else if (subLower == 'konserverad fisk') {
-                            return name.contains('tonfisk') || name.contains('sill') || name.contains('fiskpinnar');
-                          }
+                          if (subLower == 'färsk fisk') return name.contains('lax') || name.contains('sej');
+                          if (subLower == 'skaldjur') return name.contains('kräftor') || name.contains('räkor');
+                          if (subLower == 'konserverad fisk') return name.contains('tonfisk') || name.contains('sill') || name.contains('fiskpinnar');
                           return false;
                         }
 
                         return true;
                       }).toList();
 
-
+                      context.read<ImatDataHandler>().selectSelection(filtered);
+                    },
+                    onShowAll: () {
+                      setState(() => selectedSubcategory = null);
+                      final allCats = demoSubcategories[selectedCategory!]!.values.expand((e) => e).toList();
+                      final products = context.read<ImatDataHandler>().products;
+                      final filtered = products.where((p) => allCats.contains(p.category)).toList();
                       context.read<ImatDataHandler>().selectSelection(filtered);
                     },
                   ),
+
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.all(AppTheme.paddingSmall),
-                    child:
-                        showAccount
-                            ? const AccountView()
-                            : const MainProductArea(),
+                    padding: const EdgeInsets.fromLTRB(
+                      AppTheme.paddingSmall,
+                      AppTheme.paddingTiny, // reduced top padding
+                      AppTheme.paddingSmall,
+                      AppTheme.paddingSmall,
+                    ),
+                    child: showAccount
+                        ? const AccountView()
+                        : const MainProductArea(),
                   ),
                 ),
+
               ],
             ),
           ),
-          Container(width: AppTheme.paddingLarge, color: Colors.white),
+          Padding(
+            padding: const EdgeInsets.only(top: AppTheme.paddingMediumSmall),
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(12),
+                topLeft: Radius.circular(12),
+              ),
+              child: Container(
+                width: AppTheme.paddingLarge,
+                color: Colors.white,
+              ),
+            ),
+          ),
+
+
+
           const ShoppingCartWidget(),
         ],
       ),

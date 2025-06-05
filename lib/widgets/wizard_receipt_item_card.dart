@@ -35,7 +35,15 @@ class WizardReceiptItemCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(6),
               child: FittedBox(
                 fit: BoxFit.cover,
-                child: iMat.getImage(product),
+                child: Consumer<ImatDataHandler>(
+                  builder: (context, handler, _) {
+                    return FittedBox(
+                      fit: BoxFit.cover,
+                      child: handler.getImage(product),
+                    );
+                  },
+                ),
+
               ),
             ),
           ),

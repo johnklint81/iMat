@@ -20,6 +20,7 @@ class _CustomerInfoState extends State<CustomerInfo> {
   late TextEditingController _addressController;
   late TextEditingController _postalController;
   late TextEditingController _cityController;
+  late TextEditingController _phoneController;
 
   @override
   void initState() {
@@ -31,6 +32,7 @@ class _CustomerInfoState extends State<CustomerInfo> {
     _addressController = TextEditingController(text: customer.address);
     _postalController = TextEditingController(text: customer.postCode);
     _cityController = TextEditingController(text: customer.postAddress);
+    _phoneController = TextEditingController(text: customer.phoneNumber);
   }
 
   @override
@@ -40,6 +42,7 @@ class _CustomerInfoState extends State<CustomerInfo> {
     _addressController.dispose();
     _postalController.dispose();
     _cityController.dispose();
+    _phoneController.dispose();
     super.dispose();
   }
 
@@ -49,12 +52,12 @@ class _CustomerInfoState extends State<CustomerInfo> {
       ..lastName = _lastNameController.text
       ..address = _addressController.text
       ..postCode = _postalController.text
-      ..postAddress = _cityController.text;
+      ..postAddress = _cityController.text
+      ..phoneNumber = _phoneController.text;
 
     await context.read<ImatDataHandler>().setCustomer(updatedCustomer);
     setState(() => _editing = false);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +69,6 @@ class _CustomerInfoState extends State<CustomerInfo> {
             alignment: Alignment.centerRight,
             child: IconButton(
               icon: Icon(_editing ? Icons.check : Icons.edit),
-
               tooltip: _editing ? "Spara" : "Redigera",
               onPressed: () {
                 if (_editing) {
@@ -99,6 +101,7 @@ class _CustomerInfoState extends State<CustomerInfo> {
               FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZåäöÅÄÖ0-9 ]')),
             ],
           ),
+
           _buildField(
             "Postnummer",
             _postalController,
@@ -114,12 +117,20 @@ class _CustomerInfoState extends State<CustomerInfo> {
               FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZåäöÅÄÖ]')),
             ],
           ),
-
+          _buildField(
+            "Telefonnummer",
+            _phoneController,
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp(r'[0-9+\- ]')),
+            ],
+          ),
         ],
       ),
     );
   }
-  Widget _buildField(String label, TextEditingController controller, {List<TextInputFormatter>? inputFormatters}) {
+
+  Widget _buildField(String label, TextEditingController controller,
+      {List<TextInputFormatter>? inputFormatters}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: TextField(
@@ -131,12 +142,11 @@ class _CustomerInfoState extends State<CustomerInfo> {
           labelText: label,
           labelStyle: AppTheme.mediumLargeHeading,
           border: const OutlineInputBorder(),
-          contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
+          contentPadding:
+          const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
         ),
         textInputAction: TextInputAction.next,
       ),
     );
   }
-
-
 }

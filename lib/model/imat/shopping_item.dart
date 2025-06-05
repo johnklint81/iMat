@@ -17,7 +17,6 @@ class ShoppingItem {
     _amount: amount,
   };
 
-  // ✅ Lägg till denna metod:
   ShoppingItem copyWith({Product? product, double? amount}) {
     return ShoppingItem(
       product ?? this.product,

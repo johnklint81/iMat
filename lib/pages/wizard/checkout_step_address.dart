@@ -75,18 +75,17 @@ class _CheckoutStepAddressState extends State<CheckoutStepAddress> {
   Widget _buildField(String label, TextEditingController controller,
       {List<TextInputFormatter>? inputFormatters}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: AppTheme.mediumLargeHeading),
-          const SizedBox(height: 4),
+          Text(label, style: AppTheme.largeHeading),
           TextFormField(
             controller: controller,
             validator: (value) => value == null || value.isEmpty ? 'Fältet krävs' : null,
             inputFormatters: inputFormatters,
             textInputAction: TextInputAction.next,
-            style: AppTheme.mediumLargeText,
+            style: AppTheme.largeText,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               isDense: true,
@@ -97,8 +96,6 @@ class _CheckoutStepAddressState extends State<CheckoutStepAddress> {
       ),
     );
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -113,70 +110,76 @@ class _CheckoutStepAddressState extends State<CheckoutStepAddress> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Container(
-                width: AppTheme.wizardCardSize,
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppTheme.borderColor),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: AppTheme.borderColor,
-                      blurRadius: 6,
-                      offset: Offset(0, 2),
-                    ),
-                  ],
+              ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxHeight: 700, // justera vid behov
                 ),
-                child: Form(
-                  key: _formKey,
-                  child: FocusTraversalGroup(
-                    child: Column(
-                      children: [
-                        _buildField(
-                          'Namn:',
-                          _nameController,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZåäöÅÄÖ ]')),
-                          ],
-                        ),
-                        _buildField(
-                          'Gatuadress:',
-                          _streetController,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZåäöÅÄÖ0-9 ]')),
-                          ],
-                        ),
-                        _buildField(
-                          'Postnummer:',
-                          _zipController,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            LengthLimitingTextInputFormatter(5),
-                          ],
-                        ),
-                        _buildField(
-                          'Ort:',
-                          _cityController,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZåäöÅÄÖ ]')),
-                          ],
-                        ),
-                        _buildField(
-                          'Telefonnummer:',
-                          _phoneController,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            LengthLimitingTextInputFormatter(15),
-                          ],
+                child: SingleChildScrollView(
+                  child: Container(
+                    width: AppTheme.wizardCardSize,
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: AppTheme.borderColor),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: AppTheme.borderColor,
+                          blurRadius: 6,
+                          offset: Offset(0, 2),
                         ),
                       ],
                     ),
-                  )
-
+                    child: Form(
+                      key: _formKey,
+                      child: FocusTraversalGroup(
+                        child: Column(
+                          children: [
+                            _buildField(
+                              'Namn:',
+                              _nameController,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZåäöÅÄÖ ]')),
+                              ],
+                            ),
+                            _buildField(
+                              'Gatuadress:',
+                              _streetController,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZåäöÅÄÖ0-9 ]')),
+                              ],
+                            ),
+                            _buildField(
+                              'Postnummer:',
+                              _zipController,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                LengthLimitingTextInputFormatter(5),
+                              ],
+                            ),
+                            _buildField(
+                              'Ort:',
+                              _cityController,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(RegExp(r'[a-zA-ZåäöÅÄÖ ]')),
+                              ],
+                            ),
+                            _buildField(
+                              'Telefonnummer:',
+                              _phoneController,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                LengthLimitingTextInputFormatter(15),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
-              const SizedBox(height: AppTheme.paddingMediumSmall),
+              const SizedBox(height: AppTheme.paddingMedium),
               SizedBox(
                 width: AppTheme.wizardCardSize,
                 child: Row(
@@ -185,23 +188,21 @@ class _CheckoutStepAddressState extends State<CheckoutStepAddress> {
                     ElevatedButton(
                       onPressed: widget.onBack,
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: AppTheme.buttonColor2,
-                          foregroundColor: Colors.black
+                        backgroundColor: AppTheme.buttonColor2,
                       ),
                       child: Text(
-                          'Tillbaka',
-                          style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                        'Tillbaka',
+                        style: AppTheme.largeHeading.copyWith(color: Colors.white),
                       ),
                     ),
                     ElevatedButton(
                       onPressed: _handleNext,
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: AppTheme.buttonColor1,
-                          foregroundColor: Colors.black
+                        backgroundColor: AppTheme.buttonColor1,
                       ),
                       child: Text(
                         'Nästa',
-                        style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                        style: AppTheme.largeHeading.copyWith(color: Colors.white),
                       ),
                     ),
                   ],

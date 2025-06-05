@@ -77,11 +77,28 @@ class ProductCard extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              product.name,
-                              style: AppTheme.mediumHeading,
-                              overflow: TextOverflow.ellipsis,
+                            GestureDetector(
+                              onTap: () {
+                                final detail = iMat.getDetailWithId(product.productId);
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: true,
+                                  builder: (_) => ProductDetailDialog(
+                                    product: product,
+                                    detail: detail,
+                                  ),
+                                );
+                              },
+                              child: MouseRegion(
+                                cursor: SystemMouseCursors.click,
+                                child: Text(
+                                  product.name,
+                                  style: AppTheme.largeHeading,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
                             ),
+
                             const SizedBox(height: 4),
                             Text(
                               '${product.price.toStringAsFixed(2)} ${product.unit}',
@@ -104,7 +121,7 @@ class ProductCard extends StatelessWidget {
                                 size: 42,
                                 color: iMat.isFavorite(product) ? Colors.amber : Colors.transparent,
                               ),
-                              const Icon(Icons.star_border, size: 52, color: Colors.black),
+                              const Icon(Icons.star_border, size: 44, color: Colors.black),
                             ],
                           ),
                         ),
@@ -120,19 +137,22 @@ class ProductCard extends StatelessWidget {
                           final item = ShoppingItem(product);
                           iMat.shoppingCartAdd(item);
                         },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppTheme.buttonColor2,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(AppTheme.buttonColor2),
+                          foregroundColor: MaterialStateProperty.all(Colors.white),
+                          overlayColor: MaterialStateProperty.all(Colors.white.withOpacity(0.25)), // stronger splash
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                           ),
-                          side: const BorderSide(color: AppTheme.borderColor, width: 2),
-                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          side: MaterialStateProperty.all(const BorderSide(color: AppTheme.borderColor, width: 2)),
+                          padding: MaterialStateProperty.all(const EdgeInsets.symmetric(vertical: 8)),
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
+
+
                         child: Text(
                           "Välj",
-                          style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                          style: AppTheme.mediumLargeHeading.copyWith(color: Colors.white),
                         ),
                       ),
                     ),

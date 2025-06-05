@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:imat_app/app_theme.dart';
 import 'package:provider/provider.dart';
+import 'package:imat_app/app_theme.dart';
 import 'package:imat_app/model/imat_data_handler.dart';
+import '../../model/imat/shopping_item.dart';
 
 class CheckoutStepPayment extends StatefulWidget {
   final VoidCallback onNext;
   final VoidCallback onBack;
   final ValueChanged<String> onSelectedMethod;
-
+  final Function(List<ShoppingItem> items, double total) onSetReceiptData;
   final double totalAmount;
 
   const CheckoutStepPayment({
     required this.onNext,
     required this.onBack,
     required this.onSelectedMethod,
+    required this.onSetReceiptData,
     required this.totalAmount,
     super.key,
   });
-
-
 
   @override
   State<CheckoutStepPayment> createState() => _CheckoutStepPaymentState();
@@ -27,13 +27,23 @@ class CheckoutStepPayment extends StatefulWidget {
 class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
   String _selectedMethod = 'card';
 
+  final Map<String, String> _methodImages = {
+    'card': 'assets/images/visamc.jpg',
+    'swish': 'assets/images/swish.png',
+    'klarna': 'assets/images/klarna.png',
+    'qliro': 'assets/images/qliro.png',
+  };
+
   final Map<String, String> _methods = {
     'card': 'VISA/Mastercard',
     'swish': 'Swish',
-    'invoice': 'Faktura',
     'klarna': 'Klarna',
     'qliro': 'Qliro',
   };
+
+  double _calculateTotal(List<ShoppingItem> items) {
+    return items.fold<double>(0.0, (sum, item) => sum + item.total);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,17 +79,46 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
                     return RadioListTile<String>(
                       value: entry.key,
                       groupValue: _selectedMethod,
-                      title: Text(entry.value, style: AppTheme.mediumLargeText),
                       onChanged: (value) {
                         if (value != null) {
                           setState(() {
                             _selectedMethod = value;
                           });
-                          widget.onSelectedMethod(value);
+                          context.read<ImatDataHandler>().setPaymentMethod(value);
                         }
                       },
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(entry.value, style: AppTheme.mediumLargeText),
+                          SizedBox(
+                            width: 128,  // common width for alignment
+                            height: 96, // common height for alignment
+                            child: Center(
+                              child: Image.asset(
+                                _methodImages[entry.key] ?? 'assets/images/default.png',
+                                width: entry.key == 'card'
+                                    ? 156
+                                    : entry.key == 'swish'
+                                    ? 70
+                                    : 124,
+                                height: entry.key == 'card'
+                                    ? 144
+                                    : entry.key == 'swish'
+                                    ? 72
+                                    : 96,
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ),
+
+
+                        ],
+                      ),
+
                     );
                   }).toList(),
+
                 ),
               ),
               const SizedBox(height: AppTheme.paddingMediumSmall),
@@ -95,7 +134,7 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
                       ),
                       child: Text(
                         'Tillbaka',
-                        style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                        style: AppTheme.largeHeading.copyWith(color: Colors.white),
                       ),
                     ),
                     ElevatedButton(
@@ -135,10 +174,10 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
                               ],
                             ),
                           );
-
                           return;
                         }
 
+                        // Visa bekräftelseruta
                         showDialog(
                           context: context,
                           barrierDismissible: false,
@@ -146,17 +185,20 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
                             return AlertDialog(
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                               title: const Text('Bekräfta ditt köp', style: AppTheme.largeHeading),
-                              content: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('Vill du genomföra köpet?', style: AppTheme.mediumLargeText),
-                                  const SizedBox(height: 12),
-                                  Text(
-                                    'Totalsumma: ${widget.totalAmount.toStringAsFixed(2)} kr',
-                                    style: AppTheme.mediumLargeHeading,
-                                  ),
-                                ],
+                              content: SizedBox(
+                                width: 500,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Är du säker på att du vill genomföra köpet?', style: AppTheme.largeText),
+                                    const SizedBox(height: 16),
+                                    Text(
+                                      'Totalsumma: ${_calculateTotal(cart).toStringAsFixed(2)} kr',
+                                      style: AppTheme.LARGEHeading,
+                                    ),
+                                  ],
+                                ),
                               ),
                               actionsAlignment: MainAxisAlignment.spaceBetween,
                               actions: [
@@ -164,17 +206,26 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
                                   onPressed: () => Navigator.of(context).pop(),
                                   style: TextButton.styleFrom(
                                     backgroundColor: AppTheme.buttonColor2,
-                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                    // padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
                                   ),
                                   child: Text(
                                     'Avbryt',
-                                    style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                                    style: AppTheme.largeHeading.copyWith(color: Colors.white),
                                   ),
                                 ),
                                 ElevatedButton(
-                                  onPressed: () {
+                                  onPressed: () async {
                                     Navigator.of(context).pop();
+
+                                    final handler = context.read<ImatDataHandler>();
+                                    final items = List<ShoppingItem>.from(handler.getShoppingCart().items);
+                                    final total = _calculateTotal(items);
+                                    widget.onSelectedMethod(_selectedMethod);
+
+                                    widget.onSetReceiptData(items, total); // Sätt före placeOrder
+
+                                    await handler.placeOrder();
                                     widget.onNext();
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -182,7 +233,7 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
                                   ),
                                   child: Text(
                                     'Köp',
-                                    style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                                    style: AppTheme.largeHeading.copyWith(color: Colors.white),
                                   ),
                                 ),
                               ],
@@ -195,13 +246,12 @@ class _CheckoutStepPaymentState extends State<CheckoutStepPayment> {
                       ),
                       child: Text(
                         'Betala',
-                        style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                        style: AppTheme.largeHeading.copyWith(color: Colors.white),
                       ),
                     ),
                   ],
                 ),
               ),
-
             ],
           ),
         ),

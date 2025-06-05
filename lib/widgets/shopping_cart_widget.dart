@@ -49,7 +49,7 @@ class ShoppingCartWidget extends StatelessWidget {
 
 
 
-          const SizedBox(height: 12),
+          // const SizedBox(height: 4),
 
           Expanded(
             child: items.isEmpty
@@ -58,98 +58,98 @@ class ShoppingCartWidget extends StatelessWidget {
               children: [
                 Icon(Icons.shopping_basket, size: 64, color: Colors.grey),
                 const SizedBox(height: 8),
-                Text("Din kundvagn är tom.", style: AppTheme.mediumText.copyWith(color: Colors.black)),
-                Text("Lägg till varor genom att klicka på 'Välj'.",
-                    style: AppTheme.mediumText.copyWith(color: Colors.grey)),
+                Text("Din kundvagn är tom.",
+                    style: AppTheme.mediumText.copyWith(color: Colors.black)),
+                Text(
+                  "Lägg till varor genom att klicka på 'Välj'.",
+                  style: AppTheme.mediumText.copyWith(color: Colors.grey),
+                ),
               ],
             )
-                : ListView.builder(
-              itemCount: items.length,
-              itemBuilder: (context, index) {
-                return ShoppingCartProductCard(items[index]);
-              },
-            ),
-          ),
-
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(6),
-              border: Border.all(color: Colors.black12, width: 2),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                : Column(
               children: [
-                Text(
-                  'Totalt:',
-                  style: AppTheme.mediumLargeHeading,
+                Expanded(
+                  child: ListView.builder(
+                    padding: const EdgeInsets.only(bottom: 0),
+                    itemCount: items.length,
+                    itemBuilder: (context, index) {
+                      return ShoppingCartProductCard(items[index]);
+                    },
+                  ),
                 ),
-                Text('${total.toStringAsFixed(2)} kr', style: AppTheme.mediumLargeHeading),
+                const SizedBox(height: 8), // Space above "Totalt" box
               ],
             ),
           ),
-          const SizedBox(height: AppTheme.paddingMedium),
 
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () {
-                if (cart.items.isNotEmpty) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const CheckoutWizard()),
-                  );
-                } else {
-                  showDialog(
-                    context: context,
-                    builder: (_) => AlertDialog(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                      title: const Text(
-                        "Varukorgen är tom",
-                        style: AppTheme.largeHeading,
-                      ),
-                      content: const Text(
-                        "Du måste ha minst en vara i varukorgen för att gå till kassan.",
-                        style: AppTheme.mediumLargeText,
-                      ),
-                      actionsAlignment: MainAxisAlignment.center,
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.of(context).pop(),
-                          style: TextButton.styleFrom(
-                            backgroundColor: AppTheme.buttonColor2,
-                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-                          ),
-                          child: Text(
-                            "OK",
-                            style: AppTheme.mediumHeading.copyWith(color: Colors.white),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-              },
 
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppTheme.buttonColor1,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(6),
-                  side: const BorderSide(color: AppTheme.borderColor, width: 2),
+                  border: Border.all(color: Colors.black12, width: 2),
                 ),
-                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Totalt:', style: AppTheme.mediumHeading),
+                    Text('${total.toStringAsFixed(2)} kr', style: AppTheme.mediumLargeHeading),
+                  ],
+                ),
               ),
-
-              child: const Text(
-                  "\$   Gå till kassan",
-                  style: AppTheme.mediumHeading),
-            ),
+              const SizedBox(height: 12),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (cart.items.isNotEmpty) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const CheckoutWizard()),
+                      );
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (_) => AlertDialog(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                          title: const Text("Varukorgen är tom", style: AppTheme.largeHeading),
+                          content: const Text("Du måste ha minst en vara i varukorgen för att gå till kassan.", style: AppTheme.mediumLargeText),
+                          actionsAlignment: MainAxisAlignment.center,
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(),
+                              style: TextButton.styleFrom(
+                                backgroundColor: AppTheme.buttonColor2,
+                                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                              ),
+                              child: Text("OK", style: AppTheme.mediumLargeHeading.copyWith(color: Colors.white)),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppTheme.buttonColor1,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6),
+                      side: const BorderSide(color: AppTheme.borderColor, width: 0),
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                  ),
+                  child: const Text("Gå till kassan", style: AppTheme.mediumLargeHeading),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: AppTheme.paddingMedium),
+          // const SizedBox(height: AppTheme.paddingSmall),
+
         ],
       ),
     );

@@ -103,7 +103,7 @@ class WizardCartItemCard extends StatelessWidget {
   Widget _squareButton({
     required IconData icon,
     required VoidCallback onPressed,
-    Color backgroundColor = AppTheme.buttonColor2,
+    Color backgroundColor = AppTheme.backgroundColor,
     Color iconColor = Colors.black,
   }) {
     return SizedBox(

@@ -11,9 +11,6 @@ class OrderListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final orderDateFormatted = DateFormat('yyyy-MM-dd').format(order.date);
-    final deliveryDateFormatted = order.deliveryDate != null
-        ? DateFormat('yyyy-MM-dd').format(order.deliveryDate!)
-        : null;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -30,8 +27,11 @@ class OrderListItem extends StatelessWidget {
                   Text("Beställd: $orderDateFormatted", style: AppTheme.mediumLargeText),
                   const SizedBox(height: 4),
                   Text("Leveranssätt: ${_formatDeliveryOption(order)}", style: AppTheme.mediumLargeText),
-                  if (order.deliveryOption == 'date' && deliveryDateFormatted != null)
-                    Text("Leveransdatum: $deliveryDateFormatted", style: AppTheme.mediumLargeText),
+                  if (order.deliveryDate != null)
+                    Text(
+                      "Beräknad leveranstid: ${DateFormat('yyyy-MM-dd HH:mm').format(order.deliveryDate!)}",
+                      style: AppTheme.mediumLargeText,
+                    ),
                 ],
               ),
             ),
@@ -48,13 +48,13 @@ class OrderListItem extends StatelessWidget {
                 backgroundColor: AppTheme.buttonColor2,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(24),
                   side: const BorderSide(color: AppTheme.borderColor),
                 ),
               ),
               child: Text(
                 "Visa order",
-                style: AppTheme.mediumHeading.copyWith(color: Colors.white),
+                style: AppTheme.largeHeading.copyWith(color: Colors.white),
               ),
             ),
           ],
@@ -73,7 +73,7 @@ class OrderListItem extends StatelessWidget {
       case 'pickup':
         return 'Hämta vid utlämning';
       case 'date':
-        return 'På specifikt datum';
+        return 'På ett specifikt datum';
       default:
         return 'Okänt';
     }
